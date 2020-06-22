@@ -5,24 +5,26 @@ import 'package:medicationtracker/main.dart';
 import 'medication_list_screen.dart';
 import 'calendar_screen.dart';
 import 'adherence_screen.dart';
+import 'home_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.title}) : super(key: key);
+class HomeWidget extends StatefulWidget {
+  HomeWidget({Key key, this.title}) : super(key: key);
+
 
   final String title;
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeWidgetState createState() => _HomeWidgetState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeWidgetState extends State<HomeWidget> {
 
   int _currentIndex = 0;
   final List<Widget> _children = [
-    HomeScreen(),
+    HomeScreen(title: 'Home', color: Colors.blue),
     MedicationScreen(title: 'Medication List'),
-    CalendarScreen(Colors.blue),
-    AdherenceScreen(Colors.yellowAccent)
+    CalendarScreen(title: 'Calendar', color: Colors.blue),
+    AdherenceScreen(title: 'Adherence', color: Colors.yellowAccent)
   ];
 
   @override
@@ -32,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: _children[_currentIndex],
+      body: Center(
+        child: _children[_currentIndex],
+      ),
 
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -57,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
+
     );
   }
 
