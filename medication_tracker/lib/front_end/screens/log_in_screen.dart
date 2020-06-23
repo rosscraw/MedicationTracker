@@ -18,7 +18,7 @@ class _LogInScreenState extends State<LogInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign in to Medication Tracker'),
+        title: Text('Sign in'),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -27,12 +27,18 @@ class _LogInScreenState extends State<LogInScreen> {
             children: <Widget>[
               SizedBox(height: 20.0),
               TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Enter your email address'
+                ),
                 onChanged: (val) {
 
                 }
               ),
               SizedBox(height: 20.0),
               TextFormField(
+                  decoration: InputDecoration(
+                      labelText: 'Enter your password'
+                  ),
                 obscureText: true,
                 onChanged: (val) {
 
