@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/front_end/screens/adherence_screen.dart';
-import 'package:medicationtracker/front_end/screens/medication_list_screen.dart';
-import 'package:medicationtracker/main.dart';
 import 'medication_list_screen.dart';
-import 'calendar_screen.dart';
 import 'adherence_screen.dart';
+import 'calendar_screen.dart';
 import 'home_screen.dart';
 
 class HomeWidget extends StatefulWidget {
