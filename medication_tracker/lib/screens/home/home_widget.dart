@@ -34,7 +34,6 @@ class _HomeWidgetState extends State<HomeWidget> {
       body: Center(
         child: _children[_currentIndex],
       ),
-
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
@@ -58,7 +57,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           )
         ],
       ),
-
     );
   }
 

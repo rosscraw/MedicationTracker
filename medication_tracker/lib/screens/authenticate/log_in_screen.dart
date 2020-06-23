@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/screens/custom_widgets/email_password_button_block.dart';
 
 class LogInScreen extends StatefulWidget {
-  LogInScreen({Key key, this.title}) : super(key: key);
+  LogInScreen({Key key, this.title, this.toggleView}) : super(key: key);
 
   final String title;
+  final Function toggleView;
 
 
   @override
@@ -23,47 +25,27 @@ class _LogInScreenState extends State<LogInScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign in'),
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-        child: Form(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 20.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Enter your email address'
-                ),
-                onChanged: (val) {
-                  setState(() => email = val);
-                }
-              ),
-              SizedBox(height: 20.0),
-              TextFormField(
-                  decoration: InputDecoration(
-                      labelText: 'Enter your password'
-                  ),
-                obscureText: true,
-                  onChanged: (val) {
-                    setState(() => password = val);
-                  }
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+                Icons.person,
+                color: Colors.white
             ),
-              SizedBox(height: 20.0),
-              RaisedButton(
-                color: Colors.blue,
-                child: Text(
-                  'Sign in',
-                  style: TextStyle(color: Colors.white),
+            label: Text(
+                'Register',
+                style: TextStyle(
+                  color: Colors.white
                 ),
-                onPressed: () async {
-                  print(email);
-                  print(password);
-                }
-              )
-            ]
+            ),
+            onPressed: () {
+              widget.toggleView();
+            }
           )
-        )
+        ],
       ),
+      body: EmailPassBlock(
+        title: 'Sign In',
+      )
     );
   }
 }
