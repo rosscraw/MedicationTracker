@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/front_end/screens/log_in_screen.dart';
+import 'package:medicationtracker/screens/authenticate/log_in_screen.dart';
 import 'home_widget.dart';
 import 'medication_list_screen.dart';
 

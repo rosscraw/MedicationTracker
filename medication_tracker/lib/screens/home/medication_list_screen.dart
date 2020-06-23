@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
-import 'package:medicationtracker/back_end/user.dart';
-import 'package:medicationtracker/main.dart';
-import 'medication_details_screen.dart';
+import'medication_details_screen.dart';
 
 class MedicationScreen extends StatefulWidget {
   MedicationScreen({Key key, this.title}) : super(key: key);

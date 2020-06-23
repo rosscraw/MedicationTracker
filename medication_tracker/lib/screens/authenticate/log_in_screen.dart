@@ -12,7 +12,11 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
 
+  //final AuthService _auth = AuthService();
 
+  //text field state
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +35,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   labelText: 'Enter your email address'
                 ),
                 onChanged: (val) {
-
+                  setState(() => email = val);
                 }
               ),
               SizedBox(height: 20.0),
@@ -40,17 +44,21 @@ class _LogInScreenState extends State<LogInScreen> {
                       labelText: 'Enter your password'
                   ),
                 obscureText: true,
-                onChanged: (val) {
-
-                }
+                  onChanged: (val) {
+                    setState(() => password = val);
+                  }
             ),
               SizedBox(height: 20.0),
               RaisedButton(
-                color: Colors.blue[400],
+                color: Colors.blue,
                 child: Text(
                   'Sign in',
                   style: TextStyle(color: Colors.white),
-                )
+                ),
+                onPressed: () async {
+                  print(email);
+                  print(password);
+                }
               )
             ]
           )
