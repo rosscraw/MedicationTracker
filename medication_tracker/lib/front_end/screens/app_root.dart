@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/front_end/screens/log_in_screen.dart';
 import 'home_widget.dart';
 import 'medication_list_screen.dart';
 
@@ -16,7 +17,7 @@ class MedicationTrackerApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeWidget(title: "Medication Tracker"),
+      home: LogInScreen(title: "Medication Tracker"),
     );
   }
 }
