@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/screens/custom_widgets/email_password_button_block.dart';
+import 'package:medicationtracker/services/firebase_authentication.dart';
 
 class LogInScreen extends StatefulWidget {
   LogInScreen({Key key, this.title, this.toggleView}) : super(key: key);
@@ -14,7 +15,7 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
 
-  //final AuthService _auth = AuthService();
+  final AuthService _auth = AuthService();
 
   //text field state
   String email = '';
@@ -45,6 +46,7 @@ class _LogInScreenState extends State<LogInScreen> {
       ),
       body: EmailPassBlock(
         title: 'Sign In',
+        isLogInScreen: true,
       )
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/screens/custom_widgets/email_password_button_block.dart';
+import 'package:medicationtracker/services/firebase_authentication.dart';
 
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key, this.title, this.toggleView}) : super(key: key);
@@ -12,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  final AuthService _auth = AuthService();
   //text field state
   String email = '';
   String password = '';
@@ -41,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: EmailPassBlock(
         title: 'Register',
+        isLogInScreen: false,
       )
     );
   }

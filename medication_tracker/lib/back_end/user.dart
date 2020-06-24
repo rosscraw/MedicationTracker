@@ -1,11 +1,13 @@
 import 'package:medicationtracker/back_end/medication.dart';
 
-class User{
+class User {
 
+  final String uid;
+  String _email;
   String _name;
   List<Medication> _medications;
 
-  User(String name) {
+  User({this.uid, String name}) {
     setName(name);
     _medications = [];
   }
