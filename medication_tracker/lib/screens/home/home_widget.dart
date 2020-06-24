@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/services/firebase_authentication.dart';
 import 'medication_list_screen.dart';
 import 'adherence_screen.dart';
 import 'calendar_screen.dart';
@@ -6,7 +7,6 @@ import 'home_screen.dart';
 
 class HomeWidget extends StatefulWidget {
   HomeWidget({Key key, this.title}) : super(key: key);
-
 
   final String title;
 
@@ -16,6 +16,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
 
+  final AuthService _auth = AuthService();
   int _currentIndex = 0;
   final List<Widget> _children = [
     HomeScreen(title: 'Home', color: Colors.blue),
@@ -30,6 +31,15 @@ class _HomeWidgetState extends State<HomeWidget> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () async{
+                await _auth.signOut();
+              },
+              icon: Icon(Icons.person),
+              label: Text('Logout'),
+              ),
+        ]
       ),
       body: Center(
         child: _children[_currentIndex],

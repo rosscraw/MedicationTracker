@@ -28,6 +28,36 @@
       });
     }
   </script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.4/firebase-database.js"></script>
+
+  <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAhe-sAoeH2CtkucpPtEvzfbk68ZuST3pg",
+    authDomain: "medication-tracker-app.firebaseapp.com",
+    databaseURL: "https://medication-tracker-app.firebaseio.com",
+    projectId: "medication-tracker-app",
+    storageBucket: "medication-tracker-app.appspot.com",
+    messagingSenderId: "802840859588",
+    appId: "1:802840859588:web:f6d1bd625dd1da9aea0a91",
+    measurementId: "G-XRSG54CGFJ"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
