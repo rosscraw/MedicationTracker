@@ -41,8 +41,16 @@ class _HomeWidgetState extends State<HomeWidget> {
               onPressed: () async{
                 await _auth.signOut();
               },
-              icon: Icon(Icons.person),
-              label: Text('Logout'),
+              icon: Icon(
+                Icons.person,
+                color: Colors.white
+              ),
+              label: Text(
+                  'Logout',
+                  style: TextStyle(
+                      color: Colors.white,
+                  ),
+                ),
               ),
         ]
       ),
