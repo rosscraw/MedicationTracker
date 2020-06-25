@@ -37,99 +37,105 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
   Widget build(BuildContext context) {
     return loading ? LoadingSpinner() : Container (
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-//          Image(
-//            //TODO Placeholder
-//              image: NetworkImage('https://www.verywellhealth.com/thmb/gtr6HGzuXimLjWeXHUZJDySlK50=/768x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/prescription-pills-spilling-out-of-pill-bottle-close-up-200227725-001-57a46a605f9b58974a129923.jpg')
-//          ),
-          Form(
-            key: _formKey,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                        decoration: InputDecoration(
-                            labelText: 'Enter your email address'
-                        ),
-                        validator: (val) => val.isEmpty ? 'Enter an email address' : null,
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        }
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                        decoration: InputDecoration(
-                            labelText: 'Enter your password'
-                        ),
-                        obscureText: true,
-                        validator: (val) {
-                          if (!isLogInScreen) {
-                            return val.length < 6
-                                ? 'Please use at least 6 characters for password'
-                                : null;
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[//
+            Form(
+              key: _formKey,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(height: 200.0),
+                      TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelText: 'Enter your email address',
+                          ),
+                          validator: (val) => val.isEmpty ? 'Please enter an email address' : null,
+                          onChanged: (val) {
+                            setState(() => email = val);
                           }
-                          else {
-                            return val.length < 6
-                                ? 'Please use at least 100 characters for password'
-                                : null;
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                          decoration: InputDecoration(
+                              labelText: 'Enter your password'
+                          ),
+                          obscureText: true,
+                          validator: (val) {
+                            if (!isLogInScreen) {
+                              return val.length < 6
+                                  ? 'Please use at least 6 characters for password'
+                                  : null;
+                            }
+                            else {
+                              return val.length < 6
+                                  ? 'Please ensure your password is the correct length'
+                                  : null;
+                            }
+                          },
+                          //validator: (value) => value.length < 6 ? 'Please use at least 6 characters for password' : null,
+                          onChanged: (val) {
+                            setState(() => password = val);
                           }
-                        },
-                        //validator: (value) => value.length < 6 ? 'Please use at least 6 characters for password' : null,
-                        onChanged: (val) {
-                          setState(() => password = val);
-                        }
-                    ),
-                    SizedBox(height: 20.0),
-                    RaisedButton(
-                        color: Colors.blue,
+                      ),
+                      SizedBox(
+                          height: 20.0
+                      ),
+                      Center(
+                        // Error message from firebase
                         child: Text(
-                          widget.title.toString(),
-                          style: TextStyle(color: Colors.white),
+                          error,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 14.0,
+                          ),
                         ),
-                        onPressed: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() => loading = true);
-                            //Log in existing account
-                            if (isLogInScreen) {
-                              dynamic authResult = await _auth.signInAccount(email, password);
-                              if(authResult == null) {
-                                setState(() {
-                                error = 'Please ensure details are valid';
-                                loading = false;
-                                });
-                              }
-                            }
-                            //Register new account
-                            else if (!isLogInScreen){
-                              dynamic authResult = await _auth.registerAccount(email, password);
-                              if(authResult == null) {
-                                setState(() {
-                                  error = 'Please ensure details are valid';
+                      ),
+                      SizedBox(
+                          height: 20.0
+                      ),
+                      RaisedButton(
+                          color: Colors.blue,
+                          child: Text(
+                            widget.title.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              // Show loading spinner.
+                              setState(() => loading = true);
+                              //Log in existing account
+                              if (isLogInScreen) {
+                                dynamic authResult = await _auth.signInAccount(email, password);
+                                if(authResult is String) {
+                                  setState(() {
+                                  error = authResult;
                                   loading = false;
-                                });
+                                  });
+                                }
+                              }
+                              //Register new account
+                              else if (!isLogInScreen){
+                                dynamic authResult = await _auth.registerAccount(email, password);
+                                if(authResult == null) {
+                                  setState(() {
+                                    error = 'Please ensure details are valid';
+                                    loading = false;
+                                  });
+                                }
                               }
                             }
                           }
-                        }
-
-                    ),
-                    SizedBox(
-                        height: 12.0
-                    ),
-                    Text(
-                      error,
-                      style: TextStyle(color: Colors.red, fontSize: 14.0),
-                    ),
-                  ]
-              )
-          ),
-        ],
-      ),
+                      ),
+                    ]
+                )
+            ),
+          ],
+        ),
     );
   }
 }

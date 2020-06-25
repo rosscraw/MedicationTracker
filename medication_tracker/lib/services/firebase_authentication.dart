@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 
@@ -16,32 +19,21 @@ class AuthService {
   // auth change user stream
   Stream<User> get user {
     return _auth.onAuthStateChanged.map(_userFromFirebase);
-
   }
 
-  //sign in anonymously
-  Future anonSignIn() async {
-    try {
-      AuthResult authResult = await _auth.signInAnonymously();
-      FirebaseUser user = authResult.user;
-      return _userFromFirebase(user);
-    }
-    catch(error) {
-      print(error.toString());
-      return null;
-    }
-  }
 
   // sign in with email and password
   Future signInAccount(String email, String password) async {
+
     try {
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = authResult.user;
       return _userFromFirebase(user);
     }
     catch(error) {
-      print(error.toString());
-      return null;
+        String errorMessage = error.toString();
+        print(errorMessage);
+        return errorMessage;
     }
   }
 

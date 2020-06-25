@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/screens/home/add_medication.dart';
 import'medication_details_screen.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class MedicationScreen extends StatefulWidget {
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
+
 
   List<String> dummyList = [
     "creon",
@@ -48,6 +50,10 @@ class _MedicationScreenState extends State<MedicationScreen> {
     });
   }
 
+  List<Medication> getDummyList() {
+    return dummyList2;
+  }
+
   void _removeMedication(Medication medication) {
     setState(() {
       dummyList2.remove(medication);
@@ -66,6 +72,14 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 return ListTile(
                     leading: Icon(Icons.healing),
                     title: Text(dummyList2[index].getName()),
+                    trailing: Checkbox(
+                      value: dummyList2[index].getHasMedBeenTaken(),
+                      onChanged: (bool newValue) {
+                        setState(() {
+                          dummyList2[index].setHasMedBeenTaken(!dummyList2[index].getHasMedBeenTaken());
+                        });
+                      },
+                    ),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -78,7 +92,13 @@ class _MedicationScreenState extends State<MedicationScreen> {
             ),
         ),
           floatingActionButton: FloatingActionButton(
-            onPressed: _addMedication,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => AddMedicationScreen())
+              );
+            },
             tooltip: 'Add Medication',
             child: Icon(Icons.add),
           ),

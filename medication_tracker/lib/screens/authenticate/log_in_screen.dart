@@ -26,29 +26,58 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign in'),
-        actions: <Widget>[
-          FlatButton.icon(
-            icon: Icon(
-                Icons.person,
-                color: Colors.white
-            ),
-            label: Text(
-                'Register',
+//      appBar: AppBar(
+//        title: Text('Sign in'),
+//        actions: <Widget>[
+//          FlatButton.icon(
+//            icon: Icon(
+//                Icons.person,
+//                color: Colors.white
+//            ),
+//            label: Text(
+//                'Register',
+//                style: TextStyle(
+//                  color: Colors.white
+//                ),
+//            ),
+//            onPressed: () {
+//              widget.toggleView();
+//            }
+//          )
+//        ],
+//      ),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                'Log In',
                 style: TextStyle(
-                  color: Colors.white
+                  fontSize: 40.0,
+                  color: Colors.blue
+                )
+              ),
+              EmailPassBlock(
+                title: 'Sign In',
+                isLogInScreen: true,
+              ),
+              InkWell(
+                child: Text(
+                    'Register New Account',
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline,
+                    ),
                 ),
-            ),
-            onPressed: () {
-              widget.toggleView();
-            }
-          )
-        ],
-      ),
-      body: EmailPassBlock(
-        title: 'Sign In',
-        isLogInScreen: true,
+                onTap: () {widget.toggleView();},
+              ),
+            ],
+          ),
+        ),
       )
     );
   }
