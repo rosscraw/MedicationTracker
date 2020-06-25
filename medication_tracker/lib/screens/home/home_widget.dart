@@ -5,6 +5,8 @@ import 'adherence_screen.dart';
 import 'calendar_screen.dart';
 import 'home_screen.dart';
 
+/// Represents the scaffold for the main section of the app.
+/// Contains the app bar and navigation bar, as well as the screen that is currently displayed.
 class HomeWidget extends StatefulWidget {
   HomeWidget({Key key, this.title}) : super(key: key);
 
@@ -18,6 +20,8 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   final AuthService _auth = AuthService();
   int _currentIndex = 0;
+
+  // List of screens accessible by the bottom navigation bar.
   final List<Widget> _children = [
     HomeScreen(title: 'Home', color: Colors.blue),
     MedicationScreen(title: 'Medication List'),
@@ -32,6 +36,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: <Widget>[
+          // Sign out icon button in app bar.
           FlatButton.icon(
               onPressed: () async{
                 await _auth.signOut();
@@ -44,6 +49,7 @@ class _HomeWidgetState extends State<HomeWidget> {
       body: Center(
         child: _children[_currentIndex],
       ),
+      // Bottom navigation bar with tabs for the Home, Medication List, Calendar and Adherence screens.
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
@@ -70,6 +76,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     );
   }
 
+  /// Sets the state so that the current index is that of the tab tapped in the bottom navigation bar.
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;

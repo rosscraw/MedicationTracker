@@ -1,5 +1,7 @@
 import 'package:medicationtracker/back_end/medication.dart';
 
+
+/// Represents a User of the application.
 class User {
 
   final String uid;

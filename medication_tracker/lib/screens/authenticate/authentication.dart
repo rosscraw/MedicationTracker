@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'log_in_screen.dart';
 import 'register_account_screen.dart';
 
+
+/// Determines whether to display a log-in or register screen.
+///
 class Authentication extends StatefulWidget {
   @override
   _AuthenticationState createState() => _AuthenticationState();
