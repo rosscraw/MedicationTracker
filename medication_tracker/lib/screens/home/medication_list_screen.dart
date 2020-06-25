@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import'medication_details_screen.dart';
-
+import 'package:medicationtracker/services/firestore_database.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Screen that displays a list of medications in the user's medication list.
 /// User can check a checkbox to confirm whether or not they have taken the medication.
@@ -54,30 +56,33 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          child: ListView.builder(
-            itemCount: dummyList2.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                  leading: Icon(Icons.healing),
-                  title: Text(dummyList2[index].getName()),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => MedicationDetails(dummyList2[index]))
-                    );
-                  }
-              );
-            },
+    return StreamProvider<QuerySnapshot>.value(
+      value: FirestoreDatabase().trackerUsers,
+      child: Scaffold(
+        body: Container(
+            child: ListView.builder(
+              itemCount: dummyList2.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                    leading: Icon(Icons.healing),
+                    title: Text(dummyList2[index].getName()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => MedicationDetails(dummyList2[index]))
+                      );
+                    }
+                );
+              },
+            ),
+        ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: _addMedication,
+            tooltip: 'Add Medication',
+            child: Icon(Icons.add),
           ),
       ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _addMedication,
-          tooltip: 'Add Medication',
-          child: Icon(Icons.add),
-        ),
     );
   }
 }

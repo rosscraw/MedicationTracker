@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/screens/authenticate/log_in_screen.dart';
 import 'package:medicationtracker/screens/authenticate/register_account_screen.dart';
+import 'package:medicationtracker/screens/custom_widgets/loading_spinner.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 
 /// Widget that provides an input text box for an email and password for the log in and register screens.
@@ -27,12 +28,14 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
   String email = '';
   String password = '';
   String error = '';
+
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return loading ? LoadingSpinner() : Container (
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -90,19 +93,25 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                         ),
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
+                            setState(() => loading = true);
                             //Log in existing account
                             if (isLogInScreen) {
                               dynamic authResult = await _auth.signInAccount(email, password);
                               if(authResult == null) {
-                                setState(() =>
-                                error = 'Please ensure details are valid');
+                                setState(() {
+                                error = 'Please ensure details are valid';
+                                loading = false;
+                                });
                               }
                             }
                             //Register new account
                             else if (!isLogInScreen){
                               dynamic authResult = await _auth.registerAccount(email, password);
                               if(authResult == null) {
-                                setState(() => error = 'Please ensure details are valid');
+                                setState(() {
+                                  error = 'Please ensure details are valid';
+                                  loading = false;
+                                });
                               }
                             }
                           }
