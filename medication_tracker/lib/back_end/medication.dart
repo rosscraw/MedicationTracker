@@ -1,3 +1,5 @@
+
+/// Represents a medication that a User may have in their medication list.
 class Medication{
 
   String _name;

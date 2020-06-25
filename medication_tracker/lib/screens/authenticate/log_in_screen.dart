@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/screens/custom_widgets/email_password_button_block.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 
+
+/// Log in screen where the user can enter their email address and password to access application.
 class LogInScreen extends StatefulWidget {
   LogInScreen({Key key, this.title, this.toggleView}) : super(key: key);
 

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import'medication_details_screen.dart';
 
+
+/// Screen that displays a list of medications in the user's medication list.
+/// User can check a checkbox to confirm whether or not they have taken the medication.
 class MedicationScreen extends StatefulWidget {
   MedicationScreen({Key key, this.title}) : super(key: key);
 

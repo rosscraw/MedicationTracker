@@ -5,7 +5,8 @@ import 'package:medicationtracker/screens/authenticate/log_in_screen.dart';
 import 'package:medicationtracker/screens/authenticate/register_account_screen.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 
-/// Widget that provides an input text box for an email and password
+/// Widget that provides an input text box for an email and password for the log in and register screens.
+/// Validates input and displays any errors from unsuccessful log-in or registering attempts.
 class EmailPassBlock extends StatefulWidget {
 
   EmailPassBlock({Key key, this.title, this.isLogInScreen}) : super(key: key);

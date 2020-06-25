@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Home screen of the application.
+/// First screen visible after log in.
 class HomeScreen extends StatelessWidget {
 
 
