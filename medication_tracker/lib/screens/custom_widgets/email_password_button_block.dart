@@ -47,7 +47,7 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      SizedBox(height: 200.0),
+                      SizedBox(height: 20.0),
                       TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(

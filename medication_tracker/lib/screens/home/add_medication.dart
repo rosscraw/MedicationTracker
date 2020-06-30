@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/screens/home/medication_list_screen.dart';
 
 
 
 class AddMedicationScreen extends StatefulWidget {
+
+  final User user;
+
+  AddMedicationScreen(this.user);
 
   @override
   _AddMedicationScreenState createState() => _AddMedicationScreenState();
@@ -14,6 +19,8 @@ class AddMedicationScreen extends StatefulWidget {
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
   String medicationName = '';
   String  medicationDosage = '';
+  final _medFormKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +37,21 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                   height: 10.0,
                 ),
                 Form (
+                  key: _medFormKey,
                   child: Column(
                     children: [
                       TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Medication Name',
-                        ),
-                        onChanged: (val) {
-                          setState(() => medicationName = val);
-                        }
+                          validator: (val) => val.isEmpty ? "Please enter your medication's name" : null,
+                          decoration: InputDecoration(
+                            labelText: 'Medication Name',
+                          ),
+                          onChanged: (val) {
+                            setState(() => medicationName = val);
+                          }
                       ),
                       SizedBox(height: 20.0),
                       TextFormField(
+                          validator: (val) => val.isEmpty ? "Please enter your medication's dosage" : null,
                           decoration: InputDecoration(
                             labelText: 'Medication Dosage',
                           ),
@@ -58,9 +68,12 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         ),
                         // TODO add to medication to user's list.
                         onPressed: () {
-                          setState(() {
-
+                          if(_medFormKey.currentState.validate()) {
+                            setState(() {
+                            widget.user.addMedication(new Medication(medicationName, medicationDosage, ''));
+                            Navigator.pop(context);
                           });
+                          }
                         },
                       )
                     ],

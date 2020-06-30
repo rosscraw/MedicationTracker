@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/screens/custom_widgets/email_password_button_block.dart';
+import 'package:medicationtracker/screens/custom_widgets/loading_spinner.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 
 
@@ -50,6 +51,13 @@ class _LogInScreenState extends State<LogInScreen> {
         child: SafeArea(
           child: Column(
             children: [
+//              Image(
+//                image: AssetImage('meds.png'),
+//                width: 3000.0,
+//                height: 100,
+//                repeat: ImageRepeat.repeat,
+//                fit: BoxFit.contain,
+//              ),
               SizedBox(
                 height: 10.0,
               ),
