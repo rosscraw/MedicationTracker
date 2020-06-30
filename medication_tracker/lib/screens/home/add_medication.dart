@@ -19,7 +19,16 @@ class AddMedicationScreen extends StatefulWidget {
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
   String medicationName = '';
   String  medicationDosage = '';
+  String medicationUnit = '';
   final _medFormKey = GlobalKey<FormState>();
+  static List<String> _dosageUnits = [
+    'mcg',
+    'mg',
+    'g',
+    'units',
+    'as required'
+  ];
+  var _currentItemSelected = _dosageUnits[0];
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +59,40 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                           }
                       ),
                       SizedBox(height: 20.0),
-                      TextFormField(
-                          validator: (val) => val.isEmpty ? "Please enter your medication's dosage" : null,
-                          decoration: InputDecoration(
-                            labelText: 'Medication Dosage',
+                      Row(
+                        children: [
+                          Flexible(
+                            child: TextFormField(
+                                validator: (val) => (!_currentItemSelected.contains('as required') && val.isEmpty) ? "Please enter your medication's dosage" : null,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.all(0.0),
+                                  labelText: 'Medication Dosage',
+                                ),
+                                onChanged: (val) {
+                                  setState(() => medicationDosage = val);
+                                },
+                            ),
                           ),
-                          onChanged: (val) {
-                            setState(() => medicationDosage = val);
-                          }
+                          Flexible(
+                            child: DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.all(0.0),
+                              ),
+                              items: _dosageUnits.map((String dropDownStringItem) {
+                                return DropdownMenuItem<String>(
+                                  value: dropDownStringItem,
+                                  child: Text(dropDownStringItem),
+                                );
+                              }).toList(),
+                              onChanged: (String newValueSelected) {
+                                this._currentItemSelected = newValueSelected;
+                                setState(() {
+                                  medicationUnit = newValueSelected;
+                                });
+                              },
+                            ),
+                          )
+                        ],
                       ),
                       SizedBox(height: 20.0),
                       RaisedButton(
@@ -70,7 +105,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                         onPressed: () {
                           if(_medFormKey.currentState.validate()) {
                             setState(() {
-                            widget.user.addMedication(new Medication(medicationName, medicationDosage, ''));
+                            if (_currentItemSelected != 'as required') {
+                              widget.user.addMedication(new Medication(medicationName, (medicationDosage + medicationUnit), ''));
+                            }
+                            else {
+                              widget.user.addMedication(new Medication(medicationName, (medicationUnit), ''));
+
+                            }
                             Navigator.pop(context);
                           });
                           }
