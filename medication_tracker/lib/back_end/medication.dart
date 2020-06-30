@@ -4,11 +4,13 @@ class Medication{
 
   String _name;
   String _dosage;
+  String _medType;
   bool _hasMedBeenTaken = false;
 
-  Medication(String name, String dosage) {
+  Medication(String name, String dosage, String medType) {
     setName(name);
     setDosage(dosage);
+    setMedType(medType);
   }
 
   String getName() {
@@ -25,6 +27,14 @@ class Medication{
 
   void setDosage(String dosage) {
     _dosage = dosage;
+  }
+
+  String getMedType() {
+    return _medType;
+  }
+
+  void setMedType(String medType) {
+    _medType = medType;
   }
 
   bool getHasMedBeenTaken() {

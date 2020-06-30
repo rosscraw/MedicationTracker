@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/home/add_medication.dart';
 import'medication_details_screen.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:medicationtracker/dummy_data/constants.dart';
 
 /// Screen that displays a list of medications in the user's medication list.
 /// User can check a checkbox to confirm whether or not they have taken the medication.
@@ -19,46 +22,8 @@ class MedicationScreen extends StatefulWidget {
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
-
-
-  List<String> dummyList = [
-    "creon",
-    "tresiba",
-    "fiasp",
-    "relvar elipta",
-    "tiotropium",
-    "symkevi",
-    "kalydeco",
-    "venotlin",
-    "dornase alfa",
-    "cayston",
-    "colomycin"
-  ];
-
-  List<Medication> dummyList2 = [
-    new Medication("creon", "100mg"),
-    new Medication("tresiba", "100 units"),
-    new Medication("fiasp", "100 units"),
-    new Medication("ventolin", "100mg"),
-    new Medication("adsfdgfhjh", "100mg"),
-    new Medication("asgdhfgn", "100remg"),
-  ];
-
-  void _addMedication() {
-    setState(() {
-      dummyList2.add(new Medication("new med", "addition successful"));
-    });
-  }
-
-  List<Medication> getDummyList() {
-    return dummyList2;
-  }
-
-  void _removeMedication(Medication medication) {
-    setState(() {
-      dummyList2.remove(medication);
-    });
-  }
+  static final dummyUser = new DummyUser(); // Dummy Data
+  var dummyList = dummyUser.getDummyUser().getMedicationList(); // Dummy Data
 
   @override
   Widget build(BuildContext context) {
@@ -67,25 +32,31 @@ class _MedicationScreenState extends State<MedicationScreen> {
       child: Scaffold(
         body: Container(
             child: ListView.builder(
-              itemCount: dummyList2.length,
+              itemCount: dummyList.length,
               itemBuilder: (context, index) {
                 return ListTile(
                     leading: Icon(Icons.healing),
-                    title: Text(dummyList2[index].getName()),
+                    //TODO link to database
+                    title: Text(dummyList[index].getName()),
                     trailing: Checkbox(
-                      value: dummyList2[index].getHasMedBeenTaken(),
+                      value: dummyList[index].getHasMedBeenTaken(),
                       onChanged: (bool newValue) {
                         setState(() {
-                          dummyList2[index].setHasMedBeenTaken(!dummyList2[index].getHasMedBeenTaken());
+                          dummyList[index].setHasMedBeenTaken(!dummyList[index].getHasMedBeenTaken());
                         });
                       },
                     ),
                     onTap: () {
+                      // TODO Firestore Integration
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => MedicationDetails(dummyList2[index]))
-                      );
+                            builder: (context) => MedicationDetails(dummyList[index], dummyUser.getDummyUser()))
+                      ).then((value) {
+                      setState(() {
+
+                      });
+                      });
                     }
                 );
               },
@@ -96,8 +67,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => AddMedicationScreen())
-              );
+                      builder: (context) => AddMedicationScreen(dummyUser.getDummyUser()))
+              ).then((value) {
+                setState(() {
+
+                });
+              });
             },
             tooltip: 'Add Medication',
             child: Icon(Icons.add),

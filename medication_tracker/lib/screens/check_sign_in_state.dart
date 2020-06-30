@@ -18,7 +18,7 @@ class CheckSignInState extends StatelessWidget {
       return Authentication();
     }
     else {
-      return HomeWidget(title: 'MedTracker');
+      return HomeWidget(title: 'MedTracker', user: user);
     }
   }
 }

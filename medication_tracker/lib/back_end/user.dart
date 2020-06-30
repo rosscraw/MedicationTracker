@@ -22,11 +22,31 @@ class User {
     _name = name;
   }
 
+  List<Medication> getMedicationList() {
+    return _medications;
+  }
+
   void addMedication(Medication medication) {
-    _medications.add(medication);
+    if(_medications.contains(medication)) {
+      String error = 'Medication already added to list and cannot be re-dded';
+    }
+    else {
+      _medications.add(medication);
+    }
   }
 
   void removeMedication(Medication medication) {
-    _medications.remove(medication);
+    if(_medications.contains(medication)) {
+      _medications.remove(medication);
+      print('removed');
+      _medications.forEach((element) {
+        print(medication.getName());
+      }
+      );
+
+      }
+    else {
+      String error = 'Medication is not currently in list and cannot be removed';
+    }
   }
 }

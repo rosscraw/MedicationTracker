@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 import 'medication_list_screen.dart';
 import 'adherence_screen.dart';
@@ -8,9 +9,10 @@ import 'home_screen.dart';
 /// Represents the scaffold for the main section of the app.
 /// Contains the app bar and navigation bar, as well as the screen that is currently displayed.
 class HomeWidget extends StatefulWidget {
-  HomeWidget({Key key, this.title}) : super(key: key);
+  HomeWidget({Key key, this.title, this.user}) : super(key: key);
 
   final String title;
+  final User user;
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
