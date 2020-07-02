@@ -6,11 +6,11 @@ import 'package:medicationtracker/back_end/user.dart';
 class DummyUser {
 
   User dummyUser = new User(uid: 'user1234', name: 'Ross');
-  Medication creon = new Medication('Creon', '150mg', 'Capsule');
+  Medication creon = new Medication('Creon', '150mg', 'Pills');
   Medication tresiba = new Medication("Tresiba", "100 units", "Injection");
   Medication fiasp = new Medication("Fiasp", "100 units", "Injection");
   Medication salbutamol = new Medication("Salbutamol", "100mcg", "Inhaler");
-  Medication omeprazole = new Medication("Omeprazole", "20mg", "Capsule");
+  Medication omeprazole = new Medication("Omeprazole", "20mg", "Tablets");
 
   DummyUser() {
     dummyUser.addMedication(creon);

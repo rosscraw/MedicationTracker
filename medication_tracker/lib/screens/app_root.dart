@@ -22,7 +22,28 @@ class MedicationTrackerApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Medication Tracker App',
         theme: ThemeData(
+//          primaryColor: Colors.blue,
+//          backgroundColor: Colors.blue[50],
+//          scaffoldBackgroundColor: Colors.blue[50],
+//          cardColor: Colors.blue[100],
+
           visualDensity: VisualDensity.adaptivePlatformDensity,
+//          colorScheme: ColorScheme(
+//            primary: Colors.blue[800],
+//            primaryVariant: Colors.blueGrey,
+//            secondary: Colors.blueAccent,
+//            secondaryVariant: Colors.blueGrey,
+//            surface: Colors.blue[100],
+//            background: Colors.blue[500],
+//            error: Colors.red,
+//            onPrimary: Colors.black,
+//            onSecondary: Colors.white,
+//            onSurface: Colors.black,
+//            onBackground: Colors.black,
+//            onError: Colors.white,
+//            brightness: Brightness.light
+//          ),
+
         ),
         home: CheckSignInState(),
       ),

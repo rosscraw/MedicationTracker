@@ -47,34 +47,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
 //      ),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                  'Register New Account',
-                  style: TextStyle(
-                    fontSize: 40.0,
-                    color: Colors.blue
-                  )
-              ),
-              EmailPassBlock(
-                title: 'Register',
-                isLogInScreen: false,
-              ),
-              InkWell(
-                child: Text(
-                  'Return to Log In',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
+          child: Center(
+            child: SizedBox(
+              width: 500.0,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10.0,
                   ),
-                ),
-                onTap: () {widget.toggleView();},
+                  Text(
+                      'Register New Account',
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        color: Colors.blue
+                      )
+                  ),
+                  EmailPassBlock(
+                    title: 'Register',
+                    isLogInScreen: false,
+                  ),
+                  InkWell(
+                    child: Text(
+                      'Return to Log In',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onTap: () {widget.toggleView();},
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       )
