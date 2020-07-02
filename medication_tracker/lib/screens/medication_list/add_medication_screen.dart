@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/user.dart';
-import 'file:///C:/Users/rossb/OneDrive/Documents/University%20Files/Dissertation%20Project/Code/MedicationTracker/medication_tracker/lib/screens/medication_list/medication_list_screen.dart';
 
 
 /// Screen that allows user to input details about their Medication and adds it to their medication list.
