@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:medicationtracker/assets/icons/icons.dart';
 
 /// Represents a medication that a User may have in their medication list.
 class Medication{
@@ -43,6 +46,21 @@ class Medication{
 
   void setHasMedBeenTaken(bool hasBeenTaken) {
     _hasMedBeenTaken = hasBeenTaken;
+  }
+
+  IconData getMedicationIcon() {
+    if (_medType == 'Pills') {
+      return DownloadedIcons.pills;
+    }
+    else if (_medType == 'Tablets') {
+      return DownloadedIcons.tablets;
+    }
+    else if (_medType == 'Injection') {
+      return DownloadedIcons.syringe;
+    }
+    else {
+      return Icons.healing;
+    }
   }
 
 }

@@ -49,44 +49,49 @@ class _LogInScreenState extends State<LogInScreen> {
 //      ),
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            children: [
-//              Image(
-//                image: AssetImage('meds.png'),
-//                width: 3000.0,
-//                height: 100,
-//                repeat: ImageRepeat.repeat,
-//                fit: BoxFit.contain,
-//              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Text(
-                'Log In',
-                style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.blue
-                )
-              ),
-              EmailPassBlock(
-                title: 'Sign In',
-                isLogInScreen: true,
-              ),
-              InkWell(
-                child: Text(
-                    'Register New Account',
+          child: Center(
+            child: SizedBox(
+              width: 500.0,
+              child: Column(
+                children: [
+  //              Image(
+  //                image: AssetImage('meds.png'),
+  //                width: 3000.0,
+  //                height: 100,
+  //                repeat: ImageRepeat.repeat,
+  //                fit: BoxFit.contain,
+  //              ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    'Log In',
                     style: TextStyle(
-                      fontSize: 15.0,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+                      fontSize: 40.0,
+                      color: Colors.blue
+                    )
+                  ),
+                  EmailPassBlock(
+                    title: 'Sign In',
+                    isLogInScreen: true,
+                  ),
+                  InkWell(
+                    child: Text(
+                        'Register New Account',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
                     ),
-                ),
-                onTap: () {widget.toggleView();},
+                    onTap: () {widget.toggleView();},
+                  ),
+                ],
               ),
-            ],
           ),
         ),
       )
+    ),
     );
   }
 }
