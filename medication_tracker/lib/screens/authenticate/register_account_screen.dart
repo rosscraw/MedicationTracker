@@ -25,26 +25,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('Sign up'),
-//        actions: <Widget>[
-//          FlatButton.icon(
-//              icon: Icon(
-//                  Icons.person,
-//                  color: Colors.white
-//              ),
-//              label: Text(
-//                'Log In',
-//                style: TextStyle(
-//                    color: Colors.white
-//                ),
-//              ),
-//              onPressed: () {
-//                widget.toggleView();
-//              }
-//          )
-//        ],
-//      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(

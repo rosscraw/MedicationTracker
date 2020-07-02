@@ -5,7 +5,7 @@ import 'package:medicationtracker/screens/check_sign_in_state.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 import 'package:provider/provider.dart';
 import 'home/home_widget.dart';
-import 'home/medication_list_screen.dart';
+import 'medication_list/medication_list_screen.dart';
 import 'package:medicationtracker/screens/authenticate/authentication.dart';
 
 void main() {

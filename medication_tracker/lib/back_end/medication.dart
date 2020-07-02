@@ -48,6 +48,7 @@ class Medication{
     _hasMedBeenTaken = hasBeenTaken;
   }
 
+  /// Allocates specific icon depending upon the type of medication.
   IconData getMedicationIcon() {
     if (_medType == 'Pills') {
       return DownloadedIcons.pills;

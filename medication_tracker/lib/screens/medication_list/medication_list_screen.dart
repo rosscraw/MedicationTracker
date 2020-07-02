@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/assets/icons/icons.dart';
 import 'package:medicationtracker/back_end/medication.dart';
-import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
-import 'package:medicationtracker/screens/home/add_medication.dart';
-import'medication_details_screen.dart';
+import 'add_medication_screen.dart';
+import 'medication_details_screen.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:medicationtracker/dummy_data/constants.dart';
-import 'package:medicationtracker/assets/icons/icons.dart';
 
 /// Screen that displays a list of medications in the user's medication list.
 /// User can check a checkbox to confirm whether or not they have taken the medication.
@@ -37,6 +33,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
             width: 500.0,
             child: Container(
                 child: ListView.builder(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
                   itemCount: dummyList.length,
                   itemBuilder: (context, index) {
                     return Card(
