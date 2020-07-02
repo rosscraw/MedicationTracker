@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/user.dart';
-import 'package:medicationtracker/screens/home/medication_list_screen.dart';
+import 'file:///C:/Users/rossb/OneDrive/Documents/University%20Files/Dissertation%20Project/Code/MedicationTracker/medication_tracker/lib/screens/medication_list/medication_list_screen.dart';
 
 
-
+/// Screen that allows user to input details about their Medication and adds it to their medication list.
 class AddMedicationScreen extends StatefulWidget {
 
   final User user;
@@ -60,6 +60,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                       key: _medFormKey,
                       child: Column(
                         children: [
+                          // Medication Name Input.
                           TextFormField(
                               validator: (val) => val.isEmpty ? "Please enter your medication's name" : null,
                               decoration: InputDecoration(
@@ -70,6 +71,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               }
                           ),
                           SizedBox(height: 20.0),
+                          // Medication dosage input.
+                          // Dropdown option to select units of dosage.
                           Row(
                             children: [
                               Flexible(
@@ -87,6 +90,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                               Flexible(
                                 child: DropdownButtonFormField<String>(
                                   decoration: InputDecoration(
+                                    labelText: 'Dosage Units',
                                     contentPadding: EdgeInsets.all(0.0),
                                   ),
                                   items: _dosageUnits.map((String dropDownStringItem) {
@@ -103,12 +107,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                                   },
                                 ),
                               ),
-
                             ],
                           ),
                           SizedBox(height: 20.0),
+                          // Medication Type Input using a dropdown.
                           DropdownButtonFormField<String>(
                             decoration: InputDecoration(
+                              labelText: 'Medication Type',
                               contentPadding: EdgeInsets.all(0.0),
                             ),
                             items: _medicationTypes.map((String dropDownStringItem) {
@@ -133,18 +138,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             ),
                             // TODO add to medication to user's list.
                             onPressed: () {
-                              if(_medFormKey.currentState.validate()) {
-                                setState(() {
-                                if (_currentItemSelected != 'as required') {
-                                  widget.user.addMedication(new Medication(medicationName, (medicationDosage + medicationUnit), medicationType));
-                                }
-                                else {
-                                  widget.user.addMedication(new Medication(medicationName, (medicationUnit), ''));
-
-                                }
-                                Navigator.pop(context);
-                              });
-                              }
+                              addMedicationToList(medicationName, medicationDosage, medicationUnit, medicationType);
                             },
                           )
                         ],
@@ -158,5 +152,20 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
         )
       )
     );
+  }
+
+  /// Adds medication to user's medication list and returns the user to the Medication List screen.
+  void addMedicationToList(String medicationName, String medicationDosage, String medicationUnit, String medicationType) {
+    if(_medFormKey.currentState.validate()) {
+      setState(() {
+        if (_currentItemSelected != 'as required') {
+          widget.user.addMedication(new Medication(medicationName, (medicationDosage + medicationUnit), medicationType));
+        }
+        else {
+          widget.user.addMedication(new Medication(medicationName, (medicationUnit), ''));
+        }
+        Navigator.pop(context);
+      });
+    }
   }
 }
