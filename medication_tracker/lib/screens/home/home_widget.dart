@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/navigation_bar.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
-import 'package:medicationtracker/screens/medication_list/medication_list_screen.dart';
-import 'package:medicationtracker/screens/adherence/adherence_screen.dart';
-import 'package:medicationtracker/screens/calendar/calendar_screen.dart';
-import 'home_screen.dart';
 
 /// Represents the scaffold for the main section of the app.
 /// Contains the app bar and navigation bar, as well as the screen that is currently displayed.
