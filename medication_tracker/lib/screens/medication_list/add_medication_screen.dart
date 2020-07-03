@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 
 
 /// Screen that allows user to input details about their Medication and adds it to their medication list.
@@ -129,7 +130,13 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             },
                           ),
                           SizedBox(height: 20.0),
+                          // Dosage Timings List
+                          SetDosageTimes(),
+                          SizedBox(height: 20.0),
                           RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
                             color: Colors.blue,
                             child: Text(
                               'Add Medication',
