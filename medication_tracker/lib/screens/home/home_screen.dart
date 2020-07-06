@@ -7,9 +7,6 @@ import 'package:medicationtracker/dummy_data/dummy_user.dart';
 /// First screen visible after log in.
 /// Shows user any medications that are due to be taken within the next two hours.
 class HomeScreen extends StatefulWidget {
-
-
-
   final Color color;
   final String title;
   static final dummyUser = new DummyUser(); // Dummy Data
@@ -26,38 +23,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Column(
-          children: <Widget>[
-            Text("Due Soon"),
-            SizedBox(
-              width: 500.0,
-              height: 400.0,
-              child: ListView.builder(
-                  itemCount: getDueMedications().length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        leading: Icon(getDueMedications()[index].getMedication().getMedicationIcon()),
-                        title: Text(getDueMedications()[index].getMedication().getName()),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Checkbox(
-                              value: getDueMedications()[index].getDosageTimings()[index].getHasMedBeenTaken(),
-                              onChanged: (bool newValue) {
-                                setState(() {
-                                  getDueMedications()[index].getDosageTimings()[index].setHasMedBeenTaken(!getDueMedications()[index].getDosageTimings()[index].getHasMedBeenTaken());
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+      child: Column(
+        children: <Widget>[
+          Text("Due Soon"),
+          SizedBox(
+            width: 500.0,
+            height: 400.0,
+            child: ListView.builder(
+                itemCount: getDueMedications().length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: Icon(getDueMedications()[index].getMedication().getMedicationIcon()),
+                      title: Text(getDueMedications()[index].getMedication().getName()),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          // TODO fix functionality
+                          Checkbox(
+                            value: getDueMedications()[index]
+                                .getDosageTimings()[index]
+                                .getHasMedBeenTaken(),
+                            onChanged: (bool newValue) {
+                              setState(() {
+                                getDueMedications()[index]
+                                    .getDosageTimings()[index]
+                                    .setHasMedBeenTaken(!getDueMedications()[index]
+                                        .getDosageTimings()[index]
+                                        .getHasMedBeenTaken());
+                              });
+                            },
+                          ),
+                        ],
                       ),
-                    );
-                  }),
-            ),
-          ],
-        ),
+                    ),
+                  );
+                }),
+          ),
+        ],
+      ),
     );
   }
 
@@ -68,14 +72,15 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
     for (var med in dummyList) {
-      for(DoseTimeDetails time in med.dosageTimings ){
-        if(time.getDoseTime().hour <= timeNow.hour + 2 && !time.getHasMedBeenTaken()) {
+      for (DoseTimeDetails time in med.dosageTimings) {
+        if (time.getDoseTime().hour <= timeNow.hour + 2 &&
+            !time.getHasMedBeenTaken()) {
           dueMedications.add(med);
-      }
+        }
       }
     }
-    return dueMedications;
+      return dueMedications;
+
+
   }
 }
-
-
