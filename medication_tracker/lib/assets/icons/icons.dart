@@ -43,4 +43,5 @@ class DownloadedIcons {
   static const IconData syringe = IconData(0xf48e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData tablets = IconData(0xf490, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData thermometer = IconData(0xf491, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData wind = IconData(0xf72e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -37,7 +37,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return Card(
                       child: ListTile(
+                        leading: Icon(getDueMedications()[index].getMedication().getMedicationIcon()),
                         title: Text(getDueMedications()[index].getMedication().getName()),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Checkbox(
+                              value: getDueMedications()[index].getDosageTimings()[index].getHasMedBeenTaken(),
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  getDueMedications()[index].getDosageTimings()[index].setHasMedBeenTaken(!getDueMedications()[index].getDosageTimings()[index].getHasMedBeenTaken());
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }),
@@ -55,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (var med in dummyList) {
       for(DoseTimeDetails time in med.dosageTimings ){
-        if(time.getDoseTime().hour <= timeNow.hour + 2) {
+        if(time.getDoseTime().hour <= timeNow.hour + 2 && !time.getHasMedBeenTaken()) {
           dueMedications.add(med);
       }
       }
