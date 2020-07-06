@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 
@@ -164,11 +165,12 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   void addMedicationToList(String medicationName, String medicationDosage, String medicationUnit, String medicationType) {
     if(_medFormKey.currentState.validate()) {
       setState(() {
+        Medication medication = new Medication(medicationName, medicationType);
         if (_currentItemSelected != 'as required') {
-          widget.user.addMedication(new Medication(medicationName, (medicationDosage + medicationUnit), medicationType));
+          widget.user.addMedication(new MedicationRegime(medication, (medicationDosage + medicationUnit)));
         }
         else {
-          widget.user.addMedication(new Medication(medicationName, (medicationUnit), ''));
+          widget.user.addMedication(new MedicationRegime(medication, (medicationUnit)));
         }
         Navigator.pop(context);
       });

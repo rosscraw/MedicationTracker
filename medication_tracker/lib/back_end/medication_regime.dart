@@ -1,16 +1,33 @@
 import 'package:medicationtracker/back_end/medication.dart';
+import 'dose_time_details.dart';
 
 /// Class that represents a user's Medication, dosages and timings.
 class MedicationRegime{
 
   Medication medication;
-  int dosage;
-  List<DateTime> dosageTimings;
+  String dosage;
+  List<DoseTimeDetails> dosageTimings = [];
 
   MedicationRegime(this.medication, this.dosage);
 
-  void addDosageTime(DateTime time) {
+  Medication getMedication() {
+    return medication;
+  }
+
+  String getDosage() {
+    return dosage;
+  }
+
+  List<DoseTimeDetails> getDosageTimings() {
+    return dosageTimings;
+  }
+
+  void addDoseTime(DoseTimeDetails time) {
     dosageTimings.add(time);
+  }
+
+  void removeDoseTime(DoseTimeDetails time) {
+    dosageTimings.remove(time);
   }
 
 }
