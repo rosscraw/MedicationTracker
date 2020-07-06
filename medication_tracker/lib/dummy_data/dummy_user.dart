@@ -22,6 +22,9 @@ class DummyUser {
   DoseTimeDetails time1 = new DoseTimeDetails(dose1);
   DoseTimeDetails time2 = new DoseTimeDetails(dose2);
   DoseTimeDetails time3 = new DoseTimeDetails(dose3);
+  DoseTimeDetails time4 = new DoseTimeDetails(dose2);
+  DoseTimeDetails time5 = new DoseTimeDetails(dose3);
+  DoseTimeDetails time6 = new DoseTimeDetails(dose3);
 
 
   MedicationRegime creonR = new MedicationRegime(creon, '150mg');
@@ -43,9 +46,9 @@ class DummyUser {
     fiaspR.addDoseTime(time1);
     fiaspR.addDoseTime(time2);
     fiaspR.addDoseTime(time3);
-    creonR.addDoseTime(time2);
-    creonR.addDoseTime(time3);
-    salbutamolR.addDoseTime(time2);
+    creonR.addDoseTime(time4);
+    creonR.addDoseTime(time5);
+    salbutamolR.addDoseTime(time6);
 
   }
 
