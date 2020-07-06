@@ -1,5 +1,7 @@
 import 'package:medicationtracker/back_end/medication.dart';
 
+import 'medication_regime.dart';
+
 
 /// Represents a User of the application.
 class User {
@@ -7,7 +9,7 @@ class User {
   final String uid;
   String _email;
   String _name;
-  List<Medication> _medications;
+  List<MedicationRegime> _medications;
 
   User({this.uid, String name}) {
     setName(name);
@@ -22,11 +24,11 @@ class User {
     _name = name;
   }
 
-  List<Medication> getMedicationList() {
+  List<MedicationRegime> getMedicationList() {
     return _medications;
   }
 
-  void addMedication(Medication medication) {
+  void addMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       String error = 'Medication already added to list and cannot be re-dded';
     }
@@ -35,12 +37,12 @@ class User {
     }
   }
 
-  void removeMedication(Medication medication) {
+  void removeMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       _medications.remove(medication);
       print('removed');
       _medications.forEach((element) {
-        print(medication.getName());
+        print(medication.getMedication().getName());
       }
       );
 

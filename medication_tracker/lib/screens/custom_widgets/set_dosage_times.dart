@@ -7,8 +7,10 @@ class SetDosageTimes extends StatefulWidget {
 
 class _SetDosageTimesState extends State<SetDosageTimes> {
 
-  List<DateTime> dosageTimes;
+  List<TimeOfDay> dosageTimes = [];
+  TimeOfDay chosenTime;
   int number = 1;
+  bool timeSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
               return Card(
                 child: ListTile(
                   leading: setDeleteIcon(index),
-                  title: Center(child: Text('timepicker')),
+                  title: setAddTimeButton(index),
                   trailing: setAddIcon(index),
               ),
               );
@@ -35,25 +37,25 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
     );
   }
-  void addDosageTime(DateTime time) {
-    dosageTimes.add(time);
-  }
-
-  FlatButton setDeleteIcon(int index) {
+  Column setDeleteIcon(int index) {
     if(number - 1 == index && index > 0) {
-      return FlatButton.icon(
-          onPressed: () {
-            if(number > 1) {
-              number--;
-            }
-            setState(() {
+      return Column(
+        children: [
+          IconButton(
+              onPressed: () {
+                if(number > 1) {
+                  number--;
+                }
+                setState(() {
 
-            });
-          },
-          icon: Icon(Icons.delete),
-          label: Text(
-              'remove'
-          )
+                });
+              },
+              icon: Icon(Icons.delete),
+          ),
+//          Text(
+//              'remove'
+//          ),
+        ],
       );
     }
     else {
@@ -61,23 +63,105 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     }
   }
 
-  FlatButton setAddIcon(int index) {
+  Column setAddIcon(int index) {
     if(number - 1 == index) {
-      return FlatButton.icon(
-          onPressed: () {
-              number++;
-            setState(() {
+      return Column(
+        children: [
+          IconButton(
+              onPressed: () {
+                  number++;
+                setState(() {
 
-            });
-          },
-          icon: Icon(Icons.add),
-          label: Text(
-              'add'
-          )
+                });
+              },
+              icon: Icon(Icons.add),
+
+          ),
+//          Text(
+//              'add'
+//          )
+        ],
       );
     }
     else {
       return null;
     }
+  }
+
+//  FlatButton setAddTimeButton(int index) {
+////    if (dosageTimes.isEmpty) {
+////      return FlatButton.icon(
+////        icon: Icon(
+////          Icons.alarm_add,
+////        ),
+////        label: Text('Add dosage time'),
+////        onPressed: () async{
+////          selectDosageTime(context, index);
+////        },
+////      );
+////    }
+////    else {
+////      return FlatButton.icon(
+////        icon: Icon(
+////          Icons.alarm_add,
+////        ),
+////        label: Text(dosageTimes[index].format(context)),
+////        onPressed: () async{
+////          selectDosageTime(context, index);
+////        },
+////      );
+////    }
+////  }
+
+  Column setAddTimeButton(int index) {
+    if (dosageTimes.isEmpty) {
+      return Column(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.alarm_add,
+            ),
+            onPressed: () async{
+              selectDosageTime(context, index);
+            },
+          ),
+          Text('Add dosage time'),
+        ],
+      );
+    }
+    else {
+      return Column(
+        children: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+              Icons.alarm_add
+            ),
+            label: Text(dosageTimes[index].format(context)),
+            onPressed:() async{
+              selectDosageTime(context, index);
+            },
+          ),
+        ],
+      );
+    }
+  }
+
+
+  Future<Null> selectDosageTime(BuildContext context, int index) async {
+    TimeOfDay chosenTime = await showTimePicker(context: context, initialTime: (TimeOfDay(hour: 12, minute: 0)));
+    setState(() {
+      //print(dosageTimes[index].format(context));
+      timeSelected = true;
+      if(dosageTimes[index] == null || dosageTimes.isEmpty) {
+        dosageTimes.add(chosenTime);
+      }
+      else {
+        dosageTimes[index] = chosenTime;
+      }
+    });
+  }
+
+  List<TimeOfDay> getDosageTimes() {
+    return dosageTimes;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'add_medication_screen.dart';
 import 'medication_details_screen.dart';
@@ -39,18 +40,18 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     return Card(
                       child: ListTile(
                           leading: Icon(
-                              dummyList[index].getMedicationIcon()
+                              dummyList[index].getMedication().getMedicationIcon()
                           ),
                           //TODO link to database
-                          title: Text(dummyList[index].getName()),
+                          title: Text(dummyList[index].getMedication().getName()),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Checkbox(
-                                value: dummyList[index].getHasMedBeenTaken(),
+                                value: dummyList[index].getMedication().getHasMedBeenTaken(),
                                 onChanged: (bool newValue) {
                                   setState(() {
-                                    dummyList[index].setHasMedBeenTaken(!dummyList[index].getHasMedBeenTaken());
+                                    dummyList[index].getMedication().setHasMedBeenTaken(!dummyList[index].getMedication().getHasMedBeenTaken());
                                   });
                                 },
                               ),
@@ -99,7 +100,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
   }
 
   /// Pushes Medication Details Screen for Medication at [index] to display to user.
-  void navigateToMedicationDetails(Medication medication) {
+  void navigateToMedicationDetails(MedicationRegime medication) {
     // TODO Firestore Integration
     Navigator.push(
         context,
