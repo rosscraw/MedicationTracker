@@ -72,7 +72,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton( // Delete Medication Button
+      floatingActionButton: FloatingActionButton.extended( // Delete Medication Button
         onPressed: () {
           // TODO Firestore Integration
           setState(() {
@@ -80,8 +80,9 @@ class _MedicationDetailsState extends State<MedicationDetails> {
             Navigator.pop(context);
             });
           },
-        tooltip: 'Remove Medication',
-        child: Icon(Icons.delete),
+        label: Text('Delete Medication'),
+        tooltip: 'Delete Medication',
+        icon: Icon(Icons.delete),
         backgroundColor: Colors.red,
       ),
     );

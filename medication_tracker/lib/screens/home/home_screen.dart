@@ -49,16 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Return list of medications that are due within two hours of now.
   List<MedicationRegime> getDueMedications() {
-    List<MedicationRegime> dueMeds = [];
+    List<MedicationRegime> dueMedications = [];
     TimeOfDay timeNow = TimeOfDay.now();
+    // TODO add functionality so if marked as taken item is removed from list
+    // TODO if no items due display alternative message.
     for (var med in dummyList) {
       for(DoseTimeDetails time in med.dosageTimings ){
         if(time.getDoseTime().hour <= timeNow.hour + 2) {
-          dueMeds.add(med);
+          dueMedications.add(med);
       }
       }
     }
-    return dueMeds;
+    return dueMedications;
   }
 }
 
