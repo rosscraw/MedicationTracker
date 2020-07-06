@@ -62,6 +62,19 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                               Icons.alarm
                             ),
                             title: getDosageTime(index),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Checkbox(
+                                  value: widget.medication.getDosageTimings()[index].getHasMedBeenTaken(),
+                                  onChanged: (bool newValue) {
+                                    setState(() {
+                                      widget.medication.getDosageTimings()[index].setHasMedBeenTaken(!widget.medication.getDosageTimings()[index].getHasMedBeenTaken());
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       }

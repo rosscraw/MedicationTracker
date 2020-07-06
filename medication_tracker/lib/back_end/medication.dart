@@ -59,6 +59,9 @@ class Medication{
     else if (_medType == 'Injection') {
       return DownloadedIcons.syringe;
     }
+    else if (_medType == 'Inhaler'){
+      return DownloadedIcons.wind;
+    }
     else {
       return Icons.healing;
     }

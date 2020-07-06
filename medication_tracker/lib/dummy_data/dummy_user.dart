@@ -43,14 +43,9 @@ class DummyUser {
     fiaspR.addDoseTime(time1);
     fiaspR.addDoseTime(time2);
     fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);fiaspR.addDoseTime(time3);
-    fiaspR.addDoseTime(time3);
+    creonR.addDoseTime(time2);
+    creonR.addDoseTime(time3);
+    salbutamolR.addDoseTime(time2);
 
   }
 
