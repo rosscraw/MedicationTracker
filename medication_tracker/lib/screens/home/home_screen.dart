@@ -25,13 +25,25 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text('Overdue'),
-            MedicationTimesList(getOverdueMedications()),
-            Text("Due Soon"),//
-            MedicationTimesList(getDueMedications()),
+            Text(
+              'Overdue Medications',
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.blue,
+              ),
+            ),
+            overdueList(),
+            Text("Medications Due Soon",
+              style: TextStyle(
+                fontSize: 30.0,
+                color: Colors.blue,
+              ),), //
+            dueList(),
           ],
         ),
       ),
@@ -47,12 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in dummyList) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour >= timeNow.hour && time.getDoseTime().hour <= timeNow.hour  &&
+        if (time.getDoseTime().hour >= timeNow.hour &&
+            time.getDoseTime().hour <= timeNow.hour &&
             !time.getHasMedBeenTaken()) {
           dueMedications.add(time);
         }
       }
     }
+    dueMedications
+        .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
     return dueMedications;
   }
 
@@ -70,6 +85,28 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
+    overdueMedications
+        .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
     return overdueMedications;
+  }
+
+  /// Shows list if there are any medications due soon.
+  /// Shows text informing user none are due if there are none due soon.
+  Widget dueList() {
+    if (getDueMedications().isEmpty) {
+      return Text('No medications are due soon!');
+    } else {
+      return MedicationTimesList(getDueMedications());
+    }
+  }
+
+  /// Shows list if there are any overdue medications.
+  /// Shows text informing user none are overdue if there are no overdue meds.
+  Widget overdueList() {
+    if (getOverdueMedications().isEmpty) {
+      return Text('No medications are overdue!');
+    } else {
+      return MedicationTimesList(getOverdueMedications());
+    }
   }
 }

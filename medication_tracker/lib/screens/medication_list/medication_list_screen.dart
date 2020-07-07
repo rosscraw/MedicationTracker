@@ -32,46 +32,49 @@ class _MedicationScreenState extends State<MedicationScreen> {
         body: Center(
           child: SizedBox(
             width: 500.0,
-            child: Container(
-                child: ListView.builder(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                  itemCount: dummyList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                          leading: Icon(
-                              dummyList[index].getMedication().getMedicationIcon()
-                          ),
-                          //TODO link to database
-                          title: Text(dummyList[index].getMedication().getName()),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Checkbox(
-                                value: dummyList[index].getMedication().getHasMedBeenTaken(),
-                                onChanged: (bool newValue) {
-                                  setState(() {
-                                    dummyList[index].getMedication().setHasMedBeenTaken(!dummyList[index].getMedication().getHasMedBeenTaken());
-                                  });
-                                },
-                              ),
-                              FlatButton.icon(
-                                icon: Icon(
-                                    Icons.info_outline,
-                                ),
-                                label: Text(
-                                  'info'
-                                ),
-                                onPressed: () {
-                                  navigateToMedicationDetails(dummyList[index]);
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  child: ListView.builder(
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
+                    itemCount: dummyList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ListTile(
+                            leading: Icon(
+                                dummyList[index].getMedication().getMedicationIcon()
+                            ),
+                            //TODO link to database
+                            title: Text(dummyList[index].getMedication().getName()),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Checkbox(
+                                  value: dummyList[index].getMedication().getHasMedBeenTaken(),
+                                  onChanged: (bool newValue) {
+                                    setState(() {
+                                      dummyList[index].getMedication().setHasMedBeenTaken(!dummyList[index].getMedication().getHasMedBeenTaken());
+                                    });
                                   },
-                              ),
-                            ],
-                          ),
-                      ),
-                    );
-                  },
-                ),
+                                ),
+                                FlatButton.icon(
+                                  icon: Icon(
+                                      Icons.info_outline,
+                                  ),
+                                  label: Text(
+                                    'info'
+                                  ),
+                                  onPressed: () {
+                                    navigateToMedicationDetails(dummyList[index]);
+                                    },
+                                ),
+                              ],
+                            ),
+                        ),
+                      );
+                    },
+                  ),
+              ),
             ),
           ),
         ),
