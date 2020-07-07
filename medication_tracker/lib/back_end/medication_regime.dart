@@ -24,6 +24,8 @@ class MedicationRegime{
 
   void addDoseTime(DoseTimeDetails time) {
     dosageTimings.add(time);
+    int index = dosageTimings.indexOf(time);
+    dosageTimings[index].setMedicationRegime(this);
   }
 
   void removeDoseTime(DoseTimeDetails time) {

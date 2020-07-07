@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/dose_time_details.dart';
+import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
+import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
 
 /// Home screen of the application.
 /// First screen visible after log in.
@@ -23,64 +25,51 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        children: <Widget>[
-          Text("Due Soon"),
-          SizedBox(
-            width: 500.0,
-            height: 400.0,
-            child: ListView.builder(
-                itemCount: getDueMedications().length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(getDueMedications()[index].getMedication().getMedicationIcon()),
-                      title: Text(getDueMedications()[index].getMedication().getName()),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          // TODO fix functionality
-                          Checkbox(
-                            value: getDueMedications()[index]
-                                .getDosageTimings()[index]
-                                .getHasMedBeenTaken(),
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                getDueMedications()[index]
-                                    .getDosageTimings()[index]
-                                    .setHasMedBeenTaken(!getDueMedications()[index]
-                                        .getDosageTimings()[index]
-                                        .getHasMedBeenTaken());
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text('Overdue'),
+            MedicationTimesList(getOverdueMedications()),
+            Text("Due Soon"),//
+            MedicationTimesList(getDueMedications()),
+          ],
+        ),
       ),
     );
   }
 
   /// Return list of medications that are due within two hours of now.
-  List<MedicationRegime> getDueMedications() {
-    List<MedicationRegime> dueMedications = [];
+  List<DoseTimeDetails> getDueMedications() {
+    List<DoseTimeDetails> dueMedications = [];
     TimeOfDay timeNow = TimeOfDay.now();
+    int index = 0;
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
-    for (var med in dummyList) {
-      for (DoseTimeDetails time in med.dosageTimings) {
-        if (time.getDoseTime().hour <= timeNow.hour + 2 &&
+    for (MedicationRegime medication in dummyList) {
+      for (DoseTimeDetails time in medication.dosageTimings) {
+        if (time.getDoseTime().hour >= timeNow.hour && time.getDoseTime().hour <= timeNow.hour  &&
             !time.getHasMedBeenTaken()) {
-          dueMedications.add(med);
+          dueMedications.add(time);
         }
       }
     }
-      return dueMedications;
+    return dueMedications;
+  }
 
-
+  /// Return list of medications that are overdue.
+  List<DoseTimeDetails> getOverdueMedications() {
+    List<DoseTimeDetails> overdueMedications = [];
+    TimeOfDay timeNow = TimeOfDay.now();
+    // TODO add functionality so if marked as taken item is removed from list
+    // TODO if no items due display alternative message.
+    for (MedicationRegime medication in dummyList) {
+      for (DoseTimeDetails time in medication.dosageTimings) {
+        if (time.getDoseTime().hour < timeNow.hour &&
+            !time.getHasMedBeenTaken()) {
+          overdueMedications.add(time);
+        }
+      }
+    }
+    return overdueMedications;
   }
 }
