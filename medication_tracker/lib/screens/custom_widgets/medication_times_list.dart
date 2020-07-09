@@ -15,42 +15,55 @@ class MedicationTimesList extends StatefulWidget {
 class _MedicationTimesListState extends State<MedicationTimesList> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
+    return ListView.builder(
         shrinkWrap: true,
-          itemCount: widget.medications.length,
-          itemBuilder: (context, index) {
-            return Card(
-              child: ListTile(
-                leading: Icon(widget.medications[index]
-                    .getMedicationRegime()
-                    .getMedication()
-                    .getMedicationIcon()),
-                title: Text(widget.medications[index]
+        itemCount: widget.medications.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: ListTile(
+              leading: Icon(widget.medications[index]
+                  .getMedicationRegime()
+                  .getMedication()
+                  .getMedicationIcon()),
+              title: Text(
+                widget.medications[index]
                         .getMedicationRegime()
                         .getMedication()
                         .getName() +
                     ': ' +
-                    widget.medications[index].getDoseTime().format(context)),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // TODO fix functionality
-                    Checkbox(
-                      value: widget.medications[index].getHasMedBeenTaken(),
-                      onChanged: (bool newValue) {
-                        setState(() {
-                          widget.medications[index].setHasMedBeenTaken(
-                              !widget.medications[index].getHasMedBeenTaken());
-                          widget.medications.removeAt(index);
-                        });
-                      },
-                    ),
-                  ],
+                    widget.medications[index].getDoseTime().format(context),
+                style: TextStyle(
+                  fontSize: 20.0,
                 ),
               ),
-            );
-          }),
-    );
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // TODO fix functionality
+                  Checkbox(
+                    value: widget.medications[index].getHasMedBeenTaken(),
+                    onChanged: (bool newValue) async {
+                      checkboxState(index);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  /// Changes checkbox state depending on whether medication has been taken and removes from list.
+  /// Small delay to allow checkbox animation to play.
+  void checkboxState(int index) {
+    setState(() {
+      widget.medications[index]
+          .setHasMedBeenTaken(!widget.medications[index].getHasMedBeenTaken());
+      Future.delayed(Duration(milliseconds: 300), () {
+        setState(() {
+          widget.medications.removeAt(index);
+        });
+      });
+    });
   }
 }

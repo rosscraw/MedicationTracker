@@ -15,14 +15,14 @@ class MedicationScreen extends StatefulWidget {
 
   final String title;
 
-
   @override
   _MedicationScreenState createState() => _MedicationScreenState();
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
-  static final dummyUser = new DummyUser(); // Dummy Data
-  var dummyList = dummyUser.getDummyUser().getMedicationList(); // Dummy Data
+  //TODO use real user
+  static final user = new DummyUser(); // Dummy Data
+  var medicationList = user.getDummyUser().getMedicationList(); // Dummy Data
 
   @override
   Widget build(BuildContext context) {
@@ -34,71 +34,106 @@ class _MedicationScreenState extends State<MedicationScreen> {
             width: 500.0,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  child: ListView.builder(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                    itemCount: dummyList.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                            leading: Icon(
-                                dummyList[index].getMedication().getMedicationIcon()
-                            ),
-                            //TODO link to database
-                            title: Text(dummyList[index].getMedication().getName()),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Checkbox(
-                                  value: dummyList[index].getMedication().getHasMedBeenTaken(),
-                                  onChanged: (bool newValue) {
-                                    setState(() {
-                                      dummyList[index].getMedication().setHasMedBeenTaken(!dummyList[index].getMedication().getHasMedBeenTaken());
-                                    });
-                                  },
-                                ),
-                                FlatButton.icon(
-                                  icon: Icon(
-                                      Icons.info_outline,
-                                  ),
-                                  label: Text(
-                                    'info'
-                                  ),
-                                  onPressed: () {
-                                    navigateToMedicationDetails(dummyList[index]);
-                                    },
-                                ),
-                              ],
-                            ),
-                        ),
-                      );
-                    },
-                  ),
-              ),
+              child: getMedicationListView(),
             ),
           ),
         ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              navigateToAddMedication();
-            },
-            label: Text('Add Medication'),
-            tooltip: 'Add Medication',
-            icon: Icon(Icons.add),
-          ),
+        floatingActionButton: addMedicationButton(),
       ),
     );
+  }
+
+  /// Add medication floating action button.
+  FloatingActionButton addMedicationButton() {
+    return FloatingActionButton.extended(
+      onPressed: () {
+        navigateToAddMedication();
+      },
+      label: Text('Add Medication'),
+      tooltip: 'Add Medication',
+      icon: Icon(Icons.add),
+    );
+  }
+
+  /// Column that contains text and the Listview that displays all user's medications with checkboxes.
+  Column getMedicationListView() {
+    return Column(
+      children: [
+        Text(
+          'Medications',
+          style: TextStyle(
+            fontSize: 30.0,
+            color: Colors.blue,
+          ),
+        ),
+        Container(
+          child: ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
+            itemCount: medicationList.length,
+            itemBuilder: (context, index) {
+              return Card(
+                child: ListTile(
+                  leading: Icon(medicationList[index]
+                      .getMedication()
+                      .getMedicationIcon()),
+                  //TODO link to database
+                  title: Text(
+                    medicationList[index].getMedication().getName(),
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Checkbox(
+                        value: medicationList[index]
+                            .getMedication()
+                            .getHasMedBeenTaken(),
+                        onChanged: (bool newValue) {
+                          checkboxState(index);
+                        },
+                      ),
+                      FlatButton.icon(
+                        icon: Icon(
+                          Icons.info_outline,
+                        ),
+                        label: Text('info'),
+                        onPressed: () {
+                          navigateToMedicationDetails(medicationList[index]);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Changes checkbox state depending on whether medication has been taken.
+  void checkboxState(int index) {
+    setState(() {
+      medicationList[index]
+          .getMedication()
+          .setHasMedBeenTaken(!medicationList[index]
+          .getMedication()
+          .getHasMedBeenTaken());
+    });
   }
 
   /// Pushes Add Medication Screen to top of the stack to display to user.
   void navigateToAddMedication() {
     Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => AddMedicationScreen(dummyUser.getDummyUser()))
-    ).then((value) {
-      setState(() {
-      });
+            context,
+            new MaterialPageRoute(
+                builder: (context) => AddMedicationScreen(user.getDummyUser())))
+        .then((value) {
+      setState(() {});
     });
   }
 
@@ -106,14 +141,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
   void navigateToMedicationDetails(MedicationRegime medication) {
     // TODO Firestore Integration
     Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => MedicationDetails(medication, dummyUser.getDummyUser()))
-    ).then((value) {
-      setState(() {
-      });
+            context,
+            new MaterialPageRoute(
+                builder: (context) =>
+                    MedicationDetails(medication, user.getDummyUser())))
+        .then((value) {
+      setState(() {});
     });
   }
-
-
 }
