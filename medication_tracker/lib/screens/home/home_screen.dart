@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/dose_time_details.dart';
 import 'package:medicationtracker/back_end/medication.dart';
@@ -11,40 +12,36 @@ import 'package:medicationtracker/screens/custom_widgets/medication_times_list.d
 class HomeScreen extends StatefulWidget {
   final Color color;
   final String title;
-  static final dummyUser = new DummyUser(); // Dummy Data
+  // TODO link real user
+  static final user = new DummyUser();
+  static final user2 = FirebaseUser;// Dummy Data
 
-  HomeScreen({Key key, this.title, this.color}) : super(key: key);
+  HomeScreen({Key key, this.title, this.color, DummyUser user}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var dummyList = HomeScreen.dummyUser.getDummyUser().getMedicationList();
+  var dummyList = HomeScreen.user.getDummyUser().getMedicationList();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Overdue Medications',
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.blue,
-              ),
+    return Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 500.0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                overdueList(),
+                dueList(),
+              ],
             ),
-            overdueList(),
-            Text("Medications Due Soon",
-              style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.blue,
-              ),), //
-            dueList(),
-          ],
+          ),
         ),
       ),
     );
@@ -90,23 +87,57 @@ class _HomeScreenState extends State<HomeScreen> {
     return overdueMedications;
   }
 
-  /// Shows list if there are any medications due soon.
-  /// Shows text informing user none are due if there are none due soon.
-  Widget dueList() {
-    if (getDueMedications().isEmpty) {
-      return Text('No medications are due soon!');
-    } else {
-      return MedicationTimesList(getDueMedications());
-    }
-  }
-
   /// Shows list if there are any overdue medications.
   /// Shows text informing user none are overdue if there are no overdue meds.
   Widget overdueList() {
     if (getOverdueMedications().isEmpty) {
-      return Text('No medications are overdue!');
+      return Text(
+        'No medications are overdue!',
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      );
     } else {
-      return MedicationTimesList(getOverdueMedications());
+      return Column(
+        children: [
+          Text(
+            'Overdue Medications',
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.blue,
+            ),
+          ),
+          MedicationTimesList(getOverdueMedications()),
+        ],
+      );
     }
   }
+
+  /// Shows list if there are any medications due soon.
+  /// Shows text informing user none are due if there are none due soon.
+  Widget dueList() {
+    if (getDueMedications().isEmpty) {
+      return Text(
+        'No medications are due soon!',
+        style: TextStyle(
+          fontSize: 20,
+        ),
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+            "Medications Due Soon",
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.blue,
+            ),
+          ), //
+          MedicationTimesList(getDueMedications()),
+        ],
+      );
+    }
+  }
+
+
 }
