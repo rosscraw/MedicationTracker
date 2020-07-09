@@ -40,13 +40,13 @@ class Medication{
     _medType = medType;
   }
 
-  bool getHasMedBeenTaken() {
-    return _hasMedBeenTaken;
-  }
-
-  void setHasMedBeenTaken(bool hasBeenTaken) {
-    _hasMedBeenTaken = hasBeenTaken;
-  }
+//  bool getHasMedBeenTaken() {
+//    return _hasMedBeenTaken;
+//  }
+//
+//  void setHasMedBeenTaken(bool hasBeenTaken) {
+//    _hasMedBeenTaken = hasBeenTaken;
+//  }
 
   /// Allocates specific icon depending upon the type of medication.
   IconData getMedicationIcon() {
