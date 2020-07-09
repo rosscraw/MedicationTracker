@@ -44,6 +44,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
                     value: widget.medications[index].getHasMedBeenTaken(),
                     onChanged: (bool newValue) async {
                       checkboxState(index);
+
                     },
                   ),
                 ],
@@ -62,6 +63,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
           widget.medications.removeAt(index);
+
         });
       });
     });
