@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/back_end/dose_time_details.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
+import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'add_medication_screen.dart';
 import 'medication_details_screen.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
@@ -88,9 +90,10 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Checkbox(
-                        value: medicationList[index]
-                            .getMedication()
-                            .getHasMedBeenTaken(),
+                        value: checkboxInitialState(index),
+//                        medicationList[index]
+//                            .getMedication()
+//                            .getHasMedBeenTaken(),
                         onChanged: (bool newValue) {
                           checkboxState(index);
                         },
@@ -115,14 +118,19 @@ class _MedicationScreenState extends State<MedicationScreen> {
     );
   }
 
+  /// Determines the initial state of the checkbox when screen is loaded.
+  bool checkboxInitialState(int index) {
+    return medicationList[index].getAllMedsTaken();
+  }
+
   /// Changes checkbox state depending on whether medication has been taken.
+  /// If medication has more than one dosage, all dosages must be checked off to be true.
   void checkboxState(int index) {
     setState(() {
-      medicationList[index]
-          .getMedication()
-          .setHasMedBeenTaken(!medicationList[index]
-          .getMedication()
-          .getHasMedBeenTaken());
+      setState(() {
+        medicationList[index]
+            .setAllMedsTaken(!medicationList[index].getAllMedsTaken());
+      });
     });
   }
 
