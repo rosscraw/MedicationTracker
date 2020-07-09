@@ -58,5 +58,17 @@ class DummyUser {
     return dummyUser;
   }
 
+  List time = [
+    {
+      "dose" : 100,
+      "time" : TimeOfDay.now(),
+    },
+    {
+      "dose" : 100,
+      "time" : TimeOfDay.now(),
+    },
+  ];
+
+
 
 }
