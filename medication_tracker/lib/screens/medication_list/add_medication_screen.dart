@@ -4,14 +4,11 @@ import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
-
+import 'package:provider/provider.dart';
 
 /// Screen that allows user to input details about their Medication and adds it to their medication list.
 class AddMedicationScreen extends StatefulWidget {
 
-  final User user;
-
-  AddMedicationScreen(this.user);
 
   @override
   _AddMedicationScreenState createState() => _AddMedicationScreenState();
@@ -41,6 +38,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       appBar: AppBar(
           title: Text('Add new Medication')
@@ -145,7 +144,7 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                             ),
                             // TODO add to medication to user's list.
                             onPressed: () {
-                              addMedicationToList(medicationName, medicationDosage, medicationUnit, medicationType);
+                              addMedicationToList(user, medicationName, medicationDosage, medicationUnit, medicationType);
                             },
                           )
                         ],
@@ -162,15 +161,15 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   }
 
   /// Adds medication to user's medication list and returns the user to the Medication List screen.
-  void addMedicationToList(String medicationName, String medicationDosage, String medicationUnit, String medicationType) {
+  void addMedicationToList(User user, String medicationName, String medicationDosage, String medicationUnit, String medicationType) {
     if(_medFormKey.currentState.validate()) {
       setState(() {
         Medication medication = new Medication(medicationName, medicationType);
         if (_currentItemSelected != 'as required') {
-          widget.user.addMedication(new MedicationRegime(medication, (medicationDosage + medicationUnit)));
+          user.addMedication(new MedicationRegime(medication, (medicationDosage + medicationUnit)));
         }
         else {
-          widget.user.addMedication(new MedicationRegime(medication, (medicationUnit)));
+          user.addMedication(new MedicationRegime(medication, (medicationUnit)));
         }
         Navigator.pop(context);
       });
