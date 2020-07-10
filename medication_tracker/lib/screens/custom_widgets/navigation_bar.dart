@@ -15,7 +15,7 @@ class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _navTabs = [
-    HomeScreen(title: 'Home', user: HomeScreen.user),
+    HomeScreen(title: 'Home'),
     MedicationScreen(title: 'Medication List'),
     CalendarScreen(title: 'Calendar'),
     AdherenceScreen(title: 'Adherence')

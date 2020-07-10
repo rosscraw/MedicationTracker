@@ -3,22 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:provider/provider.dart';
 
 /// Screen that displays the details of a single medication on a new screen.
 /// Allows user to edit or delete information about the medication.
 class MedicationDetails extends StatefulWidget {
   final MedicationRegime medication;
-  final User user;
 
-  MedicationDetails(this.medication, this.user);
+
+  MedicationDetails(this.medication);
 
   @override
   _MedicationDetailsState createState() => _MedicationDetailsState();
 }
 
 class _MedicationDetailsState extends State<MedicationDetails> {
+
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.medication.getMedication().getName())),
       body: Padding(
@@ -92,7 +97,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
         // Delete Medication Button
         onPressed: () {
           // TODO Firestore Integration
-          showDeleteAlert();
+          showDeleteAlert(user);
 //          setState(() {
 //            });
         },
@@ -114,12 +119,12 @@ class _MedicationDetailsState extends State<MedicationDetails> {
   }
 
   /// Removes a medication from the user's list and update the Medication List Screen.
-  void removeMedicationFromList() {
-    widget.user.removeMedication(widget.medication);
+  void removeMedicationFromList(User user) {
+    user.removeMedication(widget.medication);
   }
 
   /// Display an alert
-  Future<void> showDeleteAlert() async {
+  Future<void> showDeleteAlert(User user) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -139,7 +144,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                 child: new Text("Continue"),
                 onPressed: () {
                   setState(() {
-                    removeMedicationFromList();
+                    removeMedicationFromList(user);
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });

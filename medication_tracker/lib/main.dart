@@ -45,8 +45,8 @@ class MedicationTrackerApp extends StatelessWidget {
 //          ),
 
         ),
-        //home: CheckSignInState(),
-        home: HomeWidget(title: 'MedTracker3000',),
+        home: CheckSignInState(),
+        //home: HomeWidget(title: 'MedTracker3000',),
       ),
     );
   }

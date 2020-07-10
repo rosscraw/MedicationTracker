@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/dose_time_details.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'add_medication_screen.dart';
@@ -23,11 +24,13 @@ class MedicationScreen extends StatefulWidget {
 
 class _MedicationScreenState extends State<MedicationScreen> {
   //TODO use real user
-  static final user = new DummyUser(); // Dummy Data
-  var medicationList = user.getDummyUser().getMedicationList(); // Dummy Data
+  //static final user = new DummyUser(); // Dummy Data
+  //var medicationList = user.getDummyUser().getMedicationList(); // Dummy Data
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+
     return StreamProvider<QuerySnapshot>.value(
       value: FirestoreDatabase().trackerUsers,
       child: Scaffold(
@@ -36,20 +39,20 @@ class _MedicationScreenState extends State<MedicationScreen> {
             width: 500.0,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: getMedicationListView(),
+              child: getMedicationListView(user),
             ),
           ),
         ),
-        floatingActionButton: addMedicationButton(),
+        floatingActionButton: addMedicationButton(user),
       ),
     );
   }
 
   /// Add medication floating action button.
-  FloatingActionButton addMedicationButton() {
+  FloatingActionButton addMedicationButton(User user) {
     return FloatingActionButton.extended(
       onPressed: () {
-        navigateToAddMedication();
+        navigateToAddMedication(user);
       },
       label: Text('Add Medication'),
       tooltip: 'Add Medication',
@@ -58,7 +61,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
   }
 
   /// Column that contains text and the Listview that displays all user's medications with checkboxes.
-  Column getMedicationListView() {
+  Column getMedicationListView(User user) {
+    List<MedicationRegime> medicationList = user.getMedicationList();
     return Column(
       children: [
         Text(
@@ -90,12 +94,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Checkbox(
-                        value: checkboxInitialState(index),
+                        value: checkboxInitialState(index, user),
 //                        medicationList[index]
 //                            .getMedication()
 //                            .getHasMedBeenTaken(),
                         onChanged: (bool newValue) {
-                          checkboxState(index);
+                          checkboxState(index, user);
                         },
                       ),
                       FlatButton.icon(
@@ -104,7 +108,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                         ),
                         label: Text('info'),
                         onPressed: () {
-                          navigateToMedicationDetails(medicationList[index]);
+                          navigateToMedicationDetails(medicationList[index], user);
                         },
                       ),
                     ],
@@ -119,13 +123,15 @@ class _MedicationScreenState extends State<MedicationScreen> {
   }
 
   /// Determines the initial state of the checkbox when screen is loaded.
-  bool checkboxInitialState(int index) {
+  bool checkboxInitialState(int index, User user) {
+    List<MedicationRegime> medicationList = user.getMedicationList();
     return medicationList[index].getAllMedsTaken();
   }
 
   /// Changes checkbox state depending on whether medication has been taken.
   /// If medication has more than one dosage, all dosages must be checked off to be true.
-  void checkboxState(int index) {
+  void checkboxState(int index, User user) {
+    List<MedicationRegime> medicationList = user.getMedicationList();
     setState(() {
       setState(() {
         medicationList[index]
@@ -135,24 +141,24 @@ class _MedicationScreenState extends State<MedicationScreen> {
   }
 
   /// Pushes Add Medication Screen to top of the stack to display to user.
-  void navigateToAddMedication() {
+  void navigateToAddMedication(User user) {
     Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (context) => AddMedicationScreen(user.getDummyUser())))
+                builder: (context) => AddMedicationScreen()))
         .then((value) {
       setState(() {});
     });
   }
 
   /// Pushes Medication Details Screen for Medication at [index] to display to user.
-  void navigateToMedicationDetails(MedicationRegime medication) {
+  void navigateToMedicationDetails(MedicationRegime medication, User user) {
     // TODO Firestore Integration
     Navigator.push(
             context,
             new MaterialPageRoute(
                 builder: (context) =>
-                    MedicationDetails(medication, user.getDummyUser())))
+                    MedicationDetails(medication)))
         .then((value) {
       setState(() {});
     });
