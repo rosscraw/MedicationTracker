@@ -17,53 +17,38 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          // Sign out icon button in app bar.
-//          FlatButton.icon(
-//              onPressed: () async{
-//                await _auth.signOut();
-//              },
-//              icon: Icon(
-//                Icons.person,
-//                color: Colors.white
-//              ),
-//              label: Text(
-//                  'Logout',
-//                  style: TextStyle(
-//                      color: Colors.white,
-//                  ),
-//                ),
-//              ),
-          PopupMenuButton<String>(
-            onSelected: handleClick,
-            itemBuilder: (BuildContext context) {
-              return {'Settings', 'Logout'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
-            },
-          ),
-        ]
-      ),
+          title: Text(widget.title), actions: <Widget>[popupMenuButton()]),
       body: MedicationTrackerNavBar(),
     );
   }
 
-  void handleClick(String value) async{
+  /// PopUp Menu button for the app bar.
+  /// Allows user to access settings and Log out of application.
+  PopupMenuButton popupMenuButton() {
+    return PopupMenuButton<String>(
+      onSelected: onClick,
+      itemBuilder: (BuildContext context) {
+        return {'Settings', 'Logout'}.map((String choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: Text(choice),
+          );
+        }).toList();
+      },
+    );
+  }
+
+  /// This handles the Pop Up Menu's options and selection.
+  void onClick(String value) async {
     switch (value) {
       case 'Logout':
-          await _auth.signOut();
+        await _auth.signOut();
         break;
       case 'Settings':
         navigateToSettings();
@@ -73,9 +58,9 @@ class _HomeWidgetState extends State<HomeWidget> {
   /// Pushes settings screen to top of stack.
   void navigateToSettings() {
     Navigator.push(
-        context,
-        new MaterialPageRoute(
-            builder: (context) => SettingsScreen(title: 'Settings')))
+            context,
+            new MaterialPageRoute(
+                builder: (context) => SettingsScreen(title: 'Settings')))
         .then((value) {
       setState(() {});
     });

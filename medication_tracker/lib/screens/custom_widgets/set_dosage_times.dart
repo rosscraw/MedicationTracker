@@ -8,7 +8,6 @@ class SetDosageTimes extends StatefulWidget {
 }
 
 class _SetDosageTimesState extends State<SetDosageTimes> {
-
   TimeOfDay chosenTime;
   int number = 1;
 
@@ -52,7 +51,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
         onTap: () {
           if (number > 1) {
             number--;
-            if(dosageTimes.length == number) {
+            if (dosageTimes.length == number) {
               dosageTimes.removeLast();
             }
           }
@@ -123,26 +122,19 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     }
   }
 
-  Future<Null> selectDosageTime(BuildContext context, int index, List<TimeOfDay> dosageTimes) async {
+  Future<Null> selectDosageTime(
+      BuildContext context, int index, List<TimeOfDay> dosageTimes) async {
     TimeOfDay chosenTime = await showTimePicker(
-        context: context,
-        initialTime: (TimeOfDay(hour: 12, minute: 0)),);
+      context: context,
+      initialTime: (TimeOfDay(hour: 12, minute: 0)),
+    );
 
     setState(() {
-      if(dosageTimes.length <= index && chosenTime!= null) {
+      if (dosageTimes.length <= index && chosenTime != null) {
         dosageTimes.add(chosenTime);
-      }
-      else if (chosenTime!= null){
+      } else if (chosenTime != null) {
         dosageTimes[index] = chosenTime;
       }
     });
   }
-
-
-
-
-
-
-
-
 }
