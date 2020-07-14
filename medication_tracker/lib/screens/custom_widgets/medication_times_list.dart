@@ -41,6 +41,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
                 children: <Widget>[
                   // TODO fix functionality
                   Checkbox(
+                    activeColor: Colors.green,
                     value: widget.medications[index].getHasMedBeenTaken(),
                     onChanged: (bool newValue) async {
                       checkboxState(index);
