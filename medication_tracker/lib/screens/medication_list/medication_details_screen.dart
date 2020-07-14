@@ -69,6 +69,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 Checkbox(
+                                  activeColor: Colors.green,
                                   value: widget.medication
                                       .getDosageTimings()[index]
                                       .getHasMedBeenTaken(),

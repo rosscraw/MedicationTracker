@@ -79,39 +79,52 @@ class _MedicationScreenState extends State<MedicationScreen> {
             itemCount: medicationList.length,
             itemBuilder: (context, index) {
               return Card(
-                child: ListTile(
-                  leading: Icon(medicationList[index]
-                      .getMedication()
-                      .getMedicationIcon()),
-                  //TODO link to database
-                  title: Text(
-                    medicationList[index].getMedication().getName(),
-                    style: TextStyle(
-                      fontSize: 20.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: ListTile(
+                    leading: Icon(medicationList[index]
+                        .getMedication()
+                        .getMedicationIcon()),
+                    //TODO link to database
+                    title: Text(
+                      medicationList[index].getMedication().getName(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
                     ),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Checkbox(
-                        value: checkboxInitialState(index, user),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Checkbox(
+                                activeColor: Colors.green,
+                                value: checkboxInitialState(index, user),
 //                        medicationList[index]
 //                            .getMedication()
 //                            .getHasMedBeenTaken(),
-                        onChanged: (bool newValue) {
-                          checkboxState(index, user);
-                        },
-                      ),
-                      FlatButton.icon(
-                        icon: Icon(
-                          Icons.info_outline,
+                                onChanged: (bool newValue) {
+                                  checkboxState(index, user);
+                                },
+                              ),
+                            ),
+                            Expanded(child: Text('All Taken?')),
+                          ],
                         ),
-                        label: Text('info'),
-                        onPressed: () {
-                          navigateToMedicationDetails(medicationList[index], user);
-                        },
-                      ),
-                    ],
+                        FlatButton.icon(
+                          icon: Icon(
+                            Icons.info_outline,
+                          ),
+                          label: Text('info'),
+                          onPressed: () {
+                            navigateToMedicationDetails(medicationList[index], user);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
