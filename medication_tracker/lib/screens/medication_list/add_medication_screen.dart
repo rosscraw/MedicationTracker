@@ -38,131 +38,131 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
   ];
   var _currentTypeSelected = _medicationTypes[0];
 
+  MedicationRegime medicationRegime = new MedicationRegime();
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+
 
     return Scaffold(
       appBar: AppBar(
           title: Text('Add new Medication')
       ),
-      body: Provider<List<TimeOfDay>>.value(
-        value: dosageTimes,
-        child: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 300.0,
-                      child: Form (
-                        key: _medFormKey,
-                        child: Column(
-                          children: [
-                            // Medication Name Input.
-                            TextFormField(
-                                validator: (val) => val.isEmpty ? "Please enter your medication's name" : null,
-                                decoration: InputDecoration(
-                                  labelText: 'Medication Name',
-                                ),
-                                onChanged: (val) {
-                                  setState(() => medicationName = val);
-                                }
-                            ),
-                            SizedBox(height: 20.0),
-                            // Medication dosage input.
-                            // Dropdown option to select units of dosage.
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: TextFormField(
-                                      validator: (val) => (!_currentItemSelected.contains('as required') && val.isEmpty) ? "Please enter your medication's dosage" : null,
-                                      decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(0.0),
-                                        labelText: 'Medication Dosage',
-                                      ),
-                                      onChanged: (val) {
-                                        setState(() => medicationDosage = val);
-                                      },
-                                  ),
-                                ),
-                                Flexible(
-                                  child: DropdownButtonFormField<String>(
-                                    decoration: InputDecoration(
-                                      labelText: 'Dosage Units',
-                                      contentPadding: EdgeInsets.all(0.0),
-                                    ),
-                                    items: _dosageUnits.map((String dropDownStringItem) {
-                                      return DropdownMenuItem<String>(
-                                        value: dropDownStringItem,
-                                        child: Text(dropDownStringItem),
-                                      );
-                                    }).toList(),
-                                    onChanged: (String newValueSelected) {
-                                      this._currentItemSelected = newValueSelected;
-                                      setState(() {
-                                        medicationUnit = newValueSelected;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.0),
-                            // Medication Type Input using a dropdown.
-                            DropdownButtonFormField<String>(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10.0,
+                ),
+                Center(
+                  child: SizedBox(
+                    width: 300.0,
+                    child: Form (
+                      key: _medFormKey,
+                      child: Column(
+                        children: [
+                          // Medication Name Input.
+                          TextFormField(
+                              validator: (val) => val.isEmpty ? "Please enter your medication's name" : null,
                               decoration: InputDecoration(
-                                labelText: 'Medication Type',
-                                contentPadding: EdgeInsets.all(0.0),
+                                labelText: 'Medication Name',
                               ),
-                              items: _medicationTypes.map((String dropDownStringItem) {
-                                return DropdownMenuItem<String>(
-                                  value: dropDownStringItem,
-                                  child: Text(dropDownStringItem),
-                                );
-                              }).toList(),
-                              onChanged: (String newValueSelected) {
-                                this._currentTypeSelected = newValueSelected;
-                                setState(() {
-                                  medicationType = newValueSelected;
-                                });
-                              },
+                              onChanged: (val) {
+                                setState(() => medicationName = val);
+                              }
+                          ),
+                          SizedBox(height: 20.0),
+                          // Medication dosage input.
+                          // Dropdown option to select units of dosage.
+                          Row(
+                            children: [
+                              Flexible(
+                                child: TextFormField(
+                                    validator: (val) => (!_currentItemSelected.contains('as required') && val.isEmpty) ? "Please enter your medication's dosage" : null,
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.all(0.0),
+                                      labelText: 'Medication Dosage',
+                                    ),
+                                    onChanged: (val) {
+                                      setState(() => medicationDosage = val);
+                                    },
+                                ),
+                              ),
+                              Flexible(
+                                child: DropdownButtonFormField<String>(
+                                  decoration: InputDecoration(
+                                    labelText: 'Dosage Units',
+                                    contentPadding: EdgeInsets.all(0.0),
+                                  ),
+                                  items: _dosageUnits.map((String dropDownStringItem) {
+                                    return DropdownMenuItem<String>(
+                                      value: dropDownStringItem,
+                                      child: Text(dropDownStringItem),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String newValueSelected) {
+                                    this._currentItemSelected = newValueSelected;
+                                    setState(() {
+                                      medicationUnit = newValueSelected;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                          // Medication Type Input using a dropdown.
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              labelText: 'Medication Type',
+                              contentPadding: EdgeInsets.all(0.0),
                             ),
-                            SizedBox(height: 20.0),
-                            // Dosage Timings List
-                            SetDosageTimes(),
-                            SizedBox(height: 20.0),
-                            RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              color: Colors.blue,
-                              child: Text(
-                                'Add Medication',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              // TODO add to medication to user's list.
-                              onPressed: () {
-                                addMedicationToList(user, medicationName, medicationDosage, medicationUnit, medicationType);
-                                setState(() {
-                                });
-                              },
-                            )
-                          ],
-                        )
-                      ),
+                            items: _medicationTypes.map((String dropDownStringItem) {
+                              return DropdownMenuItem<String>(
+                                value: dropDownStringItem,
+                                child: Text(dropDownStringItem),
+                              );
+                            }).toList(),
+                            onChanged: (String newValueSelected) {
+                              this._currentTypeSelected = newValueSelected;
+                              setState(() {
+                                medicationType = newValueSelected;
+                              });
+                            },
+                          ),
+                          SizedBox(height: 20.0),
+                          // Dosage Timings List
+                          SetDosageTimes(medicationRegime: medicationRegime),
+                          SizedBox(height: 20.0),
+                          RaisedButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            color: Colors.blue,
+                            child: Text(
+                              'Add Medication',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            // TODO add to medication to user's list.
+                            onPressed: () {
+                              addMedicationToList(user, medicationName, medicationDosage, medicationUnit, medicationType);
+                              setState(() {
+                              });
+                            },
+                          )
+                        ],
+                      )
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          )
-        ),
+          ),
+        )
       )
     );
   }
@@ -173,14 +173,16 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
       setState(() {
         Medication medication = new Medication(medicationName, medicationType);
         if (_currentItemSelected != 'as required') {
-          user.addMedication(new MedicationRegime(medication, (medicationDosage + medicationUnit)));
+          medicationRegime.setMedication(medication);
+          medicationRegime.setDosage(medicationDosage + medicationUnit);
+          user.addMedication(medicationRegime);
+          //user.addMedication(new MedicationRegime(medication: medication, dosage: (medicationDosage + medicationUnit)));
         }
         else {
-          MedicationRegime medicationRegime = new MedicationRegime(medication, (medicationUnit));
+          medicationRegime.setMedication(medication);
+          medicationRegime.setDosage(medicationUnit);
+          //MedicationRegime medicationRegime = new MedicationRegime(medication: medication, dosage: (medicationUnit));
           user.addMedication(medicationRegime);
-          for(TimeOfDay time in dosageTimes) {
-            medicationRegime.addDoseTime(new DoseTimeDetails(time));
-          }
 
         }
         Navigator.pop(context);

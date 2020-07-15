@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/back_end/dose_time_details.dart';
+import 'package:medicationtracker/back_end/medication_regime.dart';
 import 'package:medicationtracker/screens/medication_list/add_medication_screen.dart';
 import 'package:provider/provider.dart';
 
 class SetDosageTimes extends StatefulWidget {
+
+  final MedicationRegime medicationRegime;
+
+  SetDosageTimes({Key key, this.medicationRegime}) : super(key: key);
+
+
+
+
   @override
-  _SetDosageTimesState createState() => _SetDosageTimesState();
+  _SetDosageTimesState createState() => _SetDosageTimesState(medicationRegime);
 }
 
 class _SetDosageTimesState extends State<SetDosageTimes> {
+
+  _SetDosageTimesState(MedicationRegime medicationRegime) {
+    this.medicationRegime = medicationRegime;
+  }
+
+  MedicationRegime medicationRegime;
   TimeOfDay chosenTime;
   int number = 1;
+  List<TimeOfDay> dosageTimes = [];
 
   @override
   Widget build(BuildContext context) {
-    final dosageTimes = Provider.of<List<TimeOfDay>>(context);
     return Container(
         child: Column(
       children: [
@@ -25,9 +41,9 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                leading: setDeleteIcon(index, dosageTimes),
-                title: setTimeButton(index, dosageTimes),
-                trailing: setAddIcon(index, dosageTimes),
+                leading: setDeleteIcon(index),
+                title: setTimeButton(index),
+                trailing: setAddIcon(index),
               ),
             );
           },
@@ -37,7 +53,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
   }
 
   /// Set the delete time icon for the dosage time card depending on its position in the list.
-  InkWell setDeleteIcon(int index, List<TimeOfDay> dosageTimes) {
+  InkWell setDeleteIcon(int index) {
     if (number - 1 == index && index > 0) {
       return InkWell(
         child: Column(
@@ -64,7 +80,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
   }
 
   /// Set the add time icon for the dosage time card depending on its position in the list.
-  InkWell setAddIcon(int index, List<TimeOfDay> dosageTimes) {
+  InkWell setAddIcon(int index) {
     if (number - 1 == index && dosageTimes.length == number) {
       return InkWell(
         child: Column(
@@ -88,7 +104,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
   }
 
   /// Set the set time button for the dosage time card.
-  InkWell setTimeButton(int index, List<TimeOfDay> dosageTimes) {
+  InkWell setTimeButton(int index) {
     if (dosageTimes.length <= index) {
       return InkWell(
         child: Column(
@@ -102,7 +118,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
           ],
         ),
         onTap: () async {
-          selectDosageTime(context, index, dosageTimes);
+          selectDosageTime(context, index);
         },
       );
     } else {
@@ -116,14 +132,15 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
           ],
         ),
         onTap: () async {
-          selectDosageTime(context, index, dosageTimes);
+          selectDosageTime(context, index);
         },
       );
     }
   }
 
+  /// Set Dosage times using a time picker.
   Future<Null> selectDosageTime(
-      BuildContext context, int index, List<TimeOfDay> dosageTimes) async {
+      BuildContext context, int index) async {
     TimeOfDay chosenTime = await showTimePicker(
       context: context,
       initialTime: (TimeOfDay(hour: 12, minute: 0)),
@@ -132,7 +149,9 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     setState(() {
       if (dosageTimes.length <= index && chosenTime != null) {
         dosageTimes.add(chosenTime);
+        medicationRegime.addDoseTime(DoseTimeDetails(chosenTime));
       } else if (chosenTime != null) {
+
         dosageTimes[index] = chosenTime;
       }
     });

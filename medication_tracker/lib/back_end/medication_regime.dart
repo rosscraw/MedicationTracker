@@ -3,21 +3,29 @@ import 'package:medicationtracker/back_end/medication.dart';
 import 'dose_time_details.dart';
 
 /// Class that represents a user's Medication, dosages and timings.
-class MedicationRegime{
+class MedicationRegime extends ChangeNotifier{
 
   Medication medication;
-  String dosage;
+  String dosage = '';
   List<DoseTimeDetails> dosageTimings = [];
   bool allMedsTaken = false;
 
-  MedicationRegime(this.medication, this.dosage);
+  MedicationRegime({key, this.medication, this.dosage});
 
   Medication getMedication() {
     return medication;
   }
 
+  void setMedication(Medication medication) {
+    this.medication = medication;
+  }
+
   String getDosage() {
     return dosage;
+  }
+
+  void setDosage(String dosage) {
+    this.dosage = dosage;
   }
 
   List<DoseTimeDetails> getDosageTimings() {
@@ -28,10 +36,12 @@ class MedicationRegime{
     dosageTimings.add(time);
     int index = dosageTimings.indexOf(time);
     dosageTimings[index].setMedicationRegime(this);
+    notifyListeners();
   }
 
   void removeDoseTime(DoseTimeDetails time) {
     dosageTimings.remove(time);
+    notifyListeners();
   }
 
   bool getAllMedsTaken() {

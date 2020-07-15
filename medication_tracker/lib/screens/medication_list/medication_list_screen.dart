@@ -34,12 +34,14 @@ class _MedicationScreenState extends State<MedicationScreen> {
     return StreamProvider<QuerySnapshot>.value(
       value: FirestoreDatabase().trackerUsers,
       child: Scaffold(
-        body: Center(
-          child: SizedBox(
-            width: 500.0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: getMedicationListView(user),
+        body: SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: 500.0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: getMedicationListView(user),
+              ),
             ),
           ),
         ),
