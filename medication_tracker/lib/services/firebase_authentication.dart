@@ -35,11 +35,11 @@ class AuthService {
       DoseTimeDetails time6 = new DoseTimeDetails(dose3);
 
 
-      MedicationRegime creonR = new MedicationRegime(creon, '150mg');
-      MedicationRegime tresibaR = new MedicationRegime(tresiba, '100 units');
-      MedicationRegime fiaspR = new MedicationRegime(fiasp, '100 units');
-      MedicationRegime salbutamolR = new MedicationRegime(salbutamol, '100mcg');
-      MedicationRegime omeprazoleR = new MedicationRegime(omeprazole, '20mg');
+      MedicationRegime creonR = new MedicationRegime(medication: creon, dosage:'150mg');
+      MedicationRegime tresibaR = new MedicationRegime(medication: tresiba, dosage: '100 units');
+      MedicationRegime fiaspR = new MedicationRegime(medication: fiasp, dosage: '100 units');
+      MedicationRegime salbutamolR = new MedicationRegime(medication: salbutamol, dosage: '100mcg');
+      MedicationRegime omeprazoleR = new MedicationRegime(medication: omeprazole, dosage: '20mg');
 
         newUser.addMedication(creonR);
         newUser.addMedication(tresibaR);

@@ -5,9 +5,9 @@ import 'package:medicationtracker/assets/icons/icons.dart';
 /// Represents a medication that a User may have in their medication list.
 class Medication{
 
-  String _name;
+  String _name = '';
   //String _dosage;
-  String _medType;
+  String _medType = '';
   bool _hasMedBeenTaken = false;
 
   Medication(String name,  String medType) {

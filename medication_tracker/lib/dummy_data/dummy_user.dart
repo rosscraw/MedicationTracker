@@ -27,30 +27,30 @@ class DummyUser {
   DoseTimeDetails time6 = new DoseTimeDetails(dose3);
 
 
-  MedicationRegime creonR = new MedicationRegime(creon, '150mg');
-  MedicationRegime tresibaR = new MedicationRegime(tresiba, '100 units');
-  MedicationRegime fiaspR = new MedicationRegime(fiasp, '100 units');
-  MedicationRegime salbutamolR = new MedicationRegime(salbutamol, '100mcg');
-  MedicationRegime omeprazoleR = new MedicationRegime(omeprazole, '20mg');
-
- 
-
-  
-
-  DummyUser() {
-    dummyUser.addMedication(creonR);
-    dummyUser.addMedication(tresibaR);
-    dummyUser.addMedication(fiaspR);
-    dummyUser.addMedication(salbutamolR);
-    dummyUser.addMedication(omeprazoleR);
-    fiaspR.addDoseTime(time1);
-    fiaspR.addDoseTime(time2);
-    fiaspR.addDoseTime(time3);
-    creonR.addDoseTime(time4);
-    creonR.addDoseTime(time5);
-    salbutamolR.addDoseTime(time6);
-
-  }
+//  MedicationRegime creonR = new MedicationRegime(creon, '150mg');
+//  MedicationRegime tresibaR = new MedicationRegime(tresiba, '100 units');
+//  MedicationRegime fiaspR = new MedicationRegime(fiasp, '100 units');
+//  MedicationRegime salbutamolR = new MedicationRegime(salbutamol, '100mcg');
+//  MedicationRegime omeprazoleR = new MedicationRegime(omeprazole, '20mg');
+//
+//
+//
+//
+//
+//  DummyUser() {
+//    dummyUser.addMedication(creonR);
+//    dummyUser.addMedication(tresibaR);
+//    dummyUser.addMedication(fiaspR);
+//    dummyUser.addMedication(salbutamolR);
+//    dummyUser.addMedication(omeprazoleR);
+//    fiaspR.addDoseTime(time1);
+//    fiaspR.addDoseTime(time2);
+//    fiaspR.addDoseTime(time3);
+//    creonR.addDoseTime(time4);
+//    creonR.addDoseTime(time5);
+//    salbutamolR.addDoseTime(time6);
+//
+//  }
 
 
 
