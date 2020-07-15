@@ -76,6 +76,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
         ),
         Container(
           child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
             itemCount: medicationList.length,

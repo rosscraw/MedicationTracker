@@ -33,18 +33,20 @@ class _HomeScreenState extends State<HomeScreen> {
     final user = Provider.of<User>(context);
 
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          width: 500.0,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                overdueList(user),
-                dueList(user),
-              ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: SizedBox(
+            width: 500.0,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  overdueList(user),
+                  dueList(user),
+                ],
+              ),
             ),
           ),
         ),
@@ -61,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour >= timeNow.hour &&
-            time.getDoseTime().hour <= timeNow.hour &&
+        if ((time.getDoseTime().hour >= timeNow.hour || (time.getDoseTime().hour == timeNow.hour && time.getDoseTime().minute >= timeNow.minute)) &&
+            (time.getDoseTime().hour <= timeNow.hour + 2 && time.getDoseTime().minute <= timeNow.minute) &&
             !time.getHasMedBeenTaken()) {
           dueMedications.add(time);
         }
@@ -81,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour < timeNow.hour &&
+        if (time.getDoseTime().hour < timeNow.hour || (time.getDoseTime().hour == timeNow.hour && time.getDoseTime().minute < timeNow.minute) &&
             !time.getHasMedBeenTaken()) {
           overdueMedications.add(time);
         }
