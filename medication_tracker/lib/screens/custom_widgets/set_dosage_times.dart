@@ -81,7 +81,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
   /// Set the add time icon for the dosage time card depending on its position in the list.
   InkWell setAddIcon(int index) {
-    if (number - 1 == index && dosageTimes.length == number) {
+    if (number - 1 == index &&  medicationRegime.getDosageTimings().length == number) {
       return InkWell(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
   /// Set the set time button for the dosage time card.
   InkWell setTimeButton(int index) {
-    if (dosageTimes.length <= index) {
+    if ( medicationRegime.getDosageTimings().length <= index) {
       return InkWell(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +128,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Icon(Icons.alarm_add),
-            Text(dosageTimes[index].format(context)),
+            Text( medicationRegime.getDosageTimings()[index].getDoseTime().format(context)),
           ],
         ),
         onTap: () async {
@@ -147,12 +147,11 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     );
 
     setState(() {
-      if (dosageTimes.length <= index && chosenTime != null) {
-        dosageTimes.add(chosenTime);
+      if (medicationRegime.getDosageTimings().length <= index && chosenTime != null) {
+        //dosageTimes.add(chosenTime);
         medicationRegime.addDoseTime(DoseTimeDetails(chosenTime));
       } else if (chosenTime != null) {
-
-        dosageTimes[index] = chosenTime;
+        medicationRegime.getDosageTimings()[index] = DoseTimeDetails(chosenTime);
       }
     });
   }

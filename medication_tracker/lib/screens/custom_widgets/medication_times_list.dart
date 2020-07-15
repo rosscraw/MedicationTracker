@@ -16,6 +16,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: widget.medications.length,
         itemBuilder: (context, index) {
