@@ -6,9 +6,11 @@ import 'package:provider/provider.dart';
 
 class SetDosageTimes extends StatefulWidget {
 
+  //TODO make work with edit medication.
   final MedicationRegime medicationRegime;
+  final bool isAddScreen;
 
-  SetDosageTimes({Key key, this.medicationRegime}) : super(key: key);
+  SetDosageTimes({Key key, this.medicationRegime, this.isAddScreen}) : super(key: key);
 
 
 
@@ -154,5 +156,11 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
         medicationRegime.getDosageTimings()[index] = DoseTimeDetails(chosenTime);
       }
     });
+  }
+
+  void editScreenTimes() {
+    if(!widget.isAddScreen) {
+
+    }
   }
 }
