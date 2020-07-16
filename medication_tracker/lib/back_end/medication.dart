@@ -40,14 +40,6 @@ class Medication{
     _medType = medType;
   }
 
-//  bool getHasMedBeenTaken() {
-//    return _hasMedBeenTaken;
-//  }
-//
-//  void setHasMedBeenTaken(bool hasBeenTaken) {
-//    _hasMedBeenTaken = hasBeenTaken;
-//  }
-
   /// Allocates specific icon depending upon the type of medication.
   IconData getMedicationIcon() {
     if (_medType == 'Pills') {
@@ -59,7 +51,7 @@ class Medication{
     else if (_medType == 'Injection') {
       return DownloadedIcons.syringe;
     }
-    else if (_medType == 'Inhaler'){
+    else if (_medType == 'Inhaled'){
       return DownloadedIcons.wind;
     }
     else {

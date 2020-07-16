@@ -65,6 +65,9 @@ class _MedicationScreenState extends State<MedicationScreen> {
   /// Column that contains text and the Listview that displays all user's medications with checkboxes.
   Column getMedicationListView(User user) {
     List<MedicationRegime> medicationList = user.getMedicationList();
+    // Sort medications alphabetically by name.
+    medicationList.sort((a, b) => a.getMedication().getName().toUpperCase().compareTo(b.getMedication().getName().toUpperCase()));
+
     return Column(
       children: [
         Text(
