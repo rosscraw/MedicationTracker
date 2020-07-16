@@ -86,7 +86,6 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   Widget medicationDoseForm() {
     _dosageUnits.sort((a, b) => a.compareTo(b));
 
-
     return Column(
       children: [
         Row(
@@ -134,6 +133,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     );
   }
 
+  ///Initial name value in name form if user is editing a medication.
   String initialNameValue() {
     if(!widget.isAddScreen) {
       return widget.medicationRegime.getMedication().getName();
@@ -143,6 +143,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     }
   }
 
+  //TODO figure out how to separate dose from unit
 //  String initialDoseValue() {
 //    if(!widget.isAddScreen) {
 //      return widget.medicationRegime.getMedication().get();
@@ -152,6 +153,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
 //    }
 //  }
 
+  ///Initial type value in type form if user is editing a medication.
   String initialTypeValue() {
     if(!widget.isAddScreen) {
       return widget.medicationRegime.getMedication().getMedType();
