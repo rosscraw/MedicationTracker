@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/back_end/medication.dart';
 import 'package:medicationtracker/back_end/user.dart';
 import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:medicationtracker/screens/medication_list/edit_medication.dart';
 import 'package:provider/provider.dart';
 
 /// Screen that displays the details of a single medication on a new screen.
 /// Allows user to edit or delete information about the medication.
 class MedicationDetails extends StatefulWidget {
   final MedicationRegime medication;
-
 
   MedicationDetails(this.medication);
 
@@ -18,14 +18,26 @@ class MedicationDetails extends StatefulWidget {
 }
 
 class _MedicationDetailsState extends State<MedicationDetails> {
-
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.medication.getMedication().getName())),
+      appBar: AppBar(
+        title: Text(widget.medication.getMedication().getName()),
+        actions: <Widget>[
+          FlatButton.icon(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            label: Text('Edit Medication Details',
+                style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {navigateToEditDetails(widget.medication);},
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -136,7 +148,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
             child: ListBody(
               children: <Widget>[
                 Text('Are you sure you want to delete this medication?'),
-                Text('This will remove all reminders and dosage information forever!'),
+                Text(
+                    'This will remove all reminders and dosage information forever!'),
               ],
             ),
           ),
@@ -160,5 +173,13 @@ class _MedicationDetailsState extends State<MedicationDetails> {
         );
       },
     );
+  }
+
+  void navigateToEditDetails(MedicationRegime medication) {
+    Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => EditMedication(medication)))
+        .then((value) {
+      setState(() {});
+    });
   }
 }

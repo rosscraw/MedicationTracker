@@ -23,9 +23,10 @@ class MedicationTrackerApp extends StatelessWidget {
         title: 'Medication Tracker App',
         theme: ThemeData(
 //          primaryColor: Colors.blue,
-//          backgroundColor: Colors.blue[50],
-//          scaffoldBackgroundColor: Colors.blue[50],
-//          cardColor: Colors.blue[100],
+//          backgroundColor: Colors.blue[25],
+//          scaffoldBackgroundColor: Colors.blue[25],
+//          cardColor: Colors.blue[50],
+//          primaryColorDark: Colors.grey[800],
 
           visualDensity: VisualDensity.adaptivePlatformDensity,
 //          colorScheme: ColorScheme(
