@@ -65,7 +65,11 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
           widget.medications.removeAt(index);
+          for(DoseTimeDetails time in widget.medications) {
+            print(time.getMedicationRegime().getMedication().getName());
 
+          }
+          print('------');
         });
       });
     });

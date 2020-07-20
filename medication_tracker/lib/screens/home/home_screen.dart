@@ -62,9 +62,9 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if ((time.getDoseTime().hour >= _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
-            (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute) &&
-            !time.getHasMedBeenTaken()) {
+        if ((time.getDoseTime().hour >= _timeNow.hour  &&
+            !time.getHasMedBeenTaken() || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
+            (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute)) {
           _dueMedications.add(time);
         }
       }
@@ -82,8 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour < _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute) &&
-            !time.getHasMedBeenTaken()) {
+        if (time.getDoseTime().hour < _timeNow.hour && !time.getHasMedBeenTaken() || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute)) {
           _overdueMedications.add(time);
         }
       }

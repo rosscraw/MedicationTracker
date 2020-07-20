@@ -108,7 +108,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
                                 },
                               ),
                             ),
-                            Expanded(child: Text('All Taken?')),
+                            Expanded(child: Text('All Taken?',
+                            style: Theme.of(context).textTheme.bodyText1)),
                           ],
                         ),
                         FlatButton.icon(

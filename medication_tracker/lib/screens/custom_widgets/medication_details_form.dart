@@ -48,7 +48,6 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        color: Colors.blue,
         child: Text(
           widget.isAddScreen ? 'Add Medication' : 'Edit Medication',
           style: TextStyle(color: Colors.white),
