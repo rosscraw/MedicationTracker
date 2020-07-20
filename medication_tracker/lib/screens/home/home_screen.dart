@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
+    final _user = Provider.of<User>(context);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -43,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  overdueList(user),
-                  dueList(user),
+                  overdueList(_user),
+                  dueList(_user),
                 ],
               ),
             ),
@@ -56,42 +56,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Return list of medications that are due within two hours of now.
   List<DoseTimeDetails> getDueMedications(User user) {
-    List<DoseTimeDetails> dueMedications = [];
-    TimeOfDay timeNow = TimeOfDay.now();
-    int index = 0;
+    List<DoseTimeDetails> _dueMedications = [];
+    TimeOfDay _timeNow = TimeOfDay.now();
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if ((time.getDoseTime().hour >= timeNow.hour || (time.getDoseTime().hour == timeNow.hour && time.getDoseTime().minute >= timeNow.minute)) &&
-            (time.getDoseTime().hour <= timeNow.hour + 2 && time.getDoseTime().minute <= timeNow.minute) &&
+        if ((time.getDoseTime().hour >= _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
+            (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute) &&
             !time.getHasMedBeenTaken()) {
-          dueMedications.add(time);
+          _dueMedications.add(time);
         }
       }
     }
-    dueMedications
+    _dueMedications
         .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
-    return dueMedications;
+    return _dueMedications;
   }
 
   /// Return list of medications that are overdue.
   List<DoseTimeDetails> getOverdueMedications(User user) {
-    List<DoseTimeDetails> overdueMedications = [];
-    TimeOfDay timeNow = TimeOfDay.now();
+    List<DoseTimeDetails> _overdueMedications = [];
+    TimeOfDay _timeNow = TimeOfDay.now();
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour < timeNow.hour || (time.getDoseTime().hour == timeNow.hour && time.getDoseTime().minute < timeNow.minute) &&
+        if (time.getDoseTime().hour < _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute) &&
             !time.getHasMedBeenTaken()) {
-          overdueMedications.add(time);
+          _overdueMedications.add(time);
         }
       }
     }
-    overdueMedications
+    _overdueMedications
         .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
-    return overdueMedications;
+    return _overdueMedications;
   }
 
   /// Shows list if there are any overdue medications.
@@ -100,19 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (getOverdueMedications(user).isEmpty) {
       return Text(
         'No medications are overdue!',
-        style: TextStyle(
-          fontSize: 20,
-        ),
+          style: Theme.of(context).textTheme.bodyText2
       );
     } else {
       return Column(
         children: [
           Text(
             'Overdue Medications',
-            style: TextStyle(
-              fontSize: 30.0,
-              color: Colors.blue,
-            ),
+              style: Theme.of(context).textTheme.headline5
           ),
           MedicationTimesList(getOverdueMedications(user)),
         ],
@@ -126,19 +120,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (getDueMedications(user).isEmpty) {
       return Text(
         'No medications are due soon!',
-        style: TextStyle(
-          fontSize: 20,
-        ),
+          style: Theme.of(context).textTheme.bodyText2
       );
     } else {
       return Column(
         children: [
           Text(
             "Medications Due Soon",
-            style: TextStyle(
-              fontSize: 30.0,
-              color: Colors.blue,
-            ),
+            style: Theme.of(context).textTheme.headline5,
           ), //
           MedicationTimesList(getDueMedications(user)),
         ],

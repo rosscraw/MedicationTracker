@@ -5,10 +5,10 @@ class AppTheme {
 
   static Color _iconColor = Colors.blueAccent.shade200;
 
-  static const Color _lightPrimaryColor = Colors.white;
-  static const Color _lightPrimaryVariantColor = Color(0XFFE1E1E1);
-  static const Color _lightSecondaryColor = Colors.green;
-  static const Color _lightOnPrimaryColor = Colors.black;
+  static const Color _lightPrimaryColor = Colors.blue;
+  static const Color _lightPrimaryVariantColor = Colors.blue;
+  static const Color _lightSecondaryColor = Colors.blueAccent;
+  static const Color _lightOnPrimaryColor = Colors.white;
 
   static const Color _darkPrimaryColor = Colors.white24;
   static const Color _darkPrimaryVariantColor = Colors.black;
@@ -39,7 +39,7 @@ class AppTheme {
       color: _darkPrimaryVariantColor,
       iconTheme: IconThemeData(color: _darkOnPrimaryColor),
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: ColorScheme.dark(
       primary: _darkPrimaryColor,
       primaryVariant: _darkPrimaryVariantColor,
       secondary: _darkSecondaryColor,
@@ -52,18 +52,18 @@ class AppTheme {
   );
 
   static final TextTheme _lightTextTheme = TextTheme(
-    headline: _lightScreenHeadingTextStyle,
-    body1: _lightScreenTaskNameTextStyle,
-    body2: _lightScreenTaskDurationTextStyle,
+    headline5: _lightScreenHeadingTextStyle,
+    bodyText2: _lightScreenTaskNameTextStyle,
+    bodyText1: _lightScreenTaskDurationTextStyle,
   );
 
   static final TextTheme _darkTextTheme = TextTheme(
-    headline: _darkScreenHeadingTextStyle,
-    body1: _darkScreenTaskNameTextStyle,
-    body2: _darkScreenTaskDurationTextStyle,
+    headline5: _darkScreenHeadingTextStyle,
+    bodyText2: _darkScreenTaskNameTextStyle,
+    bodyText1: _darkScreenTaskDurationTextStyle,
   );
 
-  static final TextStyle _lightScreenHeadingTextStyle = TextStyle(fontSize: 48.0, color: _lightOnPrimaryColor);
+  static final TextStyle _lightScreenHeadingTextStyle = TextStyle(fontSize: 30.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightScreenTaskNameTextStyle = TextStyle(fontSize: 20.0, color: _lightOnPrimaryColor);
   static final TextStyle _lightScreenTaskDurationTextStyle = TextStyle(fontSize: 16.0, color: Colors.grey);
 

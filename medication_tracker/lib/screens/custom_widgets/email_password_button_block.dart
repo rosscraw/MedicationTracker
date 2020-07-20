@@ -18,20 +18,20 @@ class EmailPassBlock extends StatefulWidget {
 
 class _EmailPassBlockState extends State<EmailPassBlock> {
 
-  _EmailPassBlockState({this.isLogInScreen});
+  _EmailPassBlockState({@required this.isLogInScreen});
 
   final bool isLogInScreen;
-  String email = '';
-  String password = '';
-  String error = '';
+  String _email = '';
+  String _password = '';
+  String _error = '';
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  bool loading = false;
+  bool _loading = false;
 
   @override
   Widget build(BuildContext context) {
-    return loading ? LoadingSpinner() : Container (
+    return _loading ? LoadingSpinner() : Container (
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -51,7 +51,7 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                           ),
                           validator: (val) => val.isEmpty ? 'Please enter an email address' : null,
                           onChanged: (val) {
-                            setState(() => email = val);
+                            setState(() => _email = val);
                           }
                       ),
                       SizedBox(height: 20.0),
@@ -74,7 +74,7 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                           },
                           //validator: (value) => value.length < 6 ? 'Please use at least 6 characters for password' : null,
                           onChanged: (val) {
-                            setState(() => password = val);
+                            setState(() => _password = val);
                           }
                       ),
                       SizedBox(
@@ -83,7 +83,7 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                       Center(
                         // Error message from firebase
                         child: Text(
-                          error,
+                          _error,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.red,
@@ -103,24 +103,24 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               // Show loading spinner.
-                              setState(() => loading = true);
+                              setState(() => _loading = true);
                               //Log in existing account
                               if (isLogInScreen) {
-                                dynamic authResult = await _auth.signInAccount(email, password);
+                                dynamic authResult = await _auth.signInAccount(_email, _password);
                                 if(authResult is String) {
                                   setState(() {
-                                  error = authResult;
-                                  loading = false;
+                                  _error = authResult;
+                                  _loading = false;
                                   });
                                 }
                               }
                               //Register new account
                               else if (!isLogInScreen){
-                                dynamic authResult = await _auth.registerAccount(email, password);
+                                dynamic authResult = await _auth.registerAccount(_email, _password);
                                 if(authResult == null) {
                                   setState(() {
-                                    error = 'Please ensure details are valid';
-                                    loading = false;
+                                    _error = 'Please ensure details are valid';
+                                    _loading = false;
                                   });
                                 }
                               }
