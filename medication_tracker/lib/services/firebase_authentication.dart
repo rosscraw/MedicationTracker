@@ -20,7 +20,7 @@ class AuthService {
       Medication creon = new Medication('Creon',  'Pills');
       Medication tresiba = new Medication('Tresiba',  'Injection');
       Medication fiasp = new Medication('Fiasp', 'Injection');
-      Medication salbutamol = new Medication('Salbutamol', 'Inhaler');
+      Medication salbutamol = new Medication('Salbutamol', 'Inhaled');
       Medication omeprazole = new Medication('Omeprazole', 'Tablets');
 
       TimeOfDay timeOfDay = new TimeOfDay(hour: 14, minute: 30);

@@ -23,9 +23,6 @@ class MedicationScreen extends StatefulWidget {
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
-  //TODO use real user
-  //static final user = new DummyUser(); // Dummy Data
-  //var medicationList = user.getDummyUser().getMedicationList(); // Dummy Data
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +69,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
       children: [
         Text(
           'Medications',
-          style: TextStyle(
-            fontSize: 30.0,
-            color: Colors.blue,
+          style: Theme.of(context).textTheme.headline5
           ),
-        ),
         Container(
           child: ListView.builder(
             physics: NeverScrollableScrollPhysics(),
@@ -109,9 +103,6 @@ class _MedicationScreenState extends State<MedicationScreen> {
                               child: Checkbox(
                                 activeColor: Colors.green,
                                 value: checkboxInitialState(index, user),
-//                        medicationList[index]
-//                            .getMedication()
-//                            .getHasMedBeenTaken(),
                                 onChanged: (bool newValue) {
                                   checkboxState(index, user);
                                 },

@@ -21,10 +21,10 @@ class AdherenceFigures {
   int getTotalMeds() {
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        _total++;
-      }
-      return _total;
+        _total++;      }
+
     }
+    return _total;
   }
 
 }

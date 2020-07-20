@@ -31,8 +31,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 showDatePicker(
                     context: context,
                     initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-                    firstDate: DateTime(2001),
-                    lastDate: DateTime(2021)
+                    firstDate: DateTime(2020, 6),
+                    lastDate:  DateTime.now()
                 ).then((date) {
                   setState(() {
                     _dateTime = date;

@@ -15,14 +15,6 @@ class AddMedicationScreen extends StatefulWidget {
 }
 
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
-//  String medicationName = '';
-//  String medicationDosage = '';
-//  String medicationUnit = '';
-//  String medicationType = '';
-//  List<TimeOfDay> dosageTimes = [];
-//  final _medFormKey = GlobalKey<FormState>();
-//  static List<String> _dosageUnits = ['mcg', 'mg', 'g', 'units', 'as required'];
-//  var _currentItemSelected = _dosageUnits[0];
 
   MedicationRegime medicationRegime = new MedicationRegime();
 

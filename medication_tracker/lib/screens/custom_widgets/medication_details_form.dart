@@ -6,7 +6,8 @@ import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'package:provider/provider.dart';
 
 class MedicationDetailsForm extends StatefulWidget {
-  MedicationDetailsForm({Key key, this.isAddScreen, this.medicationRegime}) : super(key: key);
+  MedicationDetailsForm({Key key, this.isAddScreen, this.medicationRegime})
+      : super(key: key);
 
   final bool isAddScreen;
   final MedicationRegime medicationRegime;
@@ -16,11 +17,11 @@ class MedicationDetailsForm extends StatefulWidget {
 }
 
 class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
-  String medicationName = '';
-  String medicationDosage = '';
-  String medicationUnit = '';
-  String medicationType = '';
-  List<TimeOfDay> dosageTimes = [];
+  String _medicationName = '';
+  String _medicationDosage = '';
+  String _medicationUnit = '';
+  String _medicationType = '';
+  List<TimeOfDay> _dosageTimes = [];
   final _medFormKey = GlobalKey<FormState>();
   static List<String> _dosageUnits = ['mcg', 'mg', 'g', 'units', 'as required'];
   var _currentItemSelected = _dosageUnits[0];
@@ -29,9 +30,8 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
 
-    return Column(
-      children: <Widget>[
-        Form(
+    return Column(children: <Widget>[
+      Form(
           key: _medFormKey,
           child: Column(
             children: [
@@ -39,27 +39,27 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
               medicationDoseForm(),
               medicationTypeForm(),
             ],
-          )
-        )    ,
-        SetDosageTimes(medicationRegime: widget.medicationRegime, isAddScreen: widget.isAddScreen),
-        SizedBox(height: 20.0),
-        RaisedButton(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          color: Colors.blue,
-          child: Text(widget.isAddScreen ?
-            'Add Medication' : 'Edit Medication',
-            style: TextStyle(color: Colors.white),
-          ),
-          // TODO add to medication to user's list.
-          onPressed: () {
-            addOrEditButton(user);
-            setState(() {});
-          },
-        )
-      ]
-    );
+          )),
+      SetDosageTimes(
+          medicationRegime: widget.medicationRegime,
+          isAddScreen: widget.isAddScreen),
+      SizedBox(height: 20.0),
+      RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        color: Colors.blue,
+        child: Text(
+          widget.isAddScreen ? 'Add Medication' : 'Edit Medication',
+          style: TextStyle(color: Colors.white),
+        ),
+        // TODO add to medication to user's list.
+        onPressed: () {
+          addOrEditButton(user);
+          setState(() {});
+        },
+      )
+    ]);
   }
 
   /// From for medication name input.
@@ -69,12 +69,12 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
         TextFormField(
             initialValue: initialNameValue(),
             validator: (val) =>
-            val.isEmpty ? "Please enter your medication's name" : null,
+                val.isEmpty ? "Please enter your medication's name" : null,
             decoration: InputDecoration(
               labelText: 'Medication Name',
             ),
             onChanged: (val) {
-              setState(() => medicationName = val);
+              setState(() => _medicationName = val);
             }),
         SizedBox(height: 20.0),
       ],
@@ -93,16 +93,16 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
             Flexible(
               child: TextFormField(
                 validator: (val) =>
-                (!_currentItemSelected.contains('as required') &&
-                    val.isEmpty)
-                    ? "Please enter your medication's dosage"
-                    : null,
+                    (!_currentItemSelected.contains('as required') &&
+                            val.isEmpty)
+                        ? "Please enter your medication's dosage"
+                        : null,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(0.0),
                   labelText: 'Medication Dosage',
                 ),
                 onChanged: (val) {
-                  setState(() => medicationDosage = val);
+                  setState(() => _medicationDosage = val);
                 },
               ),
             ),
@@ -121,7 +121,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
                 onChanged: (String newValueSelected) {
                   this._currentItemSelected = newValueSelected;
                   setState(() {
-                    medicationUnit = newValueSelected;
+                    _medicationUnit = newValueSelected;
                   });
                 },
               ),
@@ -135,10 +135,9 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
 
   ///Initial name value in name form if user is editing a medication.
   String initialNameValue() {
-    if(!widget.isAddScreen) {
+    if (!widget.isAddScreen) {
       return widget.medicationRegime.getMedication().getName();
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -155,10 +154,9 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
 
   ///Initial type value in type form if user is editing a medication.
   String initialTypeValue() {
-    if(!widget.isAddScreen) {
+    if (!widget.isAddScreen) {
       return widget.medicationRegime.getMedication().getMedType();
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -191,7 +189,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
           onChanged: (String newValueSelected) {
             _currentTypeSelected = newValueSelected;
             setState(() {
-              medicationType = newValueSelected;
+              _medicationType = newValueSelected;
             });
           },
         ),
@@ -234,22 +232,15 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
         Navigator.pop(context);
       });
     }
-
   }
 
   void addOrEditButton(User user) {
-    if(widget.isAddScreen) {
-      addMedicationToList(
-          user,
-          medicationName,
-          medicationDosage,
-          medicationUnit,
-          medicationType);
-    }
-    else {
-      editMedicationDetails(user, medicationName, medicationDosage, medicationUnit, medicationType);
+    if (widget.isAddScreen) {
+      addMedicationToList(user, _medicationName, _medicationDosage,
+          _medicationUnit, _medicationType);
+    } else {
+      editMedicationDetails(user, _medicationName, _medicationDosage,
+          _medicationUnit, _medicationType);
     }
   }
-
-
 }

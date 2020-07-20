@@ -17,11 +17,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
-  final AuthService _auth = AuthService();
-  //text field state
-  String email = '';
-  String password = '';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
