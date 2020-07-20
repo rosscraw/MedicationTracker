@@ -6,11 +6,14 @@ import 'medication_regime.dart';
 class DoseTimeDetails {
 
   TimeOfDay time;
-  bool _hasMedBeenTaken = false;
+  bool _hasMedBeenTaken;
   MedicationRegime medication;
 
   /// Create new dose time detail using dose time.
-  DoseTimeDetails(this.time);
+  DoseTimeDetails(this.time) {
+    _hasMedBeenTaken = false;
+  }
+
 
   TimeOfDay getDoseTime() {
     return time;

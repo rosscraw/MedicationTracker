@@ -24,7 +24,7 @@ class AuthService {
       Medication omeprazole = new Medication('Omeprazole', 'Tablets');
 
       TimeOfDay timeOfDay = new TimeOfDay(hour: 14, minute: 30);
-      TimeOfDay dose1 = new TimeOfDay(hour: 16, minute: 30);
+      TimeOfDay dose1 = new TimeOfDay(hour: 20, minute: 30);
       TimeOfDay dose2 = new TimeOfDay(hour: 10, minute: 30);
       TimeOfDay dose3 = new TimeOfDay(hour: 13, minute: 30);
       DoseTimeDetails time1 = new DoseTimeDetails(dose1);
