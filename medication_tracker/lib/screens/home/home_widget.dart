@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/navigation_bar.dart';
 import 'package:medicationtracker/screens/settings/settings_screen.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';

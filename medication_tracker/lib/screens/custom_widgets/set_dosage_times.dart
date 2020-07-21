@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/dose_time_details.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:medicationtracker/models/dose_time_details.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/screens/medication_list/add_medication_screen.dart';
 import 'package:provider/provider.dart';
 

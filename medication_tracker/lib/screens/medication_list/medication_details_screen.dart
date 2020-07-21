@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/medication.dart';
-import 'package:medicationtracker/back_end/user.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:medicationtracker/models/medication.dart';
+import 'package:medicationtracker/models/user.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/screens/medication_list/edit_medication.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +45,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Dosage: ' + widget.medication.getDosage(),
+                'Dosage: ' + widget.medication.getDosage() + widget.medication.getDosageUnits(),
                 style: TextStyle(
                   fontSize: 20.0,
                 ),

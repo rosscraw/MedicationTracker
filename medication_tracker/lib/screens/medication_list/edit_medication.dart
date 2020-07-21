@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
+import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_details_form.dart';
 import 'package:provider/provider.dart';
 

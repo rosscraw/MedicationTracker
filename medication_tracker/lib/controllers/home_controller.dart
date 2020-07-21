@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/dose_time_details.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/models/dose_time_details.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
+import 'package:medicationtracker/models/user.dart';
 
 class HomeController {
   /// Return list of medications that are due within two hours of now.
@@ -12,8 +12,8 @@ class HomeController {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if ((time.getDoseTime().hour >= _timeNow.hour  &&
-            !time.getHasMedBeenTaken() || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
+        if (!time.getHasMedBeenTaken() && (time.getDoseTime().hour >= _timeNow.hour
+             || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
             (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute)) {
           _dueMedications.add(time);
         }
@@ -32,7 +32,7 @@ class HomeController {
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        if (time.getDoseTime().hour < _timeNow.hour && !time.getHasMedBeenTaken() || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute)) {
+        if (!time.getHasMedBeenTaken() && time.getDoseTime().hour < _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute)) {
           _overdueMedications.add(time);
         }
       }

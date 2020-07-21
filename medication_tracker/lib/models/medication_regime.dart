@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/models/medication.dart';
 import 'dose_time_details.dart';
 
 /// Class that represents a user's Medication, dosages and timings.
@@ -7,10 +7,11 @@ class MedicationRegime extends ChangeNotifier{
 
   Medication medication;
   String dosage = '';
+  String dosageUnits = '';
   List<DoseTimeDetails> dosageTimings = [];
   bool allMedsTaken = false;
 
-  MedicationRegime({key, this.medication, this.dosage});
+  MedicationRegime({key, this.medication, this.dosage, this.dosageUnits});
 
   Medication getMedication() {
     return medication;
@@ -26,6 +27,14 @@ class MedicationRegime extends ChangeNotifier{
 
   void setDosage(String dosage) {
     this.dosage = dosage;
+  }
+
+  String getDosageUnits() {
+    return dosageUnits;
+  }
+
+  void setDosageUnits(String dosageUnits) {
+    this.dosageUnits = dosageUnits;
   }
 
   List<DoseTimeDetails> getDosageTimings() {

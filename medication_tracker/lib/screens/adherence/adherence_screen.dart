@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/adherence_figures.dart';
+import 'package:medicationtracker/models/adherence_figures.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
 
