@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/controllers/medication_times_list_controller.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 
@@ -13,6 +14,9 @@ class MedicationTimesList extends StatefulWidget {
 }
 
 class _MedicationTimesListState extends State<MedicationTimesList> {
+
+  MedicationTimesListController controller = new MedicationTimesListController();
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -22,17 +26,9 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              leading: Icon(widget.medications[index]
-                  .getMedicationRegime()
-                  .getMedication()
-                  .getMedicationIcon()),
+              leading: Icon(controller.getMedicationIcon(widget.medications[index])),
               title: Text(
-                widget.medications[index]
-                        .getMedicationRegime()
-                        .getMedication()
-                        .getName() +
-                    ': ' +
-                    widget.medications[index].getDoseTime().format(context),
+                controller.getMedicationNameAndTime(widget.medications[index], context),
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -60,16 +56,10 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
   /// Small delay to allow checkbox animation to play.
   void checkboxState(int index) {
     setState(() {
-      widget.medications[index]
-          .setHasMedBeenTaken(!widget.medications[index].getHasMedBeenTaken());
+      controller.setMedicationBeenTaken(widget.medications[index]);
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
-          widget.medications.removeAt(index);
-          for(DoseTimeDetails time in widget.medications) {
-            print(time.getMedicationRegime().getMedication().getName());
-
-          }
-          print('------');
+          controller.removeFromDueOrOverdueList(widget.medications, index);
         });
       });
     });

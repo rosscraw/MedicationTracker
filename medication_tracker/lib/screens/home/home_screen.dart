@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
-import 'file:///C:/Users/rossb/OneDrive/Documents/University%20Files/Dissertation%20Project/Code/MedicationTracker/medication_tracker/lib/controllers/home_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:medicationtracker/controllers/home_controller.dart';
 
 /// Home screen of the application.
 /// First screen visible after log in.
