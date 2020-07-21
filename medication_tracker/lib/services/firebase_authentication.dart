@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/dose_time_details.dart';
-import 'package:medicationtracker/back_end/medication.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/models/dose_time_details.dart';
+import 'package:medicationtracker/models/medication.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
+import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 
 /// Sign in, register account and sign out methods.
@@ -35,11 +35,11 @@ class AuthService {
       DoseTimeDetails time6 = new DoseTimeDetails(dose3);
 
 
-      MedicationRegime creonR = new MedicationRegime(medication: creon, dosage:'150mg');
-      MedicationRegime tresibaR = new MedicationRegime(medication: tresiba, dosage: '100 units');
-      MedicationRegime fiaspR = new MedicationRegime(medication: fiasp, dosage: '100 units');
-      MedicationRegime salbutamolR = new MedicationRegime(medication: salbutamol, dosage: '100mcg');
-      MedicationRegime omeprazoleR = new MedicationRegime(medication: omeprazole, dosage: '20mg');
+      MedicationRegime creonR = new MedicationRegime(medication: creon, dosage:'150', dosageUnits: 'mg');
+      MedicationRegime tresibaR = new MedicationRegime(medication: tresiba, dosage: '100', dosageUnits: 'units');
+      MedicationRegime fiaspR = new MedicationRegime(medication: fiasp, dosage: '100', dosageUnits: 'units');
+      MedicationRegime salbutamolR = new MedicationRegime(medication: salbutamol, dosage: '100', dosageUnits: 'mcg');
+      MedicationRegime omeprazoleR = new MedicationRegime(medication: omeprazole, dosage: '20', dosageUnits: 'mg');
 
         newUser.addMedication(creonR);
         newUser.addMedication(tresibaR);

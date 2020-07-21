@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/dose_time_details.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
+import 'package:medicationtracker/models/dose_time_details.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
 
 /// List widget used on HomeScreen to generate lists for due and overdue medications.
 class MedicationTimesList extends StatefulWidget {

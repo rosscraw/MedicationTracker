@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/medication.dart';
+import 'package:medicationtracker/models/medication.dart';
 
 import 'medication_regime.dart';
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/dose_time_details.dart';
-import 'package:medicationtracker/back_end/medication.dart';
-import 'package:medicationtracker/back_end/medication_regime.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/controllers/medication_list_controller.dart';
+import 'package:medicationtracker/models/dose_time_details.dart';
+import 'package:medicationtracker/models/medication.dart';
+import 'package:medicationtracker/models/medication_regime.dart';
+import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'add_medication_screen.dart';
@@ -23,6 +24,7 @@ class MedicationScreen extends StatefulWidget {
 }
 
 class _MedicationScreenState extends State<MedicationScreen> {
+  MedicationListController controller = new MedicationListController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
                             Expanded(
                               child: Checkbox(
                                 activeColor: Colors.green,
-                                value: checkboxInitialState(index, user),
+                                value: controller.checkboxInitialState(index, user),
                                 onChanged: (bool newValue) {
                                   checkboxState(index, user);
                                 },
@@ -133,22 +135,13 @@ class _MedicationScreenState extends State<MedicationScreen> {
     );
   }
 
-  /// Determines the initial state of the checkbox when screen is loaded.
-  bool checkboxInitialState(int index, User user) {
-    List<MedicationRegime> medicationList = user.getMedicationList();
-    return medicationList[index].getAllMedsTaken();
-  }
-
   /// Changes checkbox state depending on whether medication has been taken.
   /// If medication has more than one dosage, all dosages must be checked off to be true.
   void checkboxState(int index, User user) {
     List<MedicationRegime> medicationList = user.getMedicationList();
-    setState(() {
       setState(() {
-        medicationList[index]
-            .setAllMedsTaken(!medicationList[index].getAllMedsTaken());
+        controller.setMedicationTaken(medicationList[index]);
       });
-    });
   }
 
   /// Pushes Add Medication Screen to top of the stack to display to user.

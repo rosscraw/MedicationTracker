@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/back_end/user.dart';
+import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/authenticate/authentication.dart';
 import 'package:medicationtracker/screens/home/home_screen.dart';
 import 'package:medicationtracker/screens/home/home_widget.dart';
