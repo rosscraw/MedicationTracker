@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/themes/dark_mode_notifier.dart';
 import 'package:provider/provider.dart';
 
+/// Settings screen where user can:
+/// - Switch between light and dark themes.
 class SettingsScreen extends StatefulWidget {
   final String title;
   SettingsScreen({Key key, this.title}) : super(key: key);
