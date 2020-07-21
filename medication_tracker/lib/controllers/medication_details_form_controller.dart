@@ -2,8 +2,10 @@ import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 
+/// Controller for the Medication Details Form Widget.
 class MedicationDetailsFormController {
-  /// Adds Medication to user's list
+
+  /// Adds Medication to user's list.
   void addMedication(
       User user,
       MedicationRegime medicationRegime,
@@ -25,7 +27,7 @@ class MedicationDetailsFormController {
     }
   }
 
-  /// Edit a Medication Regime's details/
+  /// Edit a Medication Regime's details.
   void editMedicationDetails(
       User user,
       MedicationRegime medicationRegime,

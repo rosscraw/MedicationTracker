@@ -198,6 +198,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     );
   }
 
+  /// Adds a new medication to the user's list according to the information the user has input.
   void addMedicationToList(User user, String medicationName,
       String medicationDosage, String medicationUnit, String medicationType) {
     if (_medFormKey.currentState.validate()) {
@@ -215,6 +216,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     }
   }
 
+  /// Edits the medication's details according to user input.
   void editMedicationDetails(User user, String medicationName,
       String medicationDosage, String medicationUnit, String medicationType) {
     if (_medFormKey.currentState.validate()) {
@@ -232,6 +234,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     }
   }
 
+  /// Determines whether the button should say add or edit medication.
   void addOrEditButton(User user) {
     if (widget.isAddScreen) {
       addMedicationToList(user, _medicationName, _medicationDosage,
