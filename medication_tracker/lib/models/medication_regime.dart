@@ -5,13 +5,14 @@ import 'dose_time_details.dart';
 /// Class that represents a user's Medication, dosages and timings.
 class MedicationRegime{
 
+  String medicationID;
   Medication medication;
   String dosage = '';
   String dosageUnits = '';
   List<DoseTimeDetails> dosageTimings = [];
   bool allMedsTaken = false;
 
-  MedicationRegime({key, this.medication, this.dosage, this.dosageUnits});
+  MedicationRegime({key, this.medicationID, this.medication, this.dosage, this.dosageUnits});
 
   Medication getMedication() {
     return medication;
@@ -19,6 +20,14 @@ class MedicationRegime{
 
   void setMedication(Medication medication) {
     this.medication = medication;
+  }
+
+  String getMedicationID() {
+    return medicationID;
+  }
+
+  void setMedicationID(String mid) {
+    this.medicationID = mid;
   }
 
   String getDosage() {

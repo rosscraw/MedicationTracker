@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:medicationtracker/controllers/adherence_screen_controller.dart';
 import 'package:medicationtracker/models/adherence_figures.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:medicationtracker/dummy_data/dummy_user.dart';
+import 'package:medicationtracker/models/user.dart';
+import 'package:provider/provider.dart';
 
 
 class AdherenceScreen extends StatefulWidget {
@@ -13,14 +15,42 @@ class AdherenceScreen extends StatefulWidget {
 }
 
 class _AdherenceScreenState extends State<AdherenceScreen> {
-  static final user = new DummyUser(); // Dummy Data
-  var medicationList = user.getDummyUser().getMedicationList(); // Dummy Data
+  AdherenceScreenController controller = new AdherenceScreenController();
+  int taken;
+  int total;
 
 
 
   @override
   Widget build(BuildContext context) {
+    final _user = Provider.of<User>(context);
+
+
+
+
     return Container(
+      child: Column(
+        children: [
+          Text('Taken: ' + getTaken(_user)),
+          Text('Total: ' + getTotal(_user))
+        ],
+      )
     );
   }
+
+  String getTaken(User user) {
+    setState(() {
+      taken = controller.getTaken(user);
+    });
+    return taken.toString();
+  }
+  
+  String getTotal(User user) {
+    setState(() {
+      total = controller.getTotal(user);
+    });
+    return total.toString();
+  }
+
+
 }

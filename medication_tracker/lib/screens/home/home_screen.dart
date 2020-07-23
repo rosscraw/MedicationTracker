@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
-import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
 import 'package:provider/provider.dart';
 import 'package:medicationtracker/controllers/home_controller.dart';
@@ -12,9 +11,6 @@ import 'package:medicationtracker/controllers/home_controller.dart';
 class HomeScreen extends StatefulWidget {
 
   final String title;
-  // TODO link real user
-  static final user3 = new DummyUser();
-  static final user2 = FirebaseUser;// Dummy Data
 
 
   HomeScreen({Key key, this.title}) : super(key: key);

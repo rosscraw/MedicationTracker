@@ -10,21 +10,44 @@ class AdherenceFigures {
   User user;
   List<MedicationRegime> medications;
 
-  int getTakenMeds() {
+  int getTakenMedications() {
     return _taken;
   }
 
-  void setTakenMeds(int taken) {
+  void setTakenMedications(int taken) {
     _taken = taken;
   }
 
-  int getTotalMeds() {
+  User getUser() {
+    return user;
+  }
+
+  void setUser(User user) {
+    this.user = user;
+  }
+
+  int getTotalMedications() {
     for (MedicationRegime medication in user.getMedicationList()) {
       for (DoseTimeDetails time in medication.dosageTimings) {
-        _total++;      }
+        _total++;
+      }
 
     }
     return _total;
   }
+
+  int getTotalTakenMedications() {
+    for (MedicationRegime medication in user.getMedicationList()) {
+      for (DoseTimeDetails time in medication.dosageTimings) {
+        if(time.getHasMedBeenTaken()) {
+          _taken++;
+        }
+      }
+
+    }
+    return _taken;
+  }
+
+
 
 }

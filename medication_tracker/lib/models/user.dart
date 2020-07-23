@@ -24,6 +24,11 @@ class User {
     _name = name;
   }
 
+  String getUid() {
+    return uid;
+  }
+
+
   List<MedicationRegime> getMedicationList() {
     return _medications;
   }
