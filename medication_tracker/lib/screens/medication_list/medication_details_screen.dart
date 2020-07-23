@@ -4,6 +4,7 @@ import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/screens/medication_list/edit_medication.dart';
+import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
 /// Screen that displays the details of a single medication on a new screen.
@@ -138,6 +139,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
 
   /// Display an alert
   Future<void> showDeleteAlert(User user) async {
+    FirestoreDatabase firestoreDatabase = new FirestoreDatabase(uid: user.getUid());
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
@@ -159,6 +161,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                 onPressed: () {
                   setState(() {
                     removeMedicationFromList(user);
+                    firestoreDatabase.deleteMedication(widget.medication);
+
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
                   });

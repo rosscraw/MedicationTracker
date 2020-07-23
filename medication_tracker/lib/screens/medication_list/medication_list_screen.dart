@@ -4,7 +4,6 @@ import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
-import 'package:medicationtracker/dummy_data/dummy_user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'add_medication_screen.dart';
 import 'medication_details_screen.dart';
@@ -25,6 +24,7 @@ class MedicationScreen extends StatefulWidget {
 
 class _MedicationScreenState extends State<MedicationScreen> {
   MedicationListController controller = new MedicationListController();
+  FirestoreDatabase firestoreDatabase = new FirestoreDatabase();
 
   @override
   Widget build(BuildContext context) {

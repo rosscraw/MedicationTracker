@@ -4,6 +4,7 @@ import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
+import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
 class MedicationDetailsForm extends StatefulWidget {
@@ -41,6 +42,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
 
     return Column(children: <Widget>[
       Form(
@@ -66,7 +68,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
         ),
         // TODO add to medication to user's list.
         onPressed: () {
-          addOrEditButton(user);
+          addOrEditButton(firestore, user);
           setState(() {});
         },
       )
@@ -199,11 +201,11 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   }
 
   /// Adds a new medication to the user's list according to the information the user has input.
-  void addMedicationToList(User user, String medicationName,
+  void addMedicationToList(FirestoreDatabase firestore, User user, String medicationName,
       String medicationDosage, String medicationUnit, String medicationType) {
     if (_medFormKey.currentState.validate()) {
       setState(() {
-        controller.addMedication(
+        controller.addMedication(firestore,
             user,
             widget.medicationRegime,
             _currentItemSelected,
@@ -217,11 +219,11 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   }
 
   /// Edits the medication's details according to user input.
-  void editMedicationDetails(User user, String medicationName,
+  void editMedicationDetails(FirestoreDatabase firestore,  User user, String medicationName,
       String medicationDosage, String medicationUnit, String medicationType) {
     if (_medFormKey.currentState.validate()) {
       setState(() {
-        controller.editMedicationDetails(
+        controller.editMedicationDetails(firestore,
             user,
             widget.medicationRegime,
             _currentItemSelected,
@@ -235,12 +237,12 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   }
 
   /// Determines whether the button should say add or edit medication.
-  void addOrEditButton(User user) {
+  void addOrEditButton(FirestoreDatabase firestore, User user) {
     if (widget.isAddScreen) {
-      addMedicationToList(user, _medicationName, _medicationDosage,
+      addMedicationToList(firestore, user, _medicationName, _medicationDosage,
           _medicationUnit, _medicationType);
     } else {
-      editMedicationDetails(user, _medicationName, _medicationDosage,
+      editMedicationDetails(firestore, user, _medicationName, _medicationDosage,
           _medicationUnit, _medicationType);
     }
   }

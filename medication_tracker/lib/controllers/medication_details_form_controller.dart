@@ -1,12 +1,17 @@
 import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
+import 'package:medicationtracker/screens/home/home_widget.dart';
+import 'package:medicationtracker/services/firebase_authentication.dart';
+import 'package:medicationtracker/services/firestore_database.dart';
+import'package:provider/provider.dart';
 
 /// Controller for the Medication Details Form Widget.
 class MedicationDetailsFormController {
 
+
   /// Adds Medication to user's list.
-  void addMedication(
+  void addMedication(FirestoreDatabase firestore,
       User user,
       MedicationRegime medicationRegime,
       String currentItem,
@@ -25,10 +30,13 @@ class MedicationDetailsFormController {
       medicationRegime.setDosageUnits(medicationUnit);
       user.addMedication(medicationRegime);
     }
+    medicationRegime.setMedicationID(user.uid + medicationName);
+    firestore.addMedication(medicationRegime);
+
   }
 
   /// Edit a Medication Regime's details.
-  void editMedicationDetails(
+  void editMedicationDetails(FirestoreDatabase firestore,
       User user,
       MedicationRegime medicationRegime,
       String currentItem,
@@ -46,6 +54,7 @@ class MedicationDetailsFormController {
     } else {
       medicationRegime.setDosageUnits(medicationUnit);
     }
+    firestore.editMedication(medicationRegime);
   }
 
   ///Initial name value in name form if user is editing a medication.
