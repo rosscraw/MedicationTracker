@@ -34,7 +34,8 @@ class FirestoreDatabase {
       'type': medication.getMedication().getMedType(),
       'dosage' : medication.getDosage(),
       'units': medication.getDosageUnits(),
-      'all taken' : medication.getAllMedsTaken()
+      'all taken' : medication.getAllMedsTaken(),
+      'dose times' : []
     }).then((value) => print('Medication Added')).catchError((error) => print("Failed to update: $error"));
     }
 
@@ -69,121 +70,45 @@ class FirestoreDatabase {
     if(medication.getDosageTimings().isNotEmpty) {
       for(DoseTimeDetails time in medication.getDosageTimings()) {
         return await doseTimesCollection.add({
-          'time' : time.getDoseTime().toString()
+          'time' : time.getDoseTime().toString(),
+          'been taken' : time.getHasMedBeenTaken(),
+          'medication' : time.getMedicationRegime().getMedicationID()
         });
       }
-
     }
-
     return null;
     }
 
-    List<MedicationRegime> _medicationListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
-      return _medicationRegimeFromSnapshot(doc);
-    });
-    }
-
-    MedicationRegime _medicationRegimeFromSnapshot(DocumentSnapshot snapshot) {
-    return MedicationRegime(
-      medication: new Medication(snapshot.data['name'], snapshot.data['type']),
-      medicationID: snapshot.documentID,
-      dosage: snapshot.data['dosage'],
-      dosageUnits: snapshot.data['units']
-    );
-    }
-
-  Future getMedicationList(User user) async{
-
-
+  Future getUserSnapshot(User user) async{
     // Gets Current user's collection
-
     DocumentReference userIdRef = usersCollection.document(user.getUid());
-
     DocumentSnapshot userIdSnapshot = await userIdRef.get();
-
     return userIdSnapshot.data;
-
-
-    /// List of a user's medication references
-    List data = userIdSnapshot.data['medication'].to;
-
-
-    List<MedicationRegime> medicationList = [];
-
-     data.forEach((element) async{
-      DocumentReference medicationIdRef = medicationsCollection.document(element);
-      DocumentSnapshot medicationIdSnapshot = await medicationIdRef.get();
-      return medicationIdSnapshot.data;
-
-      Medication medication = new Medication(medicationIdSnapshot.data['name'], medicationIdSnapshot.data['type']);
-      MedicationRegime medicationRegime = new MedicationRegime(medicationID: element.toString(), medication: medication, dosage: medicationIdSnapshot.data['dosage'], dosageUnits: medicationIdSnapshot.data['units']);
-      medicationRegime.setAllMedsTaken(medicationIdSnapshot.data['all taken']);
-      print('####################################');
-      print(medicationRegime.getMedication().getName());
-      user.addMedication(medicationRegime);
-      medicationList.add(medicationRegime);
-      //meds.add(medicationRegime);
-      //return meds;
-      print(medicationList.length);
-      return medicationList;
-
-    });
-    return medicationList;
-    //return doc2.data;
-
   }
 
-  Future getMedicationItem(String medId) async{
+  Future getMedicationSnapshot(String medId) async{
     DocumentReference medicationIdRef = medicationsCollection.document(medId);
     DocumentSnapshot medicationIdSnapshot = await medicationIdRef.get();
     return medicationIdSnapshot.data;
-
-//    Medication medication = new Medication(medicationIdSnapshot.data['name'], medicationIdSnapshot.data['type']);
-//    MedicationRegime medicationRegime = new MedicationRegime(medicationID: element.toString(), medication: medication, dosage: medicationIdSnapshot.data['dosage'], dosageUnits: medicationIdSnapshot.data['units']);
-//    medicationRegime.setAllMedsTaken(medicationIdSnapshot.data['all taken']);
-//    print('####################################');
-//    print(medicationRegime.getMedication().getName());
-//    user.addMedication(medicationRegime);
-//    medicationList.add(medicationRegime);
-
   }
 
-  Future fetchMedications(User user) async{
-    DocumentReference userIdRef = usersCollection.document(user.getUid());
-
-    DocumentSnapshot userIdSnapshot = await userIdRef.get();
-    return userIdSnapshot.data;
+  Future getMedicationId(User user, int index) async{
+    var userSnapshot = await getUserSnapshot(user);
+    var medicationId = await userSnapshot['medication'][index];
+    return medicationId;
   }
 
+  Future getMedicationSnapshotAtIndex(User user, int index) async{
+    var userSnapshot = await getUserSnapshot(user);
+    var medicationId = userSnapshot['medication'][index];
 
-
-
-
+    return await getMedicationSnapshot(medicationId);
+  }
 
   // get user data stream
   Stream<QuerySnapshot> get trackerUsers {
     return usersCollection.snapshots();
   }
-
-  Stream<QuerySnapshot> get medicationRegimes {
-    return medicationsCollection.snapshots();
-  }
-
-  Stream<List> streamMedicationList(User user) {
-    return getMedicationList(user).asStream();
-  }
-  
-//  Future addMedication(MedicationRegime medication) async{
-//    return await medicationTrackerUserCollection.document(uid).updateData({
-//      'medications': FieldValue.arrayUnion([{
-//        'name' : medication.getMedication().getName(),
-//        'dose' : medication.getDosage().toString(),
-//        'units' : medication.getDosageUnits(),
-//        'times' : '08:00'
-//      }])
-//    },
-//    );
 //  }
 
 }

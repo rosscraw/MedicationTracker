@@ -41,7 +41,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
               width: 500.0,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: getMedicationListViewFromFirestore(user),
+                child: buildMedicationListFromFirestore(user),
               ),
             ),
           ),
@@ -63,314 +63,108 @@ class _MedicationScreenState extends State<MedicationScreen> {
     );
   }
 
-  Widget getMedicationListViewFromFirestore(User user) {
-    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
-
-    return FutureBuilder(
-        future: firestore.getMedicationList(user),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingSpinner();
-          } else if (snapshot.connectionState == ConnectionState.done ||
-              snapshot.connectionState == ConnectionState.active) {
-            //List<MedicationRegime> medicationList = snapshot.data ?? [];
-            return ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-              itemCount: snapshot.data['medication'].length,
-              itemBuilder: (context, index) {
-                return listTileFromFirestore(
-                    snapshot.data['medication'][index], user, index);
-              },
-            );
-          } else {
-            return null;
-          }
-        });
-  }
-
-  Widget listTileFromFirestore(String medID, User user, int index) {
+  /// Uses Firestore to build a medication list
+  Widget buildMedicationListFromFirestore(User user) {
     FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
     return FutureBuilder(
-        future: firestore.getMedicationItem(medID),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingSpinner();
-          } else if (snapshot.connectionState == ConnectionState.done ||
-              snapshot.connectionState == ConnectionState.active) {
-            List medicationList = [];
+        initialData: 0,
+      future: firestore.getUserSnapshot(user),
+      builder: (context, userSnapshot) {
+        if (userSnapshot.connectionState == ConnectionState.waiting) {
+          return LoadingSpinner();
+        }
+        else {
+      return ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+        itemCount: userSnapshot.data['medication'].length,//userSnapshot.data['medication'].length,
+        itemBuilder: (context, index) {
+        return FutureBuilder(
+          future: firestore.getMedicationSnapshotAtIndex(user, index),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return LoadingSpinner();
+            } else if (snapshot.connectionState == ConnectionState.done ||
+                snapshot.connectionState == ConnectionState.active){
+            List<MedicationRegime> medicationList = [];
             Medication medication =
-                new Medication(snapshot.data['name'], snapshot.data['type']);
+            new Medication(snapshot.data['name'], snapshot.data['type']);
             MedicationRegime medicationRegime = new MedicationRegime(
-                medicationID: medID,
+                medicationID: userSnapshot.data['medication'][index].toString(),
                 medication: medication,
                 dosage: snapshot.data['dosage'],
                 dosageUnits: snapshot.data['units']);
             medicationRegime.setAllMedsTaken(snapshot.data['all taken']);
             medicationList.add(medicationRegime);
-            medicationList.sort((a, b) => a
-                .getMedication()
-                .getName()
-                .toUpperCase()
-                .compareTo(b.getMedication().getName().toUpperCase()));
-            return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: medicationList.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(
-                          medicationList[index].getMedication().getMedicationIcon()),
-                      //TODO link to database
-                      title: Text(
-                        medicationList[index].getMedication().getName(),
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-//                    Expanded(
-//                      child: Checkbox(
-//                        activeColor: Colors.green,
-//                        value: controller.checkboxInitialState(
-//                            index, user),
-//                        onChanged: (bool newValue) {
-//                          checkboxState(index, user);
-//                        },
-//                      ),
-//                    ),
-                              Expanded(
-                                  child: Text('All Taken?',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyText1)),
-                            ],
-                          ),
-                          FlatButton.icon(
-                            icon: Icon(
-                              Icons.info_outline,
-                            ),
-                            label: Text('info'),
-                            onPressed: () {
-                              navigateToMedicationDetails(
-                                  medicationList[index], user);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                });
-          } else {
-            return null;
-          }
-        });
-  }
-
-//  Widget getMedicationListViewFromFirestore(User user) {
-//    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
-//
-//    return FutureBuilder(
-//      future: firestore.fetchMedications(user),
-//      builder: (context, snapshot) {
-//        if (snapshot.connectionState == ConnectionState.waiting) {
-//          return LoadingSpinner();
-//        } else if (snapshot.hasData) {
-//          List medicationListIds = snapshot.data['medication'];
-//
-//          List<MedicationRegime> medicationList = [];
-//
-//          medicationListIds.forEach((element) async {
-//            DocumentReference medicationIdRef =
-//                Firestore.instance.collection('medications').document(element);
-//            DocumentSnapshot medicationIdSnapshot = await medicationIdRef.get();
-//
-//            String a = await medicationIdSnapshot.data['name'];
-//
-//            Medication medication = new Medication(
-//                medicationIdSnapshot.data['name'],
-//                medicationIdSnapshot.data['type']);
-//            MedicationRegime medicationRegime = new MedicationRegime(
-//                medicationID: element.toString(),
-//                medication: medication,
-//                dosage: medicationIdSnapshot.data['dosage'],
-//                dosageUnits: medicationIdSnapshot.data['units']);
-//            medicationRegime
-//                .setAllMedsTaken(medicationIdSnapshot.data['all taken']);
-//            user.addMedication(medicationRegime);
-//          });
-//          print(user.getMedicationList().length);
-//          return ListView.builder(
-//            physics: NeverScrollableScrollPhysics(),
-//            shrinkWrap: true,
-//            padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-//            itemCount: medicationList.length,
-//            itemBuilder: (context, index) {
-//              return Card(
-//                child: Padding(
-//                  padding: const EdgeInsets.all(4.0),
-//                  child: ListTile(
-//                    leading: Icon(medicationList[index]
-//                        .getMedication()
-//                        .getMedicationIcon()),
-//                    //TODO link to database
-//                    title: Text(
-//                      medicationList[index].getMedication().getName(),
-//                      style: TextStyle(
-//                        fontSize: 20.0,
-//                      ),
-//                    ),
-//                    trailing: Row(
-//                      mainAxisSize: MainAxisSize.min,
-//                      children: <Widget>[
-//                        Column(
-//                          mainAxisAlignment: MainAxisAlignment.center,
-//                          crossAxisAlignment: CrossAxisAlignment.center,
-//                          children: [
-//                            Expanded(
-//                              child: Checkbox(
-//                                activeColor: Colors.green,
-//                                value: controller.checkboxInitialState(
-//                                    index, user),
-//                                onChanged: (bool newValue) {
-//                                  checkboxState(index, user);
-//                                },
-//                              ),
-//                            ),
-//                            Expanded(
-//                                child: Text('All Taken?',
-//                                    style:
-//                                        Theme.of(context).textTheme.bodyText1)),
-//                          ],
-//                        ),
-//                        FlatButton.icon(
-//                          icon: Icon(
-//                            Icons.info_outline,
-//                          ),
-//                          label: Text('info'),
-//                          onPressed: () {
-//                            navigateToMedicationDetails(
-//                                medicationList[index], user);
-//                          },
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ),
-//              );
-//            },
-//          );
-//        } else {
-//          return null;
-//        }
-//      },
-//    );
-//  }
-
-  /// Column that contains text and the Listview that displays all user's medications with checkboxes.
-  Column getMedicationListView(User user) {
-    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
-    setState(() {});
-    List<MedicationRegime> medicationList = user.getMedicationList();
-    if (medicationList.isEmpty) {
-      setState(() {
-        firestore.getMedicationList(user);
-        medicationList = user.getMedicationList();
-      });
-    }
-
-    // Sort medications alphabetically by name.
-    medicationList.sort((a, b) => a
-        .getMedication()
-        .getName()
-        .toUpperCase()
-        .compareTo(b.getMedication().getName().toUpperCase()));
-
-    return Column(
-      children: [
-        Text('Medications', style: Theme.of(context).textTheme.headline5),
-        Container(
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-            itemCount: medicationList.length,
-            itemBuilder: (context, index) {
-              return Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: ListTile(
-                    leading: Icon(medicationList[index]
-                        .getMedication()
-                        .getMedicationIcon()),
-                    //TODO link to database
-                    title: Text(
-                      medicationList[index].getMedication().getName(),
-                      style: TextStyle(
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Checkbox(
-                                activeColor: Colors.green,
-                                value: controller.checkboxInitialState(
-                                    index, user),
-                                onChanged: (bool newValue) {
-                                  checkboxState(index, user);
-                                },
-                              ),
-                            ),
-                            Expanded(
-                                child: Text('All Taken?',
-                                    style:
-                                        Theme.of(context).textTheme.bodyText1)),
-                          ],
-                        ),
-                        FlatButton.icon(
-                          icon: Icon(
-                            Icons.info_outline,
-                          ),
-                          label: Text('info'),
-                          onPressed: () {
-                            navigateToMedicationDetails(
-                                medicationList[index], user);
-                          },
-                        ),
-                      ],
-                    ),
+            user.setMedicationList(medicationList);
+            return Card(
+              child: ListTile(
+                leading: Icon(medicationRegime
+                    .getMedication()
+                    .getMedicationIcon()),
+//                //TODO link to database
+                title: Text(
+                  medicationRegime.getMedication().getName(),
+                  style: TextStyle(
+                    fontSize: 20.0,
                   ),
                 ),
-              );
-            },
-          ),
-        ),
-      ],
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Checkbox(
+                            activeColor: Colors.green,
+                            value: controller.checkboxInitialState(medicationRegime),
+                            onChanged: (bool newValue) {
+                              checkboxState(user, medicationRegime);
+                            },
+                          ),
+                        ),
+                        Expanded(
+                            child: Text('All Taken?',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1)),
+                      ],
+                    ),
+                    FlatButton.icon(
+                      icon: Icon(
+                        Icons.info_outline,
+                      ),
+                      label: Text('info'),
+                      onPressed: () {
+                        navigateToMedicationDetails(
+                            medicationRegime, user);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+            else {
+              return null;
+            }
+        },
+        );}
+      );}}
     );
   }
 
+
+
   /// Changes checkbox state depending on whether medication has been taken.
   /// If medication has more than one dosage, all dosages must be checked off to be true.
-  void checkboxState(int index, User user) {
-    List<MedicationRegime> medicationList = user.getMedicationList();
+  void checkboxState(User user, MedicationRegime medicationRegime) {
     setState(() {
-      controller.setMedicationTaken(medicationList[index]);
+      controller.setMedicationTaken(medicationRegime);
       FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
-      firestore.editMedicationTaken(medicationList[index]);
+      firestore.editMedicationTaken(medicationRegime);
     });
   }
 
