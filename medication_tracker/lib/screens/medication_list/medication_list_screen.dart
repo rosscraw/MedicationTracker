@@ -40,7 +40,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
             child: SizedBox(
               width: 500.0,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.fromLTRB(8, 8, 8, 60),
                 child: buildMedicationListFromFirestore(user),
               ),
             ),
@@ -65,6 +65,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
   /// Uses Firestore to build a medication list
   Widget buildMedicationListFromFirestore(User user) {
+    user.getMedicationList().clear();
     FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
     return FutureBuilder(
         initialData: 0,
@@ -96,7 +97,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
                 dosageUnits: snapshot.data['units']);
             medicationRegime.setAllMedsTaken(snapshot.data['all taken']);
             medicationList.add(medicationRegime);
-            user.setMedicationList(medicationList);
+            user.addMedication(medicationRegime);
+            user.getMedicationList().forEach((element) {print(element.getMedication().getName()); });
             return Card(
               child: ListTile(
                 leading: Icon(medicationRegime
@@ -107,6 +109,12 @@ class _MedicationScreenState extends State<MedicationScreen> {
                   medicationRegime.getMedication().getName(),
                   style: TextStyle(
                     fontSize: 20.0,
+                  ),
+                ),
+                subtitle: Text(
+                  medicationRegime.getDosage() + medicationRegime.getDosageUnits(),
+                  style: TextStyle(
+                    fontSize: 15.0,
                   ),
                 ),
                 trailing: Row(
