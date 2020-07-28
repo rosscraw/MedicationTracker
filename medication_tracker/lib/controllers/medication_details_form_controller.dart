@@ -27,6 +27,7 @@ class MedicationDetailsFormController {
       user.addMedication(medicationRegime);
     } else {
       medicationRegime.setMedication(medication);
+      medicationRegime.setDosage('');
       medicationRegime.setDosageUnits(medicationUnit);
       user.addMedication(medicationRegime);
     }
@@ -69,8 +70,15 @@ class MedicationDetailsFormController {
   ///Initial dose value in dose form if user is editing a medication.
   String initialDoseValue(bool isAddScreen, MedicationRegime medicationRegime) {
     if (!isAddScreen) {
-      return medicationRegime.getDosage();
+      if(medicationRegime.getDosage() != null || medicationRegime.getDosage() != '') {
+        return medicationRegime.getDosage();
+      }
+      else {
+        medicationRegime.setDosage('');
+        return '';
+      }
     } else {
+      medicationRegime.setDosage('');
       return '';
     }
   }
