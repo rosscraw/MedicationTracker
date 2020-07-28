@@ -33,6 +33,10 @@ class User {
     return _medications;
   }
 
+  void setMedicationList(List<MedicationRegime> medicationList) {
+    _medications = medicationList;
+  }
+
   void addMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       String error = 'Medication already added to list and cannot be re-dded';
