@@ -13,28 +13,59 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  double fontSize = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
         children: [
-          Text('Dark Mode'),
-          Switch(
-            value: Provider.of<DarkModeNotifier>(context, listen: false).isDarkModeOn,
-            onChanged: (bool) {
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Dark Mode'),
+              Switch(
+                value: Provider.of<DarkModeNotifier>(context, listen: false).isDarkModeOn,
+                onChanged: (bool) {
+                  setState(() {
+                    Provider.of<DarkModeNotifier>(context, listen: false).updateTheme(bool);
+                  });
+                },
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text('Font Size'),
+          Slider(
+            value: fontSize,
+            onChanged: (newFontSize) {
               setState(() {
-                Provider.of<DarkModeNotifier>(context, listen: false).updateTheme(bool);
+                fontSize = newFontSize;
               });
             },
-            activeTrackColor: Colors.lightGreenAccent,
-            activeColor: Colors.green,
-          ),
+            divisions: 2,
+            min: 0,
+            max: 2,
+            label: sliderLabel(fontSize),
+          )
         ],
       ),
     );
+  }
+
+  String sliderLabel(double fontSize) {
+    if(fontSize == 0) {
+      return 'Small';
+    }
+    else if(fontSize == 1) {
+      return 'Medium';
+    }
+    else {
+      return 'Large';
+    }
   }
 }
