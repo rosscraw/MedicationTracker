@@ -42,68 +42,78 @@ class _MedicationDetailsState extends State<MedicationDetails> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Dosage: ' + widget.medication.getDosage() + widget.medication.getDosageUnits(),
-                style: TextStyle(
-                  fontSize: 20.0,
+          child: SizedBox(
+            width: 500,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Card(
+                  elevation: 5,
+                  child: ListTile(
+                    leading: Icon(widget.medication.getMedication().getMedicationIcon()
+                    ),
+                    title: Text(
+                      'Dosage: ' + widget.medication.getDosage() + widget.medication.getDosageUnits(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Type: ' + widget.medication.getMedication().getMedType(),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  )
                 ),
-              ),
-              Text(
-                'Type: ' + widget.medication.getMedication().getMedType(),
-                style: TextStyle(
-                  fontSize: 20.0,
+                widget.medication.getDosageTimings().isEmpty ? Container() : Text(
+                  'Timings:',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
                 ),
-              ),
-              Text(
-                'Timings:',
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-              ),
 //              // TODO list tile
 //              for ( var item in widget.medication.getDosageTimings() )
 //                Text(item.getDoseTime().toString()),
-              SizedBox(
-                width: 500.0,
-                height: 250.0,
-                child: Container(
-                  child: ListView.builder(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                      itemCount: widget.medication.getDosageTimings().length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          child: ListTile(
-                            leading: Icon(Icons.alarm),
-                            title: getDosageTime(index),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Checkbox(
-                                  activeColor: Colors.green,
-                                  value: widget.medication
-                                      .getDosageTimings()[index]
-                                      .getHasMedBeenTaken(),
-                                  onChanged: (bool newValue) {
-                                    setState(() {
-                                      widget.medication
-                                          .getDosageTimings()[index]
-                                          .setHasMedBeenTaken(!widget.medication
-                                              .getDosageTimings()[index]
-                                              .getHasMedBeenTaken());
-                                    });
-                                  },
-                                ),
-                              ],
+                SizedBox(
+                  width: 500.0,
+                  height: 250.0,
+                  child: Container(
+                    child: ListView.builder(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
+                        itemCount: widget.medication.getDosageTimings().length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            child: ListTile(
+                              leading: Icon(Icons.alarm),
+                              title: getDosageTime(index),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Checkbox(
+                                    activeColor: Colors.green,
+                                    value: widget.medication
+                                        .getDosageTimings()[index]
+                                        .getHasMedBeenTaken(),
+                                    onChanged: (bool newValue) {
+                                      setState(() {
+                                        widget.medication
+                                            .getDosageTimings()[index]
+                                            .setHasMedBeenTaken(!widget.medication
+                                                .getDosageTimings()[index]
+                                                .getHasMedBeenTaken());
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      }),
+                          );
+                        }),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
