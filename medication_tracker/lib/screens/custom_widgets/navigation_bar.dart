@@ -15,17 +15,20 @@ class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
   int _currentIndex = 0;
 
   final List<Widget> _navTabs = [
-    HomeScreen(title: 'Home'),
+    HomeScreen(title: 'Home', key: PageStorageKey('Home')),
     MedicationScreen(title: 'Medication List'),
-    CalendarScreen(title: 'Calendar'),
-    AdherenceScreen(title: 'Adherence')
+    CalendarScreen(title: 'Calendar', key: PageStorageKey('Calendar')),
+    AdherenceScreen(title: 'Adherence', key: PageStorageKey('Adherence'))
   ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: PageStorage(
         child: _navTabs[_currentIndex],
+        bucket: bucket,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
