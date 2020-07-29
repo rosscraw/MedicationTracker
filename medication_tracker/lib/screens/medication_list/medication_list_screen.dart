@@ -28,6 +28,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
   MedicationListController controller = new MedicationListController();
   FirestoreDatabase firestoreDatabase = new FirestoreDatabase();
 
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -41,7 +42,8 @@ class _MedicationScreenState extends State<MedicationScreen> {
               width: 500.0,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 60),
-                child: buildMedicationListFromFirestore(user),
+                child: future(user),
+                //buildMedicationListFromFirestore(user),
               ),
             ),
           ),
@@ -63,104 +65,183 @@ class _MedicationScreenState extends State<MedicationScreen> {
     );
   }
 
-  /// Uses Firestore to build a medication list
-  Widget buildMedicationListFromFirestore(User user) {
-    user.getMedicationList().clear();
+//  /// Uses Firestore to build a medication list
+//  Widget buildMedicationListFromFirestore(User user) {
+//    user.getMedicationList().clear();
+//    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
+//    return FutureBuilder(
+//        initialData: 0,
+//      future: firestore.getUserSnapshot(user),
+//      builder: (context, userSnapshot) {
+//        if (userSnapshot.connectionState == ConnectionState.waiting) {
+//          return LoadingSpinner();
+//        }
+//        else {
+//      return ListView.builder(
+//          physics: NeverScrollableScrollPhysics(),
+//          shrinkWrap: true,
+//        itemCount: userSnapshot.data['medication'].length,//userSnapshot.data['medication'].length,
+//        itemBuilder: (context, index) {
+//        return FutureBuilder(
+//          future: firestore.getMedicationSnapshotAtIndex(user, index),
+//          builder: (context, snapshot) {
+//            if (snapshot.connectionState == ConnectionState.waiting) {
+//              return LoadingSpinner();
+//            } else if (snapshot.connectionState == ConnectionState.done ||
+//                snapshot.connectionState == ConnectionState.active){
+//            List<MedicationRegime> medicationList = [];
+//            Medication medication =
+//            new Medication(snapshot.data['name'], snapshot.data['type']);
+//            MedicationRegime medicationRegime = new MedicationRegime(
+//                medicationID: userSnapshot.data['medication'][index].toString(),
+//                medication: medication,
+//                dosage: snapshot.data['dosage'],
+//                dosageUnits: snapshot.data['units']);
+//            medicationRegime.setAllMedsTaken(snapshot.data['all taken']);
+//            medicationList.add(medicationRegime);
+//            user.addMedication(medicationRegime);
+//            user.getMedicationList().forEach((element) {print(element.getMedication().getName()); });
+//            return Card(
+//              child: ListTile(
+//                leading: Icon(medicationRegime
+//                    .getMedication()
+//                    .getMedicationIcon()),
+////                //TODO link to database
+//                title: Text(
+//                  medicationRegime.getMedication().getName(),
+//                  style: TextStyle(
+//                    fontSize: 20.0,
+//                  ),
+//                ),
+//                subtitle: Text(
+//                  medicationRegime.getDosage() + medicationRegime.getDosageUnits(),
+//                  style: TextStyle(
+//                    fontSize: 15.0,
+//                  ),
+//                ),
+//                trailing: Row(
+//                  mainAxisSize: MainAxisSize.min,
+//                  children: <Widget>[
+//                    Column(
+//                      mainAxisAlignment: MainAxisAlignment.center,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      children: [
+//                        Expanded(
+//                          child: Checkbox(
+//                            activeColor: Colors.green,
+//                            value: controller.checkboxInitialState(medicationRegime),
+//                            onChanged: (bool newValue) {
+//                              checkboxState(user, medicationRegime);
+//                            },
+//                          ),
+//                        ),
+//                        Expanded(
+//                            child: Text('All Taken?',
+//                                style: Theme.of(context)
+//                                    .textTheme
+//                                    .bodyText1)),
+//                      ],
+//                    ),
+//                    FlatButton.icon(
+//                      icon: Icon(
+//                        Icons.info_outline,
+//                      ),
+//                      label: Text('info'),
+//                      onPressed: () {
+//                        navigateToMedicationDetails(
+//                            medicationRegime, user);
+//                      },
+//                    ),
+//                  ],
+//                ),
+//              ),
+//            );
+//          }
+//            else {
+//              return null;
+//            }
+//        },
+//        );}
+//      );}}
+//    );
+//  }
+
+  Widget future(User user) {
+
     FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
+
+
     return FutureBuilder(
-        initialData: 0,
-      future: firestore.getUserSnapshot(user),
-      builder: (context, userSnapshot) {
-        if (userSnapshot.connectionState == ConnectionState.waiting) {
-          return LoadingSpinner();
-        }
-        else {
-      return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-        itemCount: userSnapshot.data['medication'].length,//userSnapshot.data['medication'].length,
-        itemBuilder: (context, index) {
-        return FutureBuilder(
-          future: firestore.getMedicationSnapshotAtIndex(user, index),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingSpinner();
-            } else if (snapshot.connectionState == ConnectionState.done ||
-                snapshot.connectionState == ConnectionState.active){
-            List<MedicationRegime> medicationList = [];
-            Medication medication =
-            new Medication(snapshot.data['name'], snapshot.data['type']);
-            MedicationRegime medicationRegime = new MedicationRegime(
-                medicationID: userSnapshot.data['medication'][index].toString(),
-                medication: medication,
-                dosage: snapshot.data['dosage'],
-                dosageUnits: snapshot.data['units']);
-            medicationRegime.setAllMedsTaken(snapshot.data['all taken']);
-            medicationList.add(medicationRegime);
-            user.addMedication(medicationRegime);
-            user.getMedicationList().forEach((element) {print(element.getMedication().getName()); });
-            return Card(
-              child: ListTile(
-                leading: Icon(medicationRegime
-                    .getMedication()
-                    .getMedicationIcon()),
+        future: firestore.getMedicationList(user),
+        builder: (context, medicationList) {
+          if(medicationList.connectionState == ConnectionState.waiting) {
+            return LoadingSpinner();
+          }
+          else {
+            return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: medicationList.data.length,//userSnapshot.data['medication'].length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: ListTile(
+                      leading: Icon(medicationList.data[index]
+                          .getMedication()
+                          .getMedicationIcon()),
 //                //TODO link to database
-                title: Text(
-                  medicationRegime.getMedication().getName(),
-                  style: TextStyle(
-                    fontSize: 20.0,
-                  ),
-                ),
-                subtitle: Text(
-                  medicationRegime.getDosage() + medicationRegime.getDosageUnits(),
-                  style: TextStyle(
-                    fontSize: 15.0,
-                  ),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Checkbox(
-                            activeColor: Colors.green,
-                            value: controller.checkboxInitialState(medicationRegime),
-                            onChanged: (bool newValue) {
-                              checkboxState(user, medicationRegime);
+                      title: Text(
+                        medicationList.data[index].getMedication().getName(),
+                        style: TextStyle(
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      subtitle: Text(
+                        medicationList.data[index].getDosage() + medicationList.data[index].getDosageUnits(),
+                        style: TextStyle(
+                          fontSize: 15.0,
+                        ),
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Checkbox(
+                                  activeColor: Colors.green,
+                                  value: controller.checkboxInitialState(medicationList.data[index]),
+                                  onChanged: (bool newValue) {
+                                    checkboxState(user, medicationList.data[index]);
+                                  },
+                                ),
+                              ),
+                              Expanded(
+                                  child: Text('All Taken?',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1)),
+                            ],
+                          ),
+                          FlatButton.icon(
+                            icon: Icon(
+                              Icons.info_outline,
+                            ),
+                            label: Text('info'),
+                            onPressed: () {
+                              navigateToMedicationDetails(
+                                  medicationList.data[index], user);
                             },
                           ),
-                        ),
-                        Expanded(
-                            child: Text('All Taken?',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1)),
-                      ],
-                    ),
-                    FlatButton.icon(
-                      icon: Icon(
-                        Icons.info_outline,
+                        ],
                       ),
-                      label: Text('info'),
-                      onPressed: () {
-                        navigateToMedicationDetails(
-                            medicationRegime, user);
-                      },
                     ),
-                  ],
-                ),
-              ),
+                  );
+                }
             );
           }
-            else {
-              return null;
-            }
-        },
-        );}
-      );}}
+        }
     );
   }
 

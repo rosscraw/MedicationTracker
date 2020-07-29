@@ -53,9 +53,14 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Shows text informing user none are overdue if there are no overdue meds.
   Widget overdueList(User user) {
     if (controller.getOverdueMedications(user).isEmpty) {
-      return Text(
-        'No medications are overdue!',
-          style: Theme.of(context).textTheme.bodyText2
+      return Card(
+        child: ListTile(
+          leading: Icon(Icons.alarm_on, color: Colors.green),
+          title: Text(
+            'No medications are overdue!',
+              //style: Theme.of(context).textTheme.bodyText2
+          ),
+        ),
       );
     } else {
       return Column(
@@ -74,9 +79,14 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Shows text informing user none are due if there are none due soon.
   Widget dueList(User user) {
     if (controller.getDueMedications(user).isEmpty) {
-      return Text(
-        'No medications are due soon!',
-          style: Theme.of(context).textTheme.bodyText2
+      return Card(
+        child: ListTile(
+          leading: Icon(Icons.alarm_on, color: Colors.green,),
+          title: Text(
+            'No medications are due soon!',
+              //style: Theme.of(context).textTheme.bodyText2
+          ),
+        ),
       );
     } else {
       return Column(

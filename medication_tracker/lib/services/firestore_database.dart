@@ -105,6 +105,34 @@ class FirestoreDatabase {
     return await getMedicationSnapshot(medicationId);
   }
 
+  /// Gets a User's medication list data from Firestore
+  Future<List<MedicationRegime>> getMedicationList(User user) async {
+    var userIdSnapshot = await getUserSnapshot(user);
+    List<MedicationRegime> medicationList = [];
+    for (int i = 0; i < userIdSnapshot['medication'].length; i++) {
+      var medicationSnapshot = await getMedicationSnapshotAtIndex(user, i);
+      String medicationId = await getMedicationId(user, i);
+      String name = medicationSnapshot['name'];
+      String dosage = medicationSnapshot['dosage'];
+      String units = medicationSnapshot['units'];
+      String type = medicationSnapshot['type'];
+
+      Medication medication = new Medication(name, type);
+
+      MedicationRegime medicationRegime = new MedicationRegime(
+        medicationID: medicationId,
+        medication: medication,
+        dosage: dosage,
+        dosageUnits: units
+      );
+      medicationRegime.setAllMedsTaken(medicationSnapshot['all taken']);
+
+      medicationList.add(medicationRegime);
+    }
+
+    return medicationList;
+  }
+
   // get user data stream
   Stream<QuerySnapshot> get trackerUsers {
     return usersCollection.snapshots();

@@ -26,7 +26,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime
                 .toString()),
             RaisedButton(
-              child: Text('Pick a date'),
+              child: Text('Pick a date', style: TextStyle(color: Colors.white),),
               onPressed: () {
                 showDatePicker(
                     context: context,
