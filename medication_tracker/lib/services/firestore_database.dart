@@ -106,7 +106,7 @@ class FirestoreDatabase {
   }
 
   /// Gets a User's medication list data from Firestore
-  Future<List<MedicationRegime>> getMedicationList(User user) async {
+  Future getMedicationList(User user) async {
     var userIdSnapshot = await getUserSnapshot(user);
     List<MedicationRegime> medicationList = [];
     for (int i = 0; i < userIdSnapshot['medication'].length; i++) {
@@ -130,6 +130,8 @@ class FirestoreDatabase {
       medicationList.add(medicationRegime);
     }
 
+    user.setMedicationList(medicationList);
+    user.getMedicationList().sort((a,b) => a.getMedication().getName().toUpperCase().compareTo(b.getMedication().getName().toUpperCase()));
     return medicationList;
   }
 
