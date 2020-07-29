@@ -1,104 +1,138 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 
 class FirestoreDatabase {
-
   final String uid;
   FirestoreDatabase({this.uid});
 
   // collection reference
-  final CollectionReference usersCollection = Firestore.instance.collection('users');
-  final CollectionReference medicationsCollection = Firestore.instance.collection('medications');
-  final CollectionReference doseTimesCollection = Firestore.instance.collection('times');
+  final CollectionReference usersCollection =
+      Firestore.instance.collection('users');
+  final CollectionReference medicationsCollection =
+      Firestore.instance.collection('medications');
+  final CollectionReference doseTimesCollection =
+      Firestore.instance.collection('times');
 
   /// Updates the user's data, saves their email address to their user document.
   Future updateUserData(String name) async {
     print('Success');
-    return await usersCollection.document(uid).setData({
-      'name': name,
-      'medication' : []
+    return await usersCollection
+        .document(uid)
+        .setData({'name': name, 'medication': []});
+  }
+
+  /// Add a medication to the medications Firestore Document.
+  Future<void> addMedication(MedicationRegime medication) async {
+    usersCollection.document(uid).setData({
+      'medication': FieldValue.arrayUnion([medication.getMedicationID()])
+    }, merge: true);
+    return await medicationsCollection
+        .document(medication.getMedicationID())
+        .setData({
+          'name': medication.getMedication().getName(),
+          'type': medication.getMedication().getMedType(),
+          'dosage': medication.getDosage(),
+          'units': medication.getDosageUnits(),
+          'all taken': medication.getAllMedsTaken(),
+          'dose times': []
+        })
+        .then((value) => print('Medication Added'))
+        .catchError((error) => print("Failed to update: $error"));
+  }
+
+  /// Update a medication's Firestore Document.
+  Future<void> editMedication(MedicationRegime medication) async {
+    return await medicationsCollection
+        .document(medication.getMedicationID())
+        .updateData({
+          'name': medication.getMedication().getName(),
+          'type': medication.getMedication().getMedType(),
+          'dosage': medication.getDosage(),
+          'units': medication.getDosageUnits(),
+        })
+        .then((value) => print('Medication Updated'))
+        .catchError((error) => print("Failed to update: $error"));
+  }
+
+  /// Delete a medication's Firestore Document.
+  Future<void> deleteMedication(MedicationRegime medication) async {
+    usersCollection.document(uid).updateData({
+      'medication': FieldValue.arrayRemove([medication.getMedicationID()])
     });
-    }
+    return await medicationsCollection
+        .document(medication.getMedicationID())
+        .delete()
+        .then((value) => print('Medication Deleted'))
+        .catchError((error) => print("Failed to delete: $error"));
+  }
 
-    /// Add a medication to the medications Firestore Document.
-    Future<void> addMedication(MedicationRegime medication) async {
-      usersCollection.document(uid).setData({
-        'medication' : FieldValue.arrayUnion([medication.getMedicationID()])
-      }, merge: true);
-    return await medicationsCollection.document(medication.getMedicationID()).setData({
-      'name' : medication.getMedication().getName(),
-      'type': medication.getMedication().getMedType(),
-      'dosage' : medication.getDosage(),
-      'units': medication.getDosageUnits(),
-      'all taken' : medication.getAllMedsTaken(),
-      'dose times' : []
-    }).then((value) => print('Medication Added')).catchError((error) => print("Failed to update: $error"));
-    }
+  /// Set the all taken status of a medication.
+  Future<void> editMedicationTaken(MedicationRegime medication) async {
+    return await medicationsCollection
+        .document(medication.getMedicationID())
+        .updateData({'all taken': medication.getAllMedsTaken()});
+  }
 
-    /// Update a medication's Firestore Document.
-    Future<void> editMedication(MedicationRegime medication) async {
-    return await medicationsCollection.document(medication.getMedicationID()).updateData({
-      'name' : medication.getMedication().getName(),
-      'type': medication.getMedication().getMedType(),
-      'dosage' : medication.getDosage(),
-      'units': medication.getDosageUnits(),
-    }).then((value) => print('Medication Updated')).catchError((error) => print("Failed to update: $error"));
-    }
-
-    /// Delete a medication's Firestore Document.
-    Future<void> deleteMedication(MedicationRegime medication) async {
-      usersCollection.document(uid).updateData({
-        'medication' : FieldValue.arrayRemove([medication.getMedicationID()])
-      });
-    return await medicationsCollection.document(medication.getMedicationID()).delete().
-          then((value) => print('Medication Deleted')).catchError((error) => print("Failed to delete: $error"));
-    }
-
-    /// Set the all taken status of a medication.
-    Future<void> editMedicationTaken(MedicationRegime medication) async {
-    return await medicationsCollection.document(medication.getMedicationID()).updateData({
-      'all taken' : medication.getAllMedsTaken()
-    });
-    }
-
-    /// Add a dose time to the times Firestore collection.
-    Future<void> addMedicationDosages(MedicationRegime medication) async {
-    if(medication.getDosageTimings().isNotEmpty) {
-      for(DoseTimeDetails time in medication.getDosageTimings()) {
-        return await doseTimesCollection.add({
-          'time' : time.getDoseTime().toString(),
-          'been taken' : time.getHasMedBeenTaken(),
-          'medication' : time.getMedicationRegime().getMedicationID()
+  /// Add a dose time to the times Firestore collection.
+  Future<void> addMedicationDosages(MedicationRegime medication) async {
+    if (medication.getDosageTimings().isNotEmpty) {
+      for (DoseTimeDetails time in medication.getDosageTimings()) {
+        medicationsCollection.document(medication.getMedicationID()).setData({
+          'dose times': FieldValue.arrayUnion(([time.getDoseTime().toString()]))
+        }, merge: true);
+        //TODO time id
+        return await doseTimesCollection.document().setData({
+          'time': time.getDoseTime().toString(),
+          'been taken': time.getHasMedBeenTaken(),
+          'medication': time.getMedicationRegime().getMedicationID()
         });
       }
     }
-    return null;
-    }
+  }
 
-  Future getUserSnapshot(User user) async{
+  /// Edit a dose time's details.
+  Future<void> editMedicationDosages(DoseTimeDetails time) async {
+    return await doseTimesCollection.document(time.getDoseTimeId()).updateData({
+      'time': time.getDoseTime().toString(),
+      'been taken': time.getHasMedBeenTaken(),
+      'medication': time.getMedicationRegime().getMedicationID()
+    });
+
+  }
+
+  /// Delete a dose time's Firestore Document.
+  Future<void> deleteMedicationDosages(DoseTimeDetails time) async{
+    medicationsCollection.document(time.getMedicationRegime().getMedicationID()).updateData({
+      'dose times' : FieldValue.arrayRemove([time.getDoseTimeId()])
+    });
+    return await doseTimesCollection.document(time.getDoseTimeId()).delete();
+  }
+
+  Future getUserSnapshot(User user) async {
     // Gets Current user's collection
     DocumentReference userIdRef = usersCollection.document(user.getUid());
     DocumentSnapshot userIdSnapshot = await userIdRef.get();
     return userIdSnapshot.data;
   }
 
-  Future getMedicationSnapshot(String medId) async{
+  Future getMedicationSnapshot(String medId) async {
     DocumentReference medicationIdRef = medicationsCollection.document(medId);
     DocumentSnapshot medicationIdSnapshot = await medicationIdRef.get();
     return medicationIdSnapshot.data;
   }
 
-  Future getMedicationId(User user, int index) async{
+  Future getMedicationId(User user, int index) async {
     var userSnapshot = await getUserSnapshot(user);
     var medicationId = await userSnapshot['medication'][index];
     return medicationId;
   }
 
-  Future getMedicationSnapshotAtIndex(User user, int index) async{
+  Future getMedicationSnapshotAtIndex(User user, int index) async {
     var userSnapshot = await getUserSnapshot(user);
     var medicationId = userSnapshot['medication'][index];
 
@@ -120,18 +154,24 @@ class FirestoreDatabase {
       Medication medication = new Medication(name, type);
 
       MedicationRegime medicationRegime = new MedicationRegime(
-        medicationID: medicationId,
-        medication: medication,
-        dosage: dosage,
-        dosageUnits: units
-      );
+          medicationID: medicationId,
+          medication: medication,
+          dosage: dosage,
+          dosageUnits: units);
       medicationRegime.setAllMedsTaken(medicationSnapshot['all taken']);
+
+      //TODO add times
+      medicationRegime.addDoseTime(new DoseTimeDetails(time: TimeOfDay.now()));
 
       medicationList.add(medicationRegime);
     }
 
     user.setMedicationList(medicationList);
-    user.getMedicationList().sort((a,b) => a.getMedication().getName().toUpperCase().compareTo(b.getMedication().getName().toUpperCase()));
+    user.getMedicationList().sort((a, b) => a
+        .getMedication()
+        .getName()
+        .toUpperCase()
+        .compareTo(b.getMedication().getName().toUpperCase()));
     return medicationList;
   }
 
