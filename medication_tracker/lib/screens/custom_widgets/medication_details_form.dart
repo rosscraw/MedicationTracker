@@ -203,6 +203,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   /// Adds a new medication to the user's list according to the information the user has input.
   void addMedicationToList(FirestoreDatabase firestore, User user, String medicationName,
       String medicationDosage, String medicationUnit, String medicationType) {
+    widget.medicationRegime.getDosageTimings().forEach((element) {print(element.getDoseTime().toString());});
     if (_medFormKey.currentState.validate()) {
       setState(() {
         controller.addMedication(firestore,

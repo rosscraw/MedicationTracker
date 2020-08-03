@@ -28,8 +28,13 @@ class AdherenceFigures {
 
   int getTotalMedications() {
     for (MedicationRegime medication in user.getMedicationList()) {
-      for (DoseTimeDetails time in medication.dosageTimings) {
+      if (medication.getDosageTimings().isEmpty) {
         _total++;
+      }
+      else {
+        for (DoseTimeDetails time in medication.dosageTimings) {
+          _total++;
+        }
       }
 
     }
@@ -38,9 +43,14 @@ class AdherenceFigures {
 
   int getTotalTakenMedications() {
     for (MedicationRegime medication in user.getMedicationList()) {
-      for (DoseTimeDetails time in medication.dosageTimings) {
-        if(time.getHasMedBeenTaken()) {
-          _taken++;
+      if (medication.getDosageTimings().isEmpty && medication.getAllMedsTaken()) {
+        _taken++;
+      }
+      else {
+        for (DoseTimeDetails time in medication.dosageTimings) {
+          if (time.getHasMedBeenTaken()) {
+            _taken++;
+          }
         }
       }
 

@@ -159,7 +159,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
           chosenTime != null) {
         //dosageTimes.add(chosenTime);
         medicationRegime.addDoseTime(DoseTimeDetails(time: chosenTime));
-      } else if (chosenTime != null) {
+              } else if (chosenTime != null) {
         medicationRegime.getDosageTimings()[index] =
             DoseTimeDetails(time: chosenTime);
       }

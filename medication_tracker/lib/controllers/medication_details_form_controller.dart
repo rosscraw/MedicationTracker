@@ -31,8 +31,10 @@ class MedicationDetailsFormController {
       medicationRegime.setDosageUnits(medicationUnit);
       user.addMedication(medicationRegime);
     }
+    medicationRegime.getDosageTimings().forEach((element) {print(element.getDoseTime().toString());});
     medicationRegime.setMedicationID(user.uid + medicationName);
     firestore.addMedication(medicationRegime);
+    firestore.addMedicationDosages(medicationRegime);
 
   }
 

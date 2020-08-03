@@ -12,7 +12,7 @@ class AdherenceScreenController {
 
   int getTaken(User user) {
     adherenceFigures.setUser(user);
-    return adherenceFigures.getTakenMedications();
+    return adherenceFigures.getTotalTakenMedications();
   }
 
 }

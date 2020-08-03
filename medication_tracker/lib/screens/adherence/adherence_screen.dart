@@ -42,11 +42,11 @@ class _AdherenceScreenState extends State<AdherenceScreen> {
                 Card(
                     child: ListTile(
                       leading: Icon(Icons.check),
-                        title: Text('Taken: ' + getTaken(_user)))),
+                        title: Text('Taken: ' + controller.getTaken(_user).toString()))),
                 Card(
                     child: ListTile(
                         leading: Icon(Icons.format_list_numbered),
-                        title: Text('Total: ' + getTotal(_user)))),
+                        title: Text('Total: ' + controller.getTotal(_user).toString()))),
                 future(_user),
 
               ],

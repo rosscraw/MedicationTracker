@@ -5,22 +5,23 @@ import 'medication_regime.dart';
 
 class DoseTimeDetails {
 
-  String tid;
+  String timeId;
   TimeOfDay time;
   bool _hasMedBeenTaken;
-  MedicationRegime medication;
+  MedicationRegime _medication;
 
   /// Create new dose time detail using dose time.
-  DoseTimeDetails({key, this.tid, this.time}) {
+  DoseTimeDetails({key, this.timeId, this.time}) {
     _hasMedBeenTaken = false;
   }
 
+
   String getDoseTimeId() {
-    return tid;
+    return timeId;
   }
 
   void setDoseTimeId(String doseTimeId) {
-    tid = doseTimeId;
+    timeId = doseTimeId;
   }
 
   TimeOfDay getDoseTime() {
@@ -40,10 +41,10 @@ class DoseTimeDetails {
   }
 
   MedicationRegime getMedicationRegime() {
-    return medication;
+    return _medication;
   }
 
   void setMedicationRegime(MedicationRegime med) {
-    medication = med;
+    _medication = med;
   }
 }
