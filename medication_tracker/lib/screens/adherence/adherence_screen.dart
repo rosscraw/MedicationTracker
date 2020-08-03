@@ -6,6 +6,7 @@ import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/loading_spinner.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
 class AdherenceScreen extends StatefulWidget {
@@ -38,6 +39,7 @@ class _AdherenceScreenState extends State<AdherenceScreen> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Card(
                     child: ListTile(
@@ -47,7 +49,16 @@ class _AdherenceScreenState extends State<AdherenceScreen> {
                     child: ListTile(
                         leading: Icon(Icons.format_list_numbered),
                         title: Text('Total: ' + controller.getTotal(_user).toString()))),
-                future(_user),
+                SizedBox(
+                  height: 20,
+                ),
+                CircularPercentIndicator(
+                  radius: 150.0,
+                  lineWidth: 10.0,
+                  percent: getPercentageTaken(_user),
+                  center: new Text((getPercentageTaken(_user) * 100 ).toString() +'% taken'),
+                  progressColor: Colors.green,
+                ),
 
               ],
             ),
@@ -57,45 +68,8 @@ class _AdherenceScreenState extends State<AdherenceScreen> {
     );
   }
 
-  Widget future(User user) {
-    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
-    return FutureBuilder(
-      future: firestore.getMedicationList(user),
-      builder: (context, medicationList) {
-        if(medicationList.connectionState == ConnectionState.waiting) {
-          return LoadingSpinner();
-        }
-        else {
-          return ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: medicationList.data.length,//userSnapshot.data['medication'].length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(medicationList.data[index].getMedication().getName()),
-                  ),
-                );
-              }
-          );
-        }
-      }
-    );
+  double getPercentageTaken(User user) {
+    return controller.getTaken(user)/controller.getTotal(user);
   }
-
-  String getTaken(User user) {
-    setState(() {
-      taken = controller.getTaken(user);
-    });
-    return taken.toString();
-  }
-
-  String getTotal(User user) {
-    setState(() {
-      total = controller.getTotal(user);
-    });
-    return total.toString();
-  }
-
 
 }
