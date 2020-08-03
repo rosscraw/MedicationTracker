@@ -1,3 +1,4 @@
+import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
@@ -58,6 +59,9 @@ class MedicationDetailsFormController {
       medicationRegime.setDosageUnits(medicationUnit);
     }
     firestore.editMedication(medicationRegime);
+    for(DoseTimeDetails time in medicationRegime.getDosageTimings()) {
+      firestore.editMedicationDosages(time, medicationRegime.getMedicationID());
+    }
   }
 
   ///Initial name value in name form if user is editing a medication.

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/controllers/set_dosage_times_controller.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
@@ -157,11 +159,15 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     setState(() {
       if (medicationRegime.getDosageTimings().length <= index &&
           chosenTime != null) {
-        //dosageTimes.add(chosenTime);
-        medicationRegime.addDoseTime(DoseTimeDetails(time: chosenTime));
+        DoseTimeDetails newDoseTime = DoseTimeDetails(time: chosenTime);
+        if(newDoseTime.getDoseTimeId() == null) {
+          newDoseTime.setDoseTimeId(newDoseTime.getDoseTime().toString() +
+              Random().nextInt(4294967296).toString());
+          print(newDoseTime.getDoseTimeId());
+        }
+        medicationRegime.addDoseTime(newDoseTime);
               } else if (chosenTime != null) {
-        medicationRegime.getDosageTimings()[index] =
-            DoseTimeDetails(time: chosenTime);
+        medicationRegime.getDosageTimings()[index].setDoseTime(chosenTime);
       }
     });
   }
