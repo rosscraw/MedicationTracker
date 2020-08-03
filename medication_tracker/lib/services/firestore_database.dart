@@ -84,7 +84,8 @@ class FirestoreDatabase {
   Future<void> addMedicationDosages(MedicationRegime medication) async {
     if (medication.getDosageTimings().isNotEmpty) {
       for (DoseTimeDetails time in medication.getDosageTimings()) {
-        var timeId = time.getDoseTime().toString() + Random().nextInt(4294967296).toString();
+        var timeId = time.getDoseTimeId();
+            //time.getDoseTime().toString() + Random().nextInt(4294967296).toString();
         medicationsCollection.document(medication.getMedicationID()).setData({
           'dose times': FieldValue.arrayUnion(([timeId]))
         }, merge: true);
@@ -100,13 +101,13 @@ class FirestoreDatabase {
   }
 
   /// Edit a dose time's details.
-  Future<void> editMedicationDosages(DoseTimeDetails time) async {
-    return await doseTimesCollection.document(time.getDoseTimeId()).updateData({
+  Future<void> editMedicationDosages(DoseTimeDetails time, String medId) async {
+    return await doseTimesCollection.document(time.getDoseTimeId()).setData({
       'hour': time.getDoseTime().hour,
       'minute': time.getDoseTime().minute,
       'been taken': time.getHasMedBeenTaken(),
-      'medication': time.getMedicationRegime().getMedicationID()
-    });
+      'medication': medId
+    }, merge: true);
 
   }
 
