@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -82,12 +84,14 @@ class FirestoreDatabase {
   Future<void> addMedicationDosages(MedicationRegime medication) async {
     if (medication.getDosageTimings().isNotEmpty) {
       for (DoseTimeDetails time in medication.getDosageTimings()) {
+        var timeId = time.getDoseTime().toString() + Random().nextInt(4294967296).toString();
         medicationsCollection.document(medication.getMedicationID()).setData({
-          'dose times': FieldValue.arrayUnion(([time.getDoseTime().toString()]))
+          'dose times': FieldValue.arrayUnion(([timeId]))
         }, merge: true);
         //TODO time id
-        return await doseTimesCollection.document().setData({
-          'time': time.getDoseTime().toString(),
+        await doseTimesCollection.document(timeId).setData({
+          'hour': time.getDoseTime().hour,
+          'minute': time.getDoseTime().minute,
           'been taken': time.getHasMedBeenTaken(),
           'medication': time.getMedicationRegime().getMedicationID()
         });
@@ -98,7 +102,8 @@ class FirestoreDatabase {
   /// Edit a dose time's details.
   Future<void> editMedicationDosages(DoseTimeDetails time) async {
     return await doseTimesCollection.document(time.getDoseTimeId()).updateData({
-      'time': time.getDoseTime().toString(),
+      'hour': time.getDoseTime().hour,
+      'minute': time.getDoseTime().minute,
       'been taken': time.getHasMedBeenTaken(),
       'medication': time.getMedicationRegime().getMedicationID()
     });
@@ -139,6 +144,26 @@ class FirestoreDatabase {
     return await getMedicationSnapshot(medicationId);
   }
 
+  Future getTimeSnapshot(String timeId) async {
+    DocumentReference timeIdRef = doseTimesCollection.document(timeId);
+    DocumentSnapshot timeIdSnapshot = await timeIdRef.get();
+    return timeIdSnapshot.data;
+  }
+
+  Future getTimeId(MedicationRegime medication, int index) async {
+    var medicationSnapshot = await getMedicationSnapshot(medication.getMedicationID());
+    var timeId = await medicationSnapshot['dose times'][index];
+    return timeId;
+  }
+
+  Future getTimeSnapshotAtIndex(MedicationRegime medication, int index) async {
+    var medicationSnapshot = await getMedicationSnapshot(medication.getMedicationID());
+    var timeId = await medicationSnapshot['dose times'][index];
+
+    return await getTimeSnapshot(timeId);
+  }
+
+
   /// Gets a User's medication list data from Firestore
   Future getMedicationList(User user) async {
     var userIdSnapshot = await getUserSnapshot(user);
@@ -160,8 +185,22 @@ class FirestoreDatabase {
           dosageUnits: units);
       medicationRegime.setAllMedsTaken(medicationSnapshot['all taken']);
 
-      //TODO add times
-      medicationRegime.addDoseTime(new DoseTimeDetails(time: TimeOfDay.now()));
+      for (int i = 0; i < medicationSnapshot['dose times'].length; i++) {
+        var timeSnapshot = await getTimeSnapshotAtIndex(medicationRegime, i);
+        int hour = timeSnapshot['hour'];
+        int minute = timeSnapshot['minute'];
+        bool beenTaken = timeSnapshot['been taken'];
+        TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
+        DoseTimeDetails time = new DoseTimeDetails(time: timeOfDay);
+        time.setHasMedBeenTaken(beenTaken);
+        time.setMedicationRegime(medicationRegime);
+
+        medicationRegime.addDoseTime(time);
+
+      }
+
+//      //TODO add times
+//      medicationRegime.addDoseTime(new DoseTimeDetails(time: TimeOfDay.now()));
 
       medicationList.add(medicationRegime);
     }

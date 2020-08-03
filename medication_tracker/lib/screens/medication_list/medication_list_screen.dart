@@ -87,6 +87,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
     FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
     return FutureBuilder(
+      initialData: user.getMedicationList(),
         future: fetchMedicationList, //firestore.getMedicationList(user),
         builder: (context, medicationList) {
           if(medicationList.connectionState == ConnectionState.waiting) {
