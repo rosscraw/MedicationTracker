@@ -8,7 +8,7 @@ import 'package:medicationtracker/services/firestore_database.dart';
 
 /// Sign in, register account and sign out methods.
 /// Using Firebase's authentication to validate users.
-class AuthService {
+class FirebaseAuthentication {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -46,11 +46,11 @@ class AuthService {
   Future registerAccount(String email, String password) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      FirebaseUser user = authResult.user;
-
+      FirebaseUser firebaseUser = authResult.user;
+      User user = _userFromFirebase(firebaseUser);
       //Create new Firestore doc
-      await FirestoreDatabase(uid: user.uid).updateUserData(email);
-      return _userFromFirebase(user);
+      await FirestoreDatabase(user: user).updateUserData(email);
+      return user;
     }
     catch(error) {
       print(error.toString());

@@ -5,13 +5,13 @@ import 'package:medicationtracker/models/user.dart';
 
 class HomeController {
   /// Return list of medications that are due within two hours of now.
-  List<DoseTimeDetails> getDueMedications(User user) {
-    List<DoseTimeDetails> _dueMedications = [];
+  List<DoseTimeDetail> getDueMedications(User user) {
+    List<DoseTimeDetail> _dueMedications = [];
     TimeOfDay _timeNow = TimeOfDay.now();
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
-      for (DoseTimeDetails time in medication.dosageTimings) {
+      for (DoseTimeDetail time in medication.dosageTimings) {
         if (!time.getHasMedBeenTaken() && (time.getDoseTime().hour >= _timeNow.hour
              || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
             (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute)) {
@@ -25,13 +25,13 @@ class HomeController {
   }
 
   /// Return list of medications that are overdue.
-  List<DoseTimeDetails> getOverdueMedications(User user) {
-    List<DoseTimeDetails> _overdueMedications = [];
+  List<DoseTimeDetail> getOverdueMedications(User user) {
+    List<DoseTimeDetail> _overdueMedications = [];
     TimeOfDay _timeNow = TimeOfDay.now();
     // TODO add functionality so if marked as taken item is removed from list
     // TODO if no items due display alternative message.
     for (MedicationRegime medication in user.getMedicationList()) {
-      for (DoseTimeDetails time in medication.dosageTimings) {
+      for (DoseTimeDetail time in medication.dosageTimings) {
         if (!time.getHasMedBeenTaken() && time.getDoseTime().hour < _timeNow.hour || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute < _timeNow.minute)) {
           _overdueMedications.add(time);
         }

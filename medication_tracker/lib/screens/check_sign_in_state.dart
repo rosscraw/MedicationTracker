@@ -22,10 +22,10 @@ class CheckSignInState extends StatelessWidget {
     }
     // If user is provided show Home Screen.
     else {
-      FirestoreDatabase firestore = FirestoreDatabase(uid: user.getUid());
+      FirestoreDatabase firestore = FirestoreDatabase(user: user);
 
       return FutureBuilder(
-          future: firestore.getMedicationList(user),
+          future: firestore.getMedicationList(),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting) {
               return Scaffold(body: LoadingSpinner());

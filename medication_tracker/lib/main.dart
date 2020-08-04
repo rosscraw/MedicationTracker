@@ -31,7 +31,7 @@ class MedicationTrackerApp extends StatelessWidget {
     return Consumer<DarkModeNotifier>(
         builder: (context, darkModeNotifier, child) {
       return StreamProvider<User>.value(
-        value: AuthService().user,
+        value: FirebaseAuthentication().user,
         child: MaterialApp(
           title: 'Medication Tracker App',
           theme: AppTheme.lightTheme,

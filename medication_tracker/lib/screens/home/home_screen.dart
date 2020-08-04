@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<User>(context);
-    FirestoreDatabase firestore = FirestoreDatabase(uid: _user.getUid());
-    firestore.getMedicationList(_user);
+    FirestoreDatabase firestore = FirestoreDatabase(user: _user);
+    firestore.getMedicationList();
 
     return Scaffold(
       body: SingleChildScrollView(

@@ -59,7 +59,7 @@ class MedicationDetailsFormController {
       medicationRegime.setDosageUnits(medicationUnit);
     }
     firestore.editMedication(medicationRegime);
-    for(DoseTimeDetails time in medicationRegime.getDosageTimings()) {
+    for(DoseTimeDetail time in medicationRegime.getDosageTimings()) {
       firestore.editMedicationDosages(time, medicationRegime.getMedicationID());
     }
   }

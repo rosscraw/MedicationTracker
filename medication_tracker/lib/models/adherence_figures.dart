@@ -32,7 +32,7 @@ class AdherenceFigures {
         _total++;
       }
       else {
-        for (DoseTimeDetails time in medication.dosageTimings) {
+        for (DoseTimeDetail time in medication.dosageTimings) {
           _total++;
         }
       }
@@ -47,7 +47,7 @@ class AdherenceFigures {
         _taken++;
       }
       else {
-        for (DoseTimeDetails time in medication.dosageTimings) {
+        for (DoseTimeDetail time in medication.dosageTimings) {
           if (time.getHasMedBeenTaken()) {
             _taken++;
           }
