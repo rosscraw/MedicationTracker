@@ -17,7 +17,7 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-  final AuthService _auth = AuthService();
+  final FirebaseAuthentication _auth = FirebaseAuthentication();
 
   @override
   Widget build(BuildContext context) {

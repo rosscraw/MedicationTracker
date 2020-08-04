@@ -159,7 +159,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     setState(() {
       if (medicationRegime.getDosageTimings().length <= index &&
           chosenTime != null) {
-        DoseTimeDetails newDoseTime = DoseTimeDetails(time: chosenTime);
+        DoseTimeDetail newDoseTime = DoseTimeDetail(time: chosenTime);
         if(newDoseTime.getDoseTimeId() == null) {
           newDoseTime.setDoseTimeId(newDoseTime.getDoseTime().toString() +
               Random().nextInt(4294967296).toString());

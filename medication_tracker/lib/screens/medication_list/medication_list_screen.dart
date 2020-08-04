@@ -26,7 +26,7 @@ class MedicationScreen extends StatefulWidget {
 
 class _MedicationScreenState extends State<MedicationScreen> {
   MedicationListController controller = new MedicationListController();
-  FirestoreDatabase firestoreDatabase = new FirestoreDatabase();
+
 
 
   Future fetchMedicationList;
@@ -35,14 +35,16 @@ class _MedicationScreenState extends State<MedicationScreen> {
   void initState() {
 
     final user = Provider.of<User>(context, listen: false);
-    fetchMedicationList = firestoreDatabase.getMedicationList(user);
+    FirestoreDatabase firestoreDatabase = new FirestoreDatabase(user: user);
+    fetchMedicationList = firestoreDatabase.getMedicationList();
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     final user = Provider.of<User>(context, listen: false);
-    fetchMedicationList = firestoreDatabase.getMedicationList(user);
+    FirestoreDatabase firestoreDatabase = new FirestoreDatabase(user: user);
+    fetchMedicationList = firestoreDatabase.getMedicationList();
     super.didChangeDependencies();
   }
 
@@ -85,7 +87,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
 
   Widget buildMedicationListFromFirestore(User user) {
 
-    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
+    FirestoreDatabase firestore = new FirestoreDatabase(user: user);
     return FutureBuilder(
       initialData: fetchMedicationList,
         future: fetchMedicationList, //firestore.getMedicationList(user),
@@ -168,7 +170,7 @@ class _MedicationScreenState extends State<MedicationScreen> {
   void checkboxState(User user, MedicationRegime medicationRegime) {
     setState(() {
       controller.setMedicationTaken(medicationRegime);
-      FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
+      FirestoreDatabase firestore = new FirestoreDatabase(user: user);
       firestore.editMedicationTaken(medicationRegime);
     });
   }

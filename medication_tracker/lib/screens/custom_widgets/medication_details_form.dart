@@ -42,7 +42,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    FirestoreDatabase firestore = new FirestoreDatabase(uid: user.getUid());
+    FirestoreDatabase firestore = new FirestoreDatabase(user: user);
 
     return Column(children: <Widget>[
       Form(

@@ -25,7 +25,7 @@ class _EmailPassBlockState extends State<EmailPassBlock> {
   String _password = '';
   String _error = '';
 
-  final AuthService _auth = AuthService();
+  final FirebaseAuthentication _auth = FirebaseAuthentication();
   final _formKey = GlobalKey<FormState>();
   bool _loading = false;
 

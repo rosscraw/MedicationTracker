@@ -3,7 +3,7 @@ import 'package:medicationtracker/models/medication.dart';
 
 import 'medication_regime.dart';
 
-class DoseTimeDetails {
+class DoseTimeDetail {
 
   String timeId;
   TimeOfDay time;
@@ -11,7 +11,7 @@ class DoseTimeDetails {
   MedicationRegime _medication;
 
   /// Create new dose time detail using dose time.
-  DoseTimeDetails({key, this.timeId, this.time}) {
+  DoseTimeDetail({key, this.timeId, this.time}) {
     _hasMedBeenTaken = false;
   }
 

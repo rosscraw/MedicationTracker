@@ -153,7 +153,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
 
   /// Display an alert
   Future<void> showDeleteAlert(User user) async {
-    FirestoreDatabase firestoreDatabase = new FirestoreDatabase(uid: user.getUid());
+    FirestoreDatabase firestoreDatabase = new FirestoreDatabase(user: user);
     return showDialog<void>(
       context: context,
       barrierDismissible: false,

@@ -9,7 +9,7 @@ class MedicationRegime{
   Medication medication;
   String dosage = '';
   String dosageUnits = '';
-  List<DoseTimeDetails> dosageTimings = [];
+  List<DoseTimeDetail> dosageTimings = [];
   bool allMedsTaken = false;
 
   MedicationRegime({key, this.medicationID, this.medication, this.dosage, this.dosageUnits});
@@ -46,17 +46,17 @@ class MedicationRegime{
     this.dosageUnits = dosageUnits;
   }
 
-  List<DoseTimeDetails> getDosageTimings() {
+  List<DoseTimeDetail> getDosageTimings() {
     return dosageTimings;
   }
 
-  void addDoseTime(DoseTimeDetails time) {
+  void addDoseTime(DoseTimeDetail time) {
     dosageTimings.add(time);
     int index = dosageTimings.indexOf(time);
     dosageTimings[index].setMedicationRegime(this);
   }
 
-  void removeDoseTime(DoseTimeDetails time) {
+  void removeDoseTime(DoseTimeDetail time) {
     dosageTimings.remove(time);
   }
 
@@ -66,7 +66,7 @@ class MedicationRegime{
     }
     else {
       int taken = 0;
-      for (DoseTimeDetails time in dosageTimings) {
+      for (DoseTimeDetail time in dosageTimings) {
         if(time.getHasMedBeenTaken()) {
           taken++;
         }
@@ -87,7 +87,7 @@ class MedicationRegime{
       allMedsTaken = allTaken;
     }
     else {
-      for(DoseTimeDetails time in dosageTimings) {
+      for(DoseTimeDetail time in dosageTimings) {
         time.setHasMedBeenTaken(allTaken);
       }
       allMedsTaken = allTaken;

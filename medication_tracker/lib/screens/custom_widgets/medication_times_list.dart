@@ -7,7 +7,7 @@ import 'package:medicationtracker/models/medication_regime.dart';
 class MedicationTimesList extends StatefulWidget {
   MedicationTimesList(this.medications);
 
-  final List<DoseTimeDetails> medications;
+  final List<DoseTimeDetail> medications;
 
   @override
   _MedicationTimesListState createState() => _MedicationTimesListState();

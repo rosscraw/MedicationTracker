@@ -9,8 +9,9 @@ import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 
 class FirestoreDatabase {
-  final String uid;
-  FirestoreDatabase({this.uid});
+  //final String uid;
+  final User user;
+  FirestoreDatabase({this.user});
 
   // collection reference
   final CollectionReference usersCollection =
@@ -24,13 +25,13 @@ class FirestoreDatabase {
   Future updateUserData(String name) async {
     print('Success');
     return await usersCollection
-        .document(uid)
+        .document(user.getUid())
         .setData({'name': name, 'medication': []});
   }
 
   /// Add a medication to the medications Firestore Document.
   Future<void> addMedication(MedicationRegime medication) async {
-    usersCollection.document(uid).setData({
+    usersCollection.document(user.getUid()).setData({
       'medication': FieldValue.arrayUnion([medication.getMedicationID()])
     }, merge: true);
     return await medicationsCollection
@@ -63,7 +64,7 @@ class FirestoreDatabase {
 
   /// Delete a medication's Firestore Document.
   Future<void> deleteMedication(MedicationRegime medication) async {
-    usersCollection.document(uid).updateData({
+    usersCollection.document(user.getUid()).updateData({
       'medication': FieldValue.arrayRemove([medication.getMedicationID()])
     });
     return await medicationsCollection
@@ -83,7 +84,7 @@ class FirestoreDatabase {
   /// Add a dose time to the times Firestore collection.
   Future<void> addMedicationDosages(MedicationRegime medication) async {
     if (medication.getDosageTimings().isNotEmpty) {
-      for (DoseTimeDetails time in medication.getDosageTimings()) {
+      for (DoseTimeDetail time in medication.getDosageTimings()) {
         var timeId = time.getDoseTimeId();
             //time.getDoseTime().toString() + Random().nextInt(4294967296).toString();
         medicationsCollection.document(medication.getMedicationID()).setData({
@@ -101,7 +102,7 @@ class FirestoreDatabase {
   }
 
   /// Edit a dose time's details.
-  Future<void> editMedicationDosages(DoseTimeDetails time, String medId) async {
+  Future<void> editMedicationDosages(DoseTimeDetail time, String medId) async {
     return await doseTimesCollection.document(time.getDoseTimeId()).setData({
       'hour': time.getDoseTime().hour,
       'minute': time.getDoseTime().minute,
@@ -112,14 +113,14 @@ class FirestoreDatabase {
   }
 
   /// Delete a dose time's Firestore Document.
-  Future<void> deleteMedicationDosages(DoseTimeDetails time) async{
+  Future<void> deleteMedicationDosages(DoseTimeDetail time) async{
     medicationsCollection.document(time.getMedicationRegime().getMedicationID()).updateData({
       'dose times' : FieldValue.arrayRemove([time.getDoseTimeId()])
     });
     return await doseTimesCollection.document(time.getDoseTimeId()).delete();
   }
 
-  Future getUserSnapshot(User user) async {
+  Future getUserSnapshot() async {
     // Gets Current user's collection
     DocumentReference userIdRef = usersCollection.document(user.getUid());
     DocumentSnapshot userIdSnapshot = await userIdRef.get();
@@ -132,14 +133,14 @@ class FirestoreDatabase {
     return medicationIdSnapshot.data;
   }
 
-  Future getMedicationId(User user, int index) async {
-    var userSnapshot = await getUserSnapshot(user);
+  Future getMedicationId(int index) async {
+    var userSnapshot = await getUserSnapshot();
     var medicationId = await userSnapshot['medication'][index];
     return medicationId;
   }
 
-  Future getMedicationSnapshotAtIndex(User user, int index) async {
-    var userSnapshot = await getUserSnapshot(user);
+  Future getMedicationSnapshotAtIndex(int index) async {
+    var userSnapshot = await getUserSnapshot();
     var medicationId = userSnapshot['medication'][index];
 
     return await getMedicationSnapshot(medicationId);
@@ -166,12 +167,12 @@ class FirestoreDatabase {
 
 
   /// Gets a User's medication list data from Firestore
-  Future getMedicationList(User user) async {
-    var userIdSnapshot = await getUserSnapshot(user);
+  Future getMedicationList() async {
+    var userIdSnapshot = await getUserSnapshot();
     List<MedicationRegime> medicationList = [];
     for (int i = 0; i < userIdSnapshot['medication'].length; i++) {
-      var medicationSnapshot = await getMedicationSnapshotAtIndex(user, i);
-      String medicationId = await getMedicationId(user, i);
+      var medicationSnapshot = await getMedicationSnapshotAtIndex(i);
+      String medicationId = await getMedicationId(i);
       String name = medicationSnapshot['name'];
       String dosage = medicationSnapshot['dosage'];
       String units = medicationSnapshot['units'];
@@ -192,7 +193,7 @@ class FirestoreDatabase {
         int minute = timeSnapshot['minute'];
         bool beenTaken = timeSnapshot['been taken'];
         TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
-        DoseTimeDetails time = new DoseTimeDetails(time: timeOfDay);
+        DoseTimeDetail time = new DoseTimeDetail(time: timeOfDay);
         time.setHasMedBeenTaken(beenTaken);
         time.setMedicationRegime(medicationRegime);
 
