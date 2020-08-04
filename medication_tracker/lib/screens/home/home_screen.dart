@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
+import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 import 'package:medicationtracker/controllers/home_controller.dart';
 
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<User>(context);
+    FirestoreDatabase firestore = FirestoreDatabase(uid: _user.getUid());
+    firestore.getMedicationList(_user);
 
     return Scaffold(
       body: SingleChildScrollView(
