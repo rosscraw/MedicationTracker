@@ -15,4 +15,9 @@ class AdherenceScreenController {
     return adherenceFigures.getTotalTakenMedications();
   }
 
+  double getPercentageTaken(User user) {
+    return getTaken(user)/getTotal(user);
+  }
+
+
 }
