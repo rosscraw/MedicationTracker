@@ -46,18 +46,13 @@ class User {
     }
   }
 
-  void removeMedication(MedicationRegime medication) {
+  String removeMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       _medications.remove(medication);
-      print('removed');
-      _medications.forEach((element) {
-        print(medication.getMedication().getName());
-      }
-      );
-
+      return 'Medication Removed';
       }
     else {
-      String error = 'Medication is not currently in list and cannot be removed';
+      return 'Medication is not currently in list and cannot be removed';
     }
   }
 }
