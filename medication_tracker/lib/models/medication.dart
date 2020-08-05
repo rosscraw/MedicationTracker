@@ -6,13 +6,10 @@ import 'package:medicationtracker/assets/icons/icons.dart';
 class Medication{
 
   String _name = '';
-  //String _dosage;
   String _medType = '';
-  bool _hasMedBeenTaken = false;
 
   Medication(String name,  String medType) {
     setName(name);
-    //setDosage(dosage);
     setMedType(medType);
   }
 
@@ -23,14 +20,6 @@ class Medication{
   void setName(String name) {
     _name = name;
   }
-
-//  String getDosage() {
-//    return _dosage;
-//  }
-
-//  void setDosage(String dosage) {
-//    _dosage = dosage;
-//  }
 
   String getMedType() {
     return _medType;
