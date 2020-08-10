@@ -1,8 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/medication.dart';
-import 'package:medicationtracker/models/medication_regime.dart';
-import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/assets/icons/icons.dart';
 
 void main() {
