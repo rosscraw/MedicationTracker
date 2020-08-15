@@ -102,6 +102,9 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                   .setHasMedBeenTaken(!widget.medication
                                                   .getDosageTimings()[index]
                                                   .getHasMedBeenTaken());
+                                              FirestoreDatabase firestore = new FirestoreDatabase(user: user);
+                                              firestore.editDosageTaken(widget.medication.getDosageTimings()[index]);
+
                                             });
                                           },
                                         ),

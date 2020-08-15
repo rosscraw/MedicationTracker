@@ -63,9 +63,6 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
       controller.setMedicationBeenTaken(widget.medications[index]);
       FirestoreDatabase firestore = new FirestoreDatabase(user: user);
       firestore.editDosageTaken(widget.medications[index]);
-      print('#########################');
-      print(widget.medications[index].getDoseTimeId());
-      print('#########################');
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
           controller.removeFromDueOrOverdueList(widget.medications, index);
