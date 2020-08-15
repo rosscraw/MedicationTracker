@@ -147,6 +147,14 @@ class _MedicationScreenState extends State<MedicationScreen> {
       controller.setMedicationTaken(medicationRegime);
       FirestoreDatabase firestore = new FirestoreDatabase(user: user);
       firestore.editMedicationTaken(medicationRegime);
+      if (medicationRegime
+          .getDosageTimings()
+          .isNotEmpty) {
+        for (DoseTimeDetail time in medicationRegime.getDosageTimings()) {
+          FirestoreDatabase firestore = new FirestoreDatabase(user: user);
+          firestore.editDosageTaken(time);
+        }
+      }
     });
   }
 
