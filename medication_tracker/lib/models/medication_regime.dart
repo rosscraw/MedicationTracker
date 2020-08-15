@@ -24,15 +24,17 @@ class MedicationRegime{
     return medication;
   }
 
+  /// Set the [Medication] for the [MedicationRegime].
   void setMedication(Medication medication) {
     this.medication = medication;
   }
 
-  /// Medication Regime's ID for [FirestoreDatabase].
+  /// [MedicationRegime]'s ID for [FirestoreDatabase].
   String getMedicationID() {
     return medicationID;
   }
 
+  /// Set the [MedicationRegime]'s ID.
   void setMedicationID(String mid) {
     this.medicationID = mid;
   }
@@ -42,6 +44,7 @@ class MedicationRegime{
     return dosage;
   }
 
+  /// Set the dosage.
   void setDosage(String dosage) {
     this.dosage = dosage;
   }
@@ -51,6 +54,7 @@ class MedicationRegime{
     return dosageUnits;
   }
 
+  /// Set the dosage units.
   void setDosageUnits(String dosageUnits) {
     this.dosageUnits = dosageUnits;
   }
@@ -77,8 +81,8 @@ class MedicationRegime{
     dosageTimings.remove(time);
   }
 
-  /// Whether all doses in this regime have been taken.
-  bool getAllMedsTaken() {
+  /// Get whether all doses in a [MedicationRegime] have been taken.
+  bool getAllMedicationsTaken() {
     if(dosageTimings.length == 0) {
       return allMedsTaken;
     }
@@ -99,7 +103,9 @@ class MedicationRegime{
     }
   }
 
-  void setAllMedsTaken(bool allTaken) {
+  /// Set that all doses have been taken for a [MedicationRegime].
+  /// If the [MedicationRegime] has [DoseTimeDetail]s these are also individually set.
+  void setAllMedicationsTaken(bool allTaken) {
     // Medications with no time set.
     if(dosageTimings.length == 0) {
       allMedsTaken = allTaken;

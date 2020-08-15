@@ -33,15 +33,15 @@ void main() {
   });
 
   test("Test setting medication's being taken", (){
-    user.getMedicationList()[1].setAllMedsTaken(true);
+    user.getMedicationList()[1].setAllMedicationsTaken(true);
     user.getMedicationList()[0].getDosageTimings()[0].setHasMedBeenTaken(true);
     user.getMedicationList()[0].getDosageTimings()[1].setHasMedBeenTaken(true);
-    expect(user.getMedicationList()[0].getAllMedsTaken(), equals(true));
-    expect(user.getMedicationList()[1].getAllMedsTaken(), equals(true));
+    expect(user.getMedicationList()[0].getAllMedicationsTaken(), equals(true));
+    expect(user.getMedicationList()[1].getAllMedicationsTaken(), equals(true));
   });
 
   test("Test that when one of two doses for a medication have been taken that all taken is false", () {
     user.getMedicationList()[0].getDosageTimings()[1].setHasMedBeenTaken(false);
-    expect(user.getMedicationList()[0].getAllMedsTaken(), equals(false));
+    expect(user.getMedicationList()[0].getAllMedicationsTaken(), equals(false));
   });
 }
