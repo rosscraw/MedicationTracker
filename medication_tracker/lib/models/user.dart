@@ -9,7 +9,6 @@ import 'medication_regime.dart';
 class User {
 
   final String uid;
-  String _email;
   String _name;
   List<MedicationRegime> _medications;
 
@@ -18,27 +17,33 @@ class User {
     _medications = [];
   }
 
+  /// Get the [User]'s name.
   String getName() {
     return _name;
   }
 
+  /// Set the [User]'s name.
   void setName(String name) {
     _name = name;
   }
 
+  /// Get the [User]'s ID.
   String getUid() {
     return uid;
   }
 
 
+  /// Get the [User]'s medication list.
   List<MedicationRegime> getMedicationList() {
     return _medications;
   }
 
+  /// Set the [User]'s medication list.
   void setMedicationList(List<MedicationRegime> medicationList) {
     _medications = medicationList;
   }
 
+  /// Add a [MedicationRegime] to the [User]'s medication list.
   void addMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       String error = 'Medication already added to list and cannot be re-dded';
@@ -48,6 +53,7 @@ class User {
     }
   }
 
+  /// Remove a [MedicationRegime] from the [User]'s medication list.
   String removeMedication(MedicationRegime medication) {
     if(_medications.contains(medication)) {
       _medications.remove(medication);

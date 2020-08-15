@@ -67,7 +67,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                           ),
                         ),
                       ),widget.medication.getDosageTimings().isEmpty ? Container() : Text(
-                        'Timings:',
+                        'Dose Timings:',
                         style: TextStyle(
                           fontSize: 20.0,
                         ),
@@ -77,9 +77,10 @@ class _MedicationDetailsState extends State<MedicationDetails> {
 //                Text(item.getDoseTime().toString()),
                       SizedBox(
                         width: 500.0,
-                        height: 250.0,
                         child: Container(
                           child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
                               padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
                               itemCount: widget.medication.getDosageTimings().length,
                               itemBuilder: (context, index) {
@@ -90,6 +91,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
+                                        Text('Dose Taken?', style: TextStyle(color: Colors.black),),
                                         Checkbox(
                                           activeColor: Colors.green,
                                           value: widget.medication
@@ -103,8 +105,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                                                   .getDosageTimings()[index]
                                                   .getHasMedBeenTaken());
                                               FirestoreDatabase firestore = new FirestoreDatabase(user: user);
-                                              firestore.editDosageTaken(widget.medication.getDosageTimings()[index]);
-
+                                              firestore.editDosageTaken(widget.medication
+                                                  .getDosageTimings()[index]);
                                             });
                                           },
                                         ),
@@ -146,7 +148,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
         .getDosageTimings()[index]
         .getDoseTime()
         .format(context);
-    return Text(time);
+    return Text(time, style: TextStyle(fontSize: 20),);
   }
 
   /// Removes a medication from the user's list and update the Medication List Screen.

@@ -16,7 +16,12 @@ class AdherenceScreenController {
   }
 
   double getPercentageTaken(User user) {
-    return getTaken(user)/getTotal(user);
+    if(user.getMedicationList().length > 0) {
+      return ((getTaken(user) / getTotal(user) ) * 10000).roundToDouble() / 10000;
+    }
+    else {
+      return 0;
+    }
   }
 
 

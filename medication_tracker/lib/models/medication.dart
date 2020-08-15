@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:medicationtracker/assets/icons/icons.dart';
 
-/// Represents a medication that a User may have in their medication list.
+/// Represents a medication that a [User] may have in their medication list.
 class Medication{
 
   String _name = '';
@@ -13,23 +13,27 @@ class Medication{
     setMedType(medType);
   }
 
+  /// Get the name of the [Medication].
   String getName() {
     return _name;
   }
 
+  /// Set the name of the [Medication].
   void setName(String name) {
     _name = name;
   }
 
+  /// Get the type of the [Medication].
   String getMedType() {
     return _medType;
   }
 
+  /// Set the type of the [Medication].
   void setMedType(String medType) {
     _medType = medType;
   }
 
-  /// Allocates specific icon depending upon the type of medication.
+  /// Allocates specific [Icon] depending upon the type of medication.
   IconData getMedicationIcon() {
     if (_medType == 'Pills') {
       return DownloadedIcons.pills;

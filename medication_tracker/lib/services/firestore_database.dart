@@ -41,7 +41,7 @@ class FirestoreDatabase {
           'type': medication.getMedication().getMedType(),
           'dosage': medication.getDosage(),
           'units': medication.getDosageUnits(),
-          'all taken': medication.getAllMedsTaken(),
+          'all taken': medication.getAllMedicationsTaken(),
           'dose times': []
         })
         .then((value) => print('Medication Added'))
@@ -78,7 +78,7 @@ class FirestoreDatabase {
   Future<void> editMedicationTaken(MedicationRegime medication) async {
     return await medicationsCollection
         .document(medication.getMedicationID())
-        .updateData({'all taken': medication.getAllMedsTaken()});
+        .updateData({'all taken': medication.getAllMedicationsTaken()});
   }
 
   /// Add a dose time to the times Firestore collection.
@@ -192,7 +192,7 @@ class FirestoreDatabase {
           medication: medication,
           dosage: dosage,
           dosageUnits: units);
-      medicationRegime.setAllMedsTaken(medicationSnapshot['all taken']);
+      medicationRegime.setAllMedicationsTaken(medicationSnapshot['all taken']);
 
       for (int j = 0; j < medicationSnapshot['dose times'].length; j++) {
         var timeSnapshot = await getTimeSnapshotAtIndex(medicationRegime, j);
