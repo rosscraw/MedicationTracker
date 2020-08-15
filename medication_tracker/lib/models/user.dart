@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/medication.dart';
 
+import 'dose_time_details.dart';
 import 'medication_regime.dart';
 
 
@@ -54,5 +56,46 @@ class User {
     else {
       return 'Medication is not currently in list and cannot be removed';
     }
+  }
+
+  /// Return list of [DoseTimeDetail]s that are overdue.
+  List<DoseTimeDetail> getOverdueMedications() {
+    List<DoseTimeDetail> _overdueMedications = [];
+    TimeOfDay _timeNow = TimeOfDay.now();
+    for (MedicationRegime medication in _medications) {
+      for (DoseTimeDetail time in medication.dosageTimings) {
+        if (!time.getHasMedBeenTaken() && (time
+            .getDoseTime()
+            .hour < _timeNow.hour || (time
+            .getDoseTime()
+            .hour == _timeNow.hour && time
+            .getDoseTime()
+            .minute < _timeNow.minute))) {
+          _overdueMedications.add(time);
+        }
+      }
+    }
+    _overdueMedications
+        .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
+    return _overdueMedications;
+  }
+
+  /// Return list of [DoseTimeDetail]s that are due within two hours of now.
+  List<DoseTimeDetail> getDueMedications() {
+    List<DoseTimeDetail> _dueMedications = [];
+    TimeOfDay _timeNow = TimeOfDay.now();
+    for (MedicationRegime medication in _medications) {
+      for (DoseTimeDetail time in medication.dosageTimings) {
+        if (!time.getHasMedBeenTaken() && (time.getDoseTime().hour >= _timeNow.hour
+            || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
+            (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute)) {
+
+          _dueMedications.add(time);
+        }
+      }
+    }
+    _dueMedications
+        .sort((a, b) => a.getDoseTime().hour.compareTo(b.getDoseTime().hour));
+    return _dueMedications;
   }
 }

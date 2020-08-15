@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/controllers/medication_times_list_controller.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
+import 'package:medicationtracker/models/user.dart';
+import 'package:medicationtracker/services/firestore_database.dart';
+import 'package:provider/provider.dart';
 
 /// List widget used on HomeScreen to generate lists for due and overdue medications.
 class MedicationTimesList extends StatefulWidget {
@@ -19,6 +22,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -41,7 +45,7 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
                     activeColor: Colors.green,
                     value: widget.medications[index].getHasMedBeenTaken(),
                     onChanged: (bool newValue) async {
-                      checkboxState(index);
+                      checkboxState(index, user);
 
                     },
                   ),
@@ -54,9 +58,14 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
 
   /// Changes checkbox state depending on whether medication has been taken and removes from list.
   /// Small delay to allow checkbox animation to play.
-  void checkboxState(int index) {
+  void checkboxState(int index, User user) {
     setState(() {
       controller.setMedicationBeenTaken(widget.medications[index]);
+      FirestoreDatabase firestore = new FirestoreDatabase(user: user);
+      firestore.editDosageTaken(widget.medications[index]);
+      print('#########################');
+      print(widget.medications[index].getDoseTimeId());
+      print('#########################');
       Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
           controller.removeFromDueOrOverdueList(widget.medications, index);

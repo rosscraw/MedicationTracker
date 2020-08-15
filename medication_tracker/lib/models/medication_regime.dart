@@ -62,9 +62,14 @@ class MedicationRegime{
 
   /// Adds a [DoseTimeDetail] time to the list.
   void addDoseTime(DoseTimeDetail time) {
-    dosageTimings.add(time);
-    int index = dosageTimings.indexOf(time);
-    dosageTimings[index].setMedicationRegime(this);
+    if(dosageTimings.contains(time)) {
+      print("Time already in list");
+    }
+    else {
+      dosageTimings.add(time);
+      int index = dosageTimings.indexOf(time);
+      dosageTimings[index].setMedicationRegime(this);
+    }
   }
 
   /// Removes a [DoseTimeDetail] time from the list.

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:medicationtracker/models/medication.dart';
 import 'package:medicationtracker/assets/icons/icons.dart';
 
+/// Unit test for [Medication] model
 void main() {
 
   Medication medication = new Medication('creon10000', 'Pills');

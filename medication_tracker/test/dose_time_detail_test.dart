@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 
+/// Unit test for [DoseTimeDetail] model.
 void main() {
   TimeOfDay time = new TimeOfDay(hour: 12, minute: 0);
   DoseTimeDetail doseTimeDetail = new DoseTimeDetail(time: time);

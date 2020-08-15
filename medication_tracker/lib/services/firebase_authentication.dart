@@ -32,9 +32,9 @@ class FirebaseAuthentication {
       return userFromFirebase(user);
     }
     catch(error) {
-        String errorMessage = error.toString();
-        print(errorMessage);
-        return errorMessage;
+        return error.toString();
+//        print(errorMessage);
+//        return errorMessage;
     }
   }
 
@@ -53,8 +53,6 @@ class FirebaseAuthentication {
       return null;
     }
   }
-
-
 
   /// Sign [User] out of application.
   Future signOut() async {
