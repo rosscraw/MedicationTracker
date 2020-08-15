@@ -2,18 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:medicationtracker/models/medication.dart';
 import 'dose_time_details.dart';
 
-/// Class that represents a user's Medication, dosages and timings.
+/// Class that represents a [User]'s [Medication], dosages and timings.
 class MedicationRegime{
+
 
   String medicationID;
   Medication medication;
+
   String dosage = '';
+
   String dosageUnits = '';
+
   List<DoseTimeDetail> dosageTimings = [];
+
   bool allMedsTaken = false;
 
   MedicationRegime({key, this.medicationID, this.medication, this.dosage, this.dosageUnits});
 
+  /// The [Medication] the regime is for.
   Medication getMedication() {
     return medication;
   }
@@ -22,6 +28,7 @@ class MedicationRegime{
     this.medication = medication;
   }
 
+  /// Medication Regime's ID for [FirestoreDatabase].
   String getMedicationID() {
     return medicationID;
   }
@@ -30,6 +37,7 @@ class MedicationRegime{
     this.medicationID = mid;
   }
 
+  /// The dosage of this regime.
   String getDosage() {
     return dosage;
   }
@@ -38,6 +46,7 @@ class MedicationRegime{
     this.dosage = dosage;
   }
 
+  /// The units of dosage for this regime.
   String getDosageUnits() {
     return dosageUnits;
   }
@@ -46,20 +55,29 @@ class MedicationRegime{
     this.dosageUnits = dosageUnits;
   }
 
+  /// List of [DoseTimeDetail] doses for the regime.
   List<DoseTimeDetail> getDosageTimings() {
     return dosageTimings;
   }
 
+  /// Adds a [DoseTimeDetail] time to the list.
   void addDoseTime(DoseTimeDetail time) {
-    dosageTimings.add(time);
-    int index = dosageTimings.indexOf(time);
-    dosageTimings[index].setMedicationRegime(this);
+    if(dosageTimings.contains(time)) {
+      print("Time already in list");
+    }
+    else {
+      dosageTimings.add(time);
+      int index = dosageTimings.indexOf(time);
+      dosageTimings[index].setMedicationRegime(this);
+    }
   }
 
+  /// Removes a [DoseTimeDetail] time from the list.
   void removeDoseTime(DoseTimeDetail time) {
     dosageTimings.remove(time);
   }
 
+  /// Whether all doses in this regime have been taken.
   bool getAllMedsTaken() {
     if(dosageTimings.length == 0) {
       return allMedsTaken;

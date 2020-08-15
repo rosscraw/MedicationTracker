@@ -4,6 +4,7 @@ import 'package:medicationtracker/models/medication_regime.dart';
 
 import 'package:medicationtracker/models/user.dart';
 
+/// Unit test for [User] model.
 void main() {
 
   User user = new User(uid: '1234', name: 'Ross');
@@ -38,4 +39,6 @@ void main() {
       expect(user.getMedicationList().contains(medicationRegime2), equals(true));
     });
   });
+
+
 }

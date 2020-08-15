@@ -27,9 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<User>(context);
-    FirestoreDatabase firestore = FirestoreDatabase(user: _user);
-    firestore.getMedicationList();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -55,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Shows list if there are any overdue medications.
   /// Shows text informing user none are overdue if there are no overdue meds.
   Widget overdueList(User user) {
-    if (controller.getOverdueMedications(user).isEmpty) {
+    if (user.getOverdueMedications().isEmpty) {
       return Card(
         child: ListTile(
           leading: Icon(Icons.alarm_on, color: Colors.green),
@@ -72,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
             'Overdue Medications',
               style: Theme.of(context).textTheme.headline5
           ),
-          MedicationTimesList(controller.getOverdueMedications(user)),
+          MedicationTimesList(user.getOverdueMedications()),
         ],
       );
     }
@@ -81,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Shows list if there are any medications due soon.
   /// Shows text informing user none are due if there are none due soon.
   Widget dueList(User user) {
-    if (controller.getDueMedications(user).isEmpty) {
+    if (user.getDueMedications().isEmpty) {
       return Card(
         child: ListTile(
           leading: Icon(Icons.alarm_on, color: Colors.green,),
@@ -98,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "Medications Due Soon",
             style: Theme.of(context).textTheme.headline5,
           ), //
-          MedicationTimesList(controller.getDueMedications(user)),
+          MedicationTimesList(user.getDueMedications()),
         ],
       );
     }

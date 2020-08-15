@@ -120,6 +120,13 @@ class FirestoreDatabase {
     return await doseTimesCollection.document(time.getDoseTimeId()).delete();
   }
 
+  /// Set the all taken status of a medication.
+  Future<void> editDosageTaken(DoseTimeDetail time) async {
+    return await doseTimesCollection
+        .document(time.getDoseTimeId())
+        .updateData({'been taken': time.getHasMedBeenTaken()});
+  }
+
   Future getUserSnapshot() async {
     // Gets Current user's collection
     DocumentReference userIdRef = usersCollection.document(user.getUid());
@@ -187,26 +194,23 @@ class FirestoreDatabase {
           dosageUnits: units);
       medicationRegime.setAllMedsTaken(medicationSnapshot['all taken']);
 
-      for (int i = 0; i < medicationSnapshot['dose times'].length; i++) {
-        var timeSnapshot = await getTimeSnapshotAtIndex(medicationRegime, i);
+      for (int j = 0; j < medicationSnapshot['dose times'].length; j++) {
+        var timeSnapshot = await getTimeSnapshotAtIndex(medicationRegime, j);
+        String timeId = await getTimeId(medicationRegime, j);
         int hour = timeSnapshot['hour'];
         int minute = timeSnapshot['minute'];
         bool beenTaken = timeSnapshot['been taken'];
         TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
         DoseTimeDetail time = new DoseTimeDetail(time: timeOfDay);
+        time.setDoseTimeId(timeId);
         time.setHasMedBeenTaken(beenTaken);
         time.setMedicationRegime(medicationRegime);
 
         medicationRegime.addDoseTime(time);
 
       }
-
-//      //TODO add times
-//      medicationRegime.addDoseTime(new DoseTimeDetails(time: TimeOfDay.now()));
-
       medicationList.add(medicationRegime);
     }
-
     user.setMedicationList(medicationList);
     user.getMedicationList().sort((a, b) => a
         .getMedication()

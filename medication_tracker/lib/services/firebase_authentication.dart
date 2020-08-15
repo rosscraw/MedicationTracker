@@ -12,42 +12,38 @@ class FirebaseAuthentication {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  /// Create user object based on FirebaseUser.
-  User _userFromFirebase(FirebaseUser user) {
+  /// Create [User] object based on FirebaseUser.
+  User userFromFirebase(FirebaseUser user) {
     return user != null ? User(uid: user.uid) : null;
   }
 
-
-  /// Auth change user stream.
+  /// Authentication change [User] stream.
   Stream<User> get user {
-    return _auth.onAuthStateChanged.map(_userFromFirebase);
+    return _auth.onAuthStateChanged.map(userFromFirebase);
   }
 
-
-  /// Sign in user with email and password.
+  /// Sign in [User] with email and password.
   Future signInAccount(String email, String password) async {
 
     try {
       AuthResult authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = authResult.user;
 
-      return _userFromFirebase(user);
+      return userFromFirebase(user);
     }
     catch(error) {
-        String errorMessage = error.toString();
-        print(errorMessage);
-        return errorMessage;
+        return error.toString();
+//        print(errorMessage);
+//        return errorMessage;
     }
   }
 
-
-
-  /// Register user with email and password.
+  /// Register [User] with email and password.
   Future registerAccount(String email, String password) async {
     try {
       AuthResult authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser firebaseUser = authResult.user;
-      User user = _userFromFirebase(firebaseUser);
+      User user = userFromFirebase(firebaseUser);
       //Create new Firestore doc
       await FirestoreDatabase(user: user).updateUserData(email);
       return user;
@@ -58,9 +54,7 @@ class FirebaseAuthentication {
     }
   }
 
-
-
-  /// Sign user out of application.
+  /// Sign [User] out of application.
   Future signOut() async {
     try {
       return await _auth.signOut();

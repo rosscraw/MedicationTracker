@@ -4,6 +4,7 @@ import 'package:medicationtracker/models/user.dart';
 
 import 'dose_time_details.dart';
 
+
 class AdherenceFigures {
   int _total = 0;
   int _taken = 0;
