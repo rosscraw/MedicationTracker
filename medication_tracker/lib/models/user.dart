@@ -64,13 +64,9 @@ class User {
     TimeOfDay _timeNow = TimeOfDay.now();
     for (MedicationRegime medication in _medications) {
       for (DoseTimeDetail time in medication.dosageTimings) {
-        if (!time.getHasMedBeenTaken() && (time
-            .getDoseTime()
-            .hour < _timeNow.hour || (time
-            .getDoseTime()
-            .hour == _timeNow.hour && time
-            .getDoseTime()
-            .minute < _timeNow.minute))) {
+        double doseTime = time.getDoseTime().hour + time.getDoseTime().minute/60;
+        double now = _timeNow.hour + _timeNow.minute/60;
+        if (!time.getHasMedBeenTaken() && doseTime < now) {
           _overdueMedications.add(time);
         }
       }
@@ -86,10 +82,10 @@ class User {
     TimeOfDay _timeNow = TimeOfDay.now();
     for (MedicationRegime medication in _medications) {
       for (DoseTimeDetail time in medication.dosageTimings) {
-        if (!time.getHasMedBeenTaken() && (time.getDoseTime().hour >= _timeNow.hour
-            || (time.getDoseTime().hour == _timeNow.hour && time.getDoseTime().minute >= _timeNow.minute)) &&
-            (time.getDoseTime().hour <= _timeNow.hour + 2 && time.getDoseTime().minute <= _timeNow.minute)) {
-
+        double doseTime = time.getDoseTime().hour + time.getDoseTime().minute/60;
+        double now = _timeNow.hour + _timeNow.minute/60;
+        print(now.toString());
+        if (!time.getHasMedBeenTaken() && doseTime >= now && doseTime <= now + 2) {
           _dueMedications.add(time);
         }
       }
