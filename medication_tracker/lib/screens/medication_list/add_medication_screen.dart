@@ -8,7 +8,7 @@ import 'package:medicationtracker/screens/custom_widgets/medication_details_form
 import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'package:provider/provider.dart';
 
-/// Screen that allows user to input details about their Medication and adds it to their medication list.
+/// Screen that allows [User] to input details about their [MedicationRegime] and adds it to their medication list.
 class AddMedicationScreen extends StatefulWidget {
   @override
   _AddMedicationScreenState createState() => _AddMedicationScreenState();

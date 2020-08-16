@@ -7,8 +7,8 @@ import 'package:medicationtracker/screens/medication_list/edit_medication.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
-/// Screen that displays the details of a single medication on a new screen.
-/// Allows user to edit or delete information about the medication.
+/// Screen that displays the details of a single [MedicationRegime] on a new screen.
+/// Allows [User] to edit or delete information about the [MedicationRegime].
 class MedicationDetails extends StatefulWidget {
   final MedicationRegime medication;
 
@@ -200,7 +200,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
 
   void navigateToEditDetails(MedicationRegime medication) {
     Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => EditMedication(medication)))
+            new MaterialPageRoute(builder: (context) => EditMedicationScreen(medication)))
         .then((value) {
       setState(() {});
     });

@@ -7,7 +7,8 @@ import 'package:medicationtracker/services/firebase_authentication.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import'package:provider/provider.dart';
 
-/// Controller for the Medication Details Form Widget.
+/// Controller for the [MedicationDetailsForm] Widget.
+/// Manipulates [User]'s list of [MedicationRegime]s.
 class MedicationDetailsFormController {
 
 
@@ -28,7 +29,7 @@ class MedicationDetailsFormController {
       user.addMedication(medicationRegime);
     } else {
       medicationRegime.setMedication(medication);
-      medicationRegime.setDosage('');
+      medicationRegime.setDosage(medicationDosage);
       medicationRegime.setDosageUnits(medicationUnit);
       user.addMedication(medicationRegime);
     }
@@ -76,7 +77,7 @@ class MedicationDetailsFormController {
   ///Initial dose value in dose form if user is editing a medication.
   String initialDoseValue(bool isAddScreen, MedicationRegime medicationRegime) {
     if (!isAddScreen) {
-      if(medicationRegime.getDosage() != null || medicationRegime.getDosage() != '') {
+      if(medicationRegime.getDosage() != null && medicationRegime.getDosage() != '') {
         return medicationRegime.getDosage();
       }
       else {

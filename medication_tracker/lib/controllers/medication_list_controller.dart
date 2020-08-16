@@ -4,6 +4,7 @@ import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:flutter/material.dart';
 
+/// Controller for [MedicationListScreen].
 class MedicationListController{
   List<MedicationRegime> medicationList = [];
 

@@ -1,6 +1,7 @@
 import 'package:medicationtracker/models/adherence_figures.dart';
 import 'package:medicationtracker/models/user.dart';
 
+/// Controller for [AdherenceScreen] that updates [AdherenceFigures]
 class AdherenceScreenController {
 
   AdherenceFigures adherenceFigures = new AdherenceFigures();

@@ -6,7 +6,7 @@ import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
-/// List widget used on HomeScreen to generate lists for due and overdue medications.
+/// List widget used on [HomeScreen] to generate lists for due and overdue [DoseTimeDetail]s.
 class MedicationTimesList extends StatefulWidget {
   MedicationTimesList(this.medications);
 

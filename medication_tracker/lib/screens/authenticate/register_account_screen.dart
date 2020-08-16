@@ -3,8 +3,8 @@ import 'package:medicationtracker/screens/custom_widgets/email_password_button_b
 import 'package:medicationtracker/services/firebase_authentication.dart';
 
 
-/// Screen that allows user to register a new account using an email address and password.
-/// If account creation is successful user will automatically be logged in.
+/// Screen that allows [User] to register a new account using an email address and password.
+/// If account creation is successful [User] will automatically be logged in.
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key key, this.title, this.toggleView}) : super(key: key);
 

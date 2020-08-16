@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+/// Screen in which the [User] can select a date.
 class CalendarScreen extends StatefulWidget {
   final Color color;
   final String title;

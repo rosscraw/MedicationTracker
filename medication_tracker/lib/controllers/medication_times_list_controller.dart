@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 
+/// Controller for [MedicationTimesList] Widget.
 class MedicationTimesListController {
 
   /// Get [Medication]'s [IconData]
