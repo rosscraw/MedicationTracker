@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 /// Settings screen where user can:
 /// - Switch between light and dark themes.
+/// - Will have font size adjustment functionality.
 class SettingsScreen extends StatefulWidget {
   final String title;
   SettingsScreen({Key key, this.title}) : super(key: key);

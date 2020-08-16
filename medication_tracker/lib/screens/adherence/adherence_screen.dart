@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:medicationtracker/controllers/adherence_screen_controller.dart';
 import 'package:medicationtracker/models/adherence_figures.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/loading_spinner.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-
+/// Screen that displays the [User] details about their [MedicationRegime] adherence figures.
 class AdherenceScreen extends StatefulWidget {
   final String title;
   AdherenceScreen({Key key, this.title}) : super(key: key);

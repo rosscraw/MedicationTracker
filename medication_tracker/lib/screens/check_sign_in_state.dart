@@ -8,8 +8,8 @@ import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
 /// Checks if [User] is signed in.
-/// If signed it will show the Home Screen.
-/// If not signed in it will show the Log In Screen.
+/// If signed it will show the [HomeScreen].
+/// If not signed in it will show the [LogInScreen].
 class CheckSignInState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -4,16 +4,17 @@ import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_details_form.dart';
 import 'package:provider/provider.dart';
 
-class EditMedication extends StatefulWidget {
+/// Screen that allows [User] to edit details about a [MedicationRegime] in their medication list.
+class EditMedicationScreen extends StatefulWidget {
   final MedicationRegime medication;
 
-  EditMedication(this.medication);
+  EditMedicationScreen(this.medication);
 
   @override
-  _EditMedicationState createState() => _EditMedicationState();
+  _EditMedicationScreenState createState() => _EditMedicationScreenState();
 }
 
-class _EditMedicationState extends State<EditMedication> {
+class _EditMedicationScreenState extends State<EditMedicationScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);

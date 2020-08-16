@@ -14,8 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:async/async.dart';
 
-/// Screen that displays a list of medications in the user's medication list.
-/// User can check a checkbox to confirm whether or not they have taken the medication.
+/// Screen that displays a list of [MedicationRegime]s in the [User]'s medication list.
+/// [User] can check a checkbox to confirm whether or not they have taken all doses of a [MedicationRegime).
 class MedicationScreen extends StatefulWidget {
   MedicationScreen({Key key, this.title}) : super(key: key);
 

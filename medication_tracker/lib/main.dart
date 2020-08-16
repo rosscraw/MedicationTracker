@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
-import 'package:medicationtracker/screens/authenticate/log_in_screen.dart';
 import 'package:medicationtracker/screens/check_sign_in_state.dart';
 import 'package:medicationtracker/services/firebase_authentication.dart';
 import 'package:medicationtracker/themes/app_themes.dart';
 import 'package:medicationtracker/themes/dark_mode_notifier.dart';
 import 'package:provider/provider.dart';
-import 'screens/home/home_widget.dart';
-import 'screens/medication_list/medication_list_screen.dart';
-import 'package:medicationtracker/screens/authenticate/authentication.dart';
-
-//void main() => runApp(
-//  //runApp(MedicationTrackerApp());
-//  ChangeNotifierProvider<DarkModeNotifier>(
-//    builder: (context) => DarkModeNotifier(),
-//    child: MedicationTrackerApp(),
-//  ));
 
 void main() => runApp(
       ChangeNotifierProvider<DarkModeNotifier>(
@@ -24,6 +13,7 @@ void main() => runApp(
       ),
     );
 
+/// Application Root.
 class MedicationTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

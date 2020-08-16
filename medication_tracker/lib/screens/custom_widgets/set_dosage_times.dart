@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:medicationtracker/controllers/set_dosage_times_controller.dart';
 import 'package:medicationtracker/models/dose_time_details.dart';
 import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/screens/medication_list/add_medication_screen.dart';
@@ -9,6 +8,7 @@ import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 import 'package:medicationtracker/models/user.dart';
 
+/// Widget to allow user to set the [DoseTimeDetail]s for a [MedicationRegime].
 class SetDosageTimes extends StatefulWidget {
   //TODO make work with edit medication.
   final MedicationRegime medicationRegime;
@@ -26,7 +26,6 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     this.medicationRegime = medicationRegime;
   }
 
-  SetDosageTimesController controller = new SetDosageTimesController();
 
   MedicationRegime medicationRegime;
   TimeOfDay chosenTime;
@@ -42,21 +41,6 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
       children: [
         Text('Set Dosage Times'),
         widget.isAddScreen ? addScreenTimesList() : editScreenTimesList(),
-
-//        ListView.builder(
-//          scrollDirection: Axis.vertical,
-//          shrinkWrap: true,
-//          itemCount: number,
-//          itemBuilder: (context, index) {
-//            return Card(
-//              child: ListTile(
-//                leading: setDeleteIcon(index),
-//                title: setTimeButton(index),
-//                trailing: setAddIcon(index),
-//              ),
-//            );
-//          },
-//        ),
       ],
     ));
   }
@@ -150,7 +134,6 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
   /// Set Dosage times using a time picker.
   Future<Null> selectDosageTime(BuildContext context, int index) async {
-    //FirestoreDatabase firestore = new FirestoreDatabase(uid: user.uid);
     TimeOfDay chosenTime = await showTimePicker(
       context: context,
       initialTime: (TimeOfDay(hour: 12, minute: 0)),

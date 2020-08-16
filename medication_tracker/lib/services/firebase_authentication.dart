@@ -6,7 +6,7 @@ import 'package:medicationtracker/models/medication_regime.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 
-/// Sign in, register account and sign out methods.
+/// Class to handle sign in, register account and sign out methods.
 /// Using Firebase's authentication to validate users.
 class FirebaseAuthentication {
 
@@ -17,7 +17,7 @@ class FirebaseAuthentication {
     return user != null ? User(uid: user.uid) : null;
   }
 
-  /// Authentication change [User] stream.
+  /// Authentication change [User] stream, used to access [User] throughout application.
   Stream<User> get user {
     return _auth.onAuthStateChanged.map(userFromFirebase);
   }
@@ -33,8 +33,6 @@ class FirebaseAuthentication {
     }
     catch(error) {
         return error.toString();
-//        print(errorMessage);
-//        return errorMessage;
     }
   }
 

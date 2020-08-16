@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
-import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
-import 'package:medicationtracker/controllers/home_controller.dart';
 
 /// Home screen of the application.
 /// First screen visible after log in.
-/// Shows user any medications that are due to be taken within the next two hours.
+/// Shows [User] any medications that are overdue or due to be taken within the next two hours.
 class HomeScreen extends StatefulWidget {
 
   final String title;
@@ -21,8 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //var dummyList = HomeScreen.user.getDummyUser().getMedicationList();
-  HomeController controller = new HomeController();
 
   @override
   Widget build(BuildContext context) {

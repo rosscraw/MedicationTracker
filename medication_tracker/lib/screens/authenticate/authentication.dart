@@ -3,7 +3,7 @@ import 'log_in_screen.dart';
 import 'register_account_screen.dart';
 
 
-/// Determines whether to display a log-in or register screen.///
+/// Determines whether to display a log-in or register screen to the [User].
 class Authentication extends StatefulWidget {
   @override
   _AuthenticationState createState() => _AuthenticationState();

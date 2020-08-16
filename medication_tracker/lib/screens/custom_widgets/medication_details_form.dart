@@ -7,6 +7,8 @@ import 'package:medicationtracker/screens/custom_widgets/set_dosage_times.dart';
 import 'package:medicationtracker/services/firestore_database.dart';
 import 'package:provider/provider.dart';
 
+/// Widget for use of entering details for a [MedicationRegime].
+/// Used for [AddMedicationScreen] and [EditMedication], where a boolean value is used to determine which screen is using widget.
 class MedicationDetailsForm extends StatefulWidget {
   MedicationDetailsForm({Key key, this.isAddScreen, this.medicationRegime})
       : super(key: key);
@@ -124,6 +126,11 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
           children: [
             Flexible(
               child: TextFormField(
+                onChanged: (val) {
+                  setState(() {
+                    _medicationDosage = val;
+                  });
+                },
                 initialValue: controller.initialDoseValue(widget.isAddScreen, widget.medicationRegime),
                 validator: (val) =>
                     (!_currentItemSelected.contains('as required') &&
@@ -131,17 +138,13 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
                         ? "Please enter your medication's dosage"
                         : null,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(0.0),
                   labelText: 'Medication Dosage',
                 ),
-                onChanged: (val) {
-                  setState(() => _medicationDosage = val);
-                },
               ),
             ),
             Flexible(
               child: DropdownButtonFormField<String>(
-                value: controller.initialDoseUnitValue(widget.isAddScreen, widget.medicationRegime),
+                value: _currentItemSelected = controller.initialDoseUnitValue(widget.isAddScreen, widget.medicationRegime),
                 decoration: InputDecoration(
                   labelText: 'Dosage Units',
                   contentPadding: EdgeInsets.all(0.0),
