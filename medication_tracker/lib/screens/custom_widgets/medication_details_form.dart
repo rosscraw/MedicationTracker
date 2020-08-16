@@ -119,6 +119,10 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   /// Dropdown form for dosage units.
   Widget medicationDoseForm() {
     _dosageUnits.sort((a, b) => a.compareTo(b));
+    String _initialItemSelected;
+//    setState(() {
+//      _initialItemSelected = controller.initialDoseUnitValue(widget.isAddScreen, widget.medicationRegime);
+//    });
 
     return Column(
       children: [
@@ -138,13 +142,14 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
                         ? "Please enter your medication's dosage"
                         : null,
                 decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(0.0),
                   labelText: 'Medication Dosage',
                 ),
               ),
             ),
             Flexible(
               child: DropdownButtonFormField<String>(
-                value: _currentItemSelected = controller.initialDoseUnitValue(widget.isAddScreen, widget.medicationRegime),
+                value: _currentItemSelected = _medicationUnit,
                 decoration: InputDecoration(
                   labelText: 'Dosage Units',
                   contentPadding: EdgeInsets.all(0.0),
@@ -158,7 +163,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
                 onChanged: (String newValueSelected) {
                   this._currentItemSelected = newValueSelected;
                   setState(() {
-                    _medicationUnit = newValueSelected;
+                    _medicationUnit = _currentItemSelected;
                   });
                 },
               ),
