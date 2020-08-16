@@ -33,7 +33,7 @@ class MedicationDetailsFormController {
       medicationRegime.setDosageUnits(medicationUnit);
       user.addMedication(medicationRegime);
     }
-    medicationRegime.getDosageTimings().forEach((element) {print(element.getDoseTime().toString());});
+
     medicationRegime.setMedicationID(user.uid + medicationName);
     firestore.addMedication(medicationRegime);
     firestore.addMedicationDosages(medicationRegime);
@@ -76,7 +76,9 @@ class MedicationDetailsFormController {
 
   ///Initial dose value in dose form if user is editing a medication.
   String initialDoseValue(bool isAddScreen, MedicationRegime medicationRegime) {
+
     if (!isAddScreen) {
+
       if(medicationRegime.getDosage() != null && medicationRegime.getDosage() != '') {
         return medicationRegime.getDosage();
       }
