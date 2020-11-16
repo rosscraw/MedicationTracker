@@ -17,35 +17,34 @@ class EditMedicationScreen extends StatefulWidget {
 class _EditMedicationScreenState extends State<EditMedicationScreen> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Edit ' + widget.medication.getMedication().getName())
-      ),
+        appBar: AppBar(
+            title: Text('Edit ' + widget.medication.getMedication().getName())),
         body: SingleChildScrollView(
             child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    Center(
-                      child: SizedBox(
-                        width: 300.0,
-                        child: Column(
-                          children: [
-                            MedicationDetailsForm(isAddScreen: false, medicationRegime: widget.medication),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 10.0,
                 ),
-              ),
-            ))
-    );
+                Center(
+                  child: SizedBox(
+                    width: 300.0,
+                    child: Column(
+                      children: [
+                        MedicationDetailsForm(
+                            isAddScreen: false,
+                            medicationRegime: widget.medication),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        )));
   }
 }

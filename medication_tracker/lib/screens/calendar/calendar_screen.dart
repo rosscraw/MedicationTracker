@@ -12,8 +12,6 @@ class CalendarScreen extends StatefulWidget {
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
-
-
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _dateTime;
 
@@ -24,17 +22,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(_dateTime == null ? 'Nothing has been picked yet' : _dateTime
-                .toString()),
+            Text(_dateTime == null
+                ? 'Nothing has been picked yet'
+                : _dateTime.toString()),
             RaisedButton(
-              child: Text('Pick a date', style: TextStyle(color: Colors.white),),
+              child: Text(
+                'Pick a date',
+                style: TextStyle(color: Colors.white),
+              ),
               onPressed: () {
                 showDatePicker(
-                    context: context,
-                    initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-                    firstDate: DateTime(2020, 6),
-                    lastDate:  DateTime.now()
-                ).then((date) {
+                        context: context,
+                        initialDate:
+                            _dateTime == null ? DateTime.now() : _dateTime,
+                        firstDate: DateTime(2020, 6),
+                        lastDate: DateTime.now())
+                    .then((date) {
                   setState(() {
                     _dateTime = date;
                   });

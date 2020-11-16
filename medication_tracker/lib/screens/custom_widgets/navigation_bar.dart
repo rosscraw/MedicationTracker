@@ -6,9 +6,9 @@ import 'package:medicationtracker/screens/medication_list/medication_list_screen
 
 /// Bottom navigation bar that changes displayed screen when user clicks on a tab.
 class MedicationTrackerNavBar extends StatefulWidget {
-
   @override
-  _MedicationTrackerNavBarState createState() => _MedicationTrackerNavBarState();
+  _MedicationTrackerNavBarState createState() =>
+      _MedicationTrackerNavBarState();
 }
 
 class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
@@ -33,7 +33,8 @@ class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
-        currentIndex: _currentIndex, // this will be set when a new tab is tapped
+        currentIndex:
+            _currentIndex, // this will be set when a new tab is tapped
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
@@ -44,13 +45,9 @@ class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
             title: new Text('Medications'),
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              title: Text('Calendar')
-          ),
+              icon: Icon(Icons.calendar_today), title: Text('Calendar')),
           BottomNavigationBarItem(
-              icon: Icon(Icons.show_chart),
-              title: Text('Adherence')
-          )
+              icon: Icon(Icons.show_chart), title: Text('Adherence'))
         ],
       ),
     );
@@ -63,4 +60,3 @@ class _MedicationTrackerNavBarState extends State<MedicationTrackerNavBar> {
     });
   }
 }
-

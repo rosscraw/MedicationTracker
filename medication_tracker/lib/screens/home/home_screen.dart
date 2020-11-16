@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:medicationtracker/models/user.dart';
 import 'package:medicationtracker/screens/custom_widgets/medication_times_list.dart';
@@ -8,9 +7,7 @@ import 'package:provider/provider.dart';
 /// First screen visible after log in.
 /// Shows [User] any medications that are overdue or due to be taken within the next two hours.
 class HomeScreen extends StatefulWidget {
-
   final String title;
-
 
   HomeScreen({Key key, this.title}) : super(key: key);
 
@@ -19,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<User>(context);
@@ -54,17 +50,15 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: Icon(Icons.alarm_on, color: Colors.green),
           title: Text(
             'No medications are overdue!',
-              //style: Theme.of(context).textTheme.bodyText2
+            //style: Theme.of(context).textTheme.bodyText2
           ),
         ),
       );
     } else {
       return Column(
         children: [
-          Text(
-            'Overdue Medications',
-              style: Theme.of(context).textTheme.headline5
-          ),
+          Text('Overdue Medications',
+              style: Theme.of(context).textTheme.headline5),
           MedicationTimesList(user.getOverdueMedications()),
         ],
       );
@@ -77,10 +71,13 @@ class _HomeScreenState extends State<HomeScreen> {
     if (user.getDueMedications().isEmpty) {
       return Card(
         child: ListTile(
-          leading: Icon(Icons.alarm_on, color: Colors.green,),
+          leading: Icon(
+            Icons.alarm_on,
+            color: Colors.green,
+          ),
           title: Text(
             'No medications are due soon!',
-              //style: Theme.of(context).textTheme.bodyText2
+            //style: Theme.of(context).textTheme.bodyText2
           ),
         ),
       );
@@ -96,6 +93,4 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
-
-
 }

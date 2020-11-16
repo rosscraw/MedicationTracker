@@ -26,12 +26,10 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
     this.medicationRegime = medicationRegime;
   }
 
-
   MedicationRegime medicationRegime;
   TimeOfDay chosenTime;
   int initialListLength = 1;
   List<TimeOfDay> dosageTimes = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,9 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
   /// Set the delete time icon for the dosage time card depending on its position in the list.
   InkWell setDeleteIcon(int index) {
-    if (medicationRegime.getDosageTimings().length == index + 1 && index > 0 && index == initialListLength - 1) {
+    if (medicationRegime.getDosageTimings().length == index + 1 &&
+        index > 0 &&
+        index == initialListLength - 1) {
       return InkWell(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +60,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
         onTap: () {
           initialListLength--;
           if (medicationRegime.getDosageTimings().length > 1) {
-              medicationRegime.getDosageTimings().removeLast();
+            medicationRegime.getDosageTimings().removeLast();
           }
           setState(() {});
         },
@@ -72,7 +72,8 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
 
   /// Set the add time icon for the dosage time card depending on its position in the list.
   InkWell setAddIcon(int index) {
-    if (medicationRegime.getDosageTimings().length == index + 1 && index == initialListLength - 1) {
+    if (medicationRegime.getDosageTimings().length == index + 1 &&
+        index == initialListLength - 1) {
       return InkWell(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -143,13 +144,13 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
       if (medicationRegime.getDosageTimings().length <= index &&
           chosenTime != null) {
         DoseTimeDetail newDoseTime = DoseTimeDetail(time: chosenTime);
-        if(newDoseTime.getDoseTimeId() == null) {
+        if (newDoseTime.getDoseTimeId() == null) {
           newDoseTime.setDoseTimeId(newDoseTime.getDoseTime().toString() +
               Random().nextInt(4294967296).toString());
           print(newDoseTime.getDoseTimeId());
         }
         medicationRegime.addDoseTime(newDoseTime);
-              } else if (chosenTime != null) {
+      } else if (chosenTime != null) {
         medicationRegime.getDosageTimings()[index].setDoseTime(chosenTime);
       }
     });
@@ -180,9 +181,7 @@ class _SetDosageTimesState extends State<SetDosageTimes> {
   /// ListView containing dose times previously set for the edit medication screen.
   ListView editScreenTimesList() {
     if (initialListLength == 1) {
-      initialListLength = widget.medicationRegime
-          .getDosageTimings()
-          .length;
+      initialListLength = widget.medicationRegime.getDosageTimings().length;
     }
     if (!widget.isAddScreen) {
       return ListView.builder(
