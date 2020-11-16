@@ -15,12 +15,10 @@ class AddMedicationScreen extends StatefulWidget {
 }
 
 class _AddMedicationScreenState extends State<AddMedicationScreen> {
-
   MedicationRegime medicationRegime = new MedicationRegime();
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
 
     return Scaffold(
         appBar: AppBar(title: Text('Add new Medication')),
@@ -36,7 +34,8 @@ class _AddMedicationScreenState extends State<AddMedicationScreen> {
                 Center(
                   child: SizedBox(
                     width: 300.0,
-                    child: MedicationDetailsForm(isAddScreen: true, medicationRegime: medicationRegime),
+                    child: MedicationDetailsForm(
+                        isAddScreen: true, medicationRegime: medicationRegime),
                   ),
                 )
               ],

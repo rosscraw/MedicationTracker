@@ -23,53 +23,48 @@ class _AdherenceScreenState extends State<AdherenceScreen> {
   int taken;
   int total;
 
-
-
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<User>(context);
 
-
-
-
-
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
-            width: 500,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Card(
-                      child: ListTile(
+        body: Center(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          width: 500,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Card(
+                    child: ListTile(
                         leading: Icon(Icons.check),
-                          title: Text('Taken: ' + controller.getTaken(_user).toString()))),
-                  Card(
-                      child: ListTile(
-                          leading: Icon(Icons.format_list_numbered),
-                          title: Text('Total: ' + controller.getTotal(_user).toString()))),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  CircularPercentIndicator(
-                    radius: 150.0,
-                    lineWidth: 10.0,
-                    percent: controller.getPercentageTaken(_user),
-                    center: new Text((controller.getPercentageTaken(_user) * 100 ).toString() +'% taken'),
-                    progressColor: Colors.green,
-                  ),
-
-                ],
-              ),
+                        title: Text('Taken: ' +
+                            controller.getTaken(_user).toString()))),
+                Card(
+                    child: ListTile(
+                        leading: Icon(Icons.format_list_numbered),
+                        title: Text('Total: ' +
+                            controller.getTotal(_user).toString()))),
+                SizedBox(
+                  height: 20,
+                ),
+                CircularPercentIndicator(
+                  radius: 150.0,
+                  lineWidth: 10.0,
+                  percent: controller.getPercentageTaken(_user),
+                  center: new Text(
+                      (controller.getPercentageTaken(_user) * 100).toString() +
+                          '% taken'),
+                  progressColor: Colors.green,
+                ),
+              ],
             ),
           ),
         ),
-      )
-    );
+      ),
+    ));
   }
-
 }

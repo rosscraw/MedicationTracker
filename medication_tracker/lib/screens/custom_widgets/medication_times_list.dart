@@ -17,8 +17,8 @@ class MedicationTimesList extends StatefulWidget {
 }
 
 class _MedicationTimesListState extends State<MedicationTimesList> {
-
-  MedicationTimesListController controller = new MedicationTimesListController();
+  MedicationTimesListController controller =
+      new MedicationTimesListController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +30,11 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
         itemBuilder: (context, index) {
           return Card(
             child: ListTile(
-              leading: Icon(controller.getMedicationIcon(widget.medications[index])),
+              leading:
+                  Icon(controller.getMedicationIcon(widget.medications[index])),
               title: Text(
-                controller.getMedicationNameAndTime(widget.medications[index], context),
+                controller.getMedicationNameAndTime(
+                    widget.medications[index], context),
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -46,7 +48,6 @@ class _MedicationTimesListState extends State<MedicationTimesList> {
                     value: widget.medications[index].getHasMedBeenTaken(),
                     onChanged: (bool newValue) async {
                       checkboxState(index, user);
-
                     },
                   ),
                 ],

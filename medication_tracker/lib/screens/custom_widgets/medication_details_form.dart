@@ -40,7 +40,6 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     'Other'
   ];
 
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -87,10 +86,11 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     _medicationType = controller.initialTypeValue(
         widget.isAddScreen, widget.medicationRegime);
 
-    _medicationDosage = controller.initialDoseValue(widget.isAddScreen, widget.medicationRegime);
+    _medicationDosage = controller.initialDoseValue(
+        widget.isAddScreen, widget.medicationRegime);
 
-    _medicationUnit = controller.initialDoseUnitValue(widget.isAddScreen, widget.medicationRegime);
-
+    _medicationUnit = controller.initialDoseUnitValue(
+        widget.isAddScreen, widget.medicationRegime);
   }
 
   /// Form for medication name input.
@@ -102,7 +102,7 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
             setState(() => _medicationName = val);
           },
           initialValue: controller.initialNameValue(
-          widget.isAddScreen, widget.medicationRegime),
+              widget.isAddScreen, widget.medicationRegime),
           validator: (val) =>
               val.isEmpty ? "Please enter your medication's name" : null,
           decoration: InputDecoration(
@@ -113,7 +113,6 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
       ],
     );
   }
-
 
   /// Form for medication dose input.
   /// Dropdown form for dosage units.
@@ -135,7 +134,8 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
                     _medicationDosage = val;
                   });
                 },
-                initialValue: controller.initialDoseValue(widget.isAddScreen, widget.medicationRegime),
+                initialValue: controller.initialDoseValue(
+                    widget.isAddScreen, widget.medicationRegime),
                 validator: (val) =>
                     (!_currentItemSelected.contains('as required') &&
                             val.isEmpty)
@@ -175,8 +175,6 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
     );
   }
 
-
-
   /// Dropdown form for user to select medication type.
   Widget medicationTypeForm() {
     _medicationTypes.sort((a, b) => a.toString().compareTo(b.toString()));
@@ -201,7 +199,8 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
               _medicationType = newValueSelected;
             });
           },
-          value: controller.initialTypeValue(widget.isAddScreen, widget.medicationRegime),
+          value: controller.initialTypeValue(
+              widget.isAddScreen, widget.medicationRegime),
         ),
         SizedBox(height: 20.0),
       ],
@@ -209,12 +208,20 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   }
 
   /// Adds a new medication to the user's list according to the information the user has input.
-  void addMedicationToList(FirestoreDatabase firestore, User user, String medicationName,
-      String medicationDosage, String medicationUnit, String medicationType) {
-    widget.medicationRegime.getDosageTimings().forEach((element) {print(element.getDoseTime().toString());});
+  void addMedicationToList(
+      FirestoreDatabase firestore,
+      User user,
+      String medicationName,
+      String medicationDosage,
+      String medicationUnit,
+      String medicationType) {
+    widget.medicationRegime.getDosageTimings().forEach((element) {
+      print(element.getDoseTime().toString());
+    });
     if (_medFormKey.currentState.validate()) {
       setState(() {
-        controller.addMedication(firestore,
+        controller.addMedication(
+            firestore,
             user,
             widget.medicationRegime,
             _currentItemSelected,
@@ -228,11 +235,17 @@ class _MedicationDetailsFormState extends State<MedicationDetailsForm> {
   }
 
   /// Edits the medication's details according to user input.
-  void editMedicationDetails(FirestoreDatabase firestore,  User user, String medicationName,
-      String medicationDosage, String medicationUnit, String medicationType) {
+  void editMedicationDetails(
+      FirestoreDatabase firestore,
+      User user,
+      String medicationName,
+      String medicationDosage,
+      String medicationUnit,
+      String medicationType) {
     if (_medFormKey.currentState.validate()) {
       setState(() {
-        controller.editMedicationDetails(firestore,
+        controller.editMedicationDetails(
+            firestore,
             user,
             widget.medicationRegime,
             _currentItemSelected,
